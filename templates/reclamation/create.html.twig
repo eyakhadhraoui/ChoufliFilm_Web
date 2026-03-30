@@ -1,0 +1,481 @@
+{% extends 'base_front.html.twig' %}
+     {% block navbar %}
+        {% if app.session.get('roles') is null %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('app_login') }}";
+    </script>
+    
+{% endif %}
+        <body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block">
+        <div class="row gx-0">
+            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>123  Esprit, Elghazela, Tunisie</small>
+                    <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>+216  24 705 213</small>
+                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>ChoufliFilm@gmail.com</small>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href="#"><i class="fab fa-youtube fw-normal"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+ <nav id="navbar" class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 navbar-visible">
+            <a href="/user/front" class="">
+<img src="{{ asset('assets/back/img/logo_event.png') }}" alt="" class="test"
+     style="width: 150px; height: 100px; margin-left: 40px; margin-top:10px; 
+            animation: rotation 3s linear infinite;">
+
+               
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+              
+                <a  href="/reclamation/showall/{{app.session.get('email')}}" class="nav-item nav-link active">Réclamations</a>
+                 <a href="/user/front/showallfilm" class="nav-item nav-link "> Films </a>
+<a href="/blogs" class="nav-item nav-link">Blogs</a>
+      <a href="{{ path('app_cart') }}" class="nav-item nav-link cart-wrapper">
+                            <i class="bi bi-cart text-primary"></i>
+                            <span class="text-primary ms-1">Panier</span>
+                      
+                          
+                        </a>        
+
+<a href="{{ path('logout') }}" class="nav-item nav-link">Logout</a>
+
+
+ {% if 'ROLE_ADMIN' in app.session.get('roles') %}
+       <a href="{{ path('back') }}" class="nav-item nav-link ">
+                     
+    
+  <i class="bi bi-arrow-right-circle me-2 text-warning"></i> <span class="text-warning">Page back</span>
+
+</a>
+   
+{% endif %}
+
+
+                </div>
+{% if app.session.get('image') is  not null %}
+    
+                    <a href="#" class="nav-item nav-link">
+                      <img class="rounded-circle me-lg-2" src="{{ asset('uploads/' ~ app.session.get('image')) }}" alt="Image">
+{% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}
+                 
+                    </a>
+              
+{% else %}
+              
+                    <a href="#" class="nav-item nav-link">
+                        <img class="rounded-circle me-lg-2" src="{{ asset('assets/back/img/inconnu.jpg') }}" alt="Image">
+{% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}
+                    </a>
+               
+{% endif %}
+               
+                
+         </nav>       
+            </div>
+  {% endblock %}
+{% block body%}          
+ <br><br>
+
+
+ <!-- Booking Start -->
+    <div id="test2" class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="booking p-5">
+                <div class="row g-5 align-items-center">
+                    <div class="col-md-6 text-white">
+                        <h6 class="text-white text-uppercase">Reclamation</h6>
+                        <h1 class="text-white mb-4">Online Reclamations</h1>
+                        <p class="mb-4">ken 3jebetekech haja tnajem treclami</p>
+                        <p class="mb-4">mouch reclamation 3al film juste reclamation 3a site</p>
+                        <a class="btn btn-outline-light py-3 px-5 mt-2" href="#">Read More</a>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="text-white mb-4">Reclame </h1>
+                         {% for message in app.flashes('error') %}
+     <div style="color: red;">{{ message }}</div>
+     <br>
+     {% endfor %}   
+                         {{ form_start(form)}}
+                        <form>
+                            <div class="row g-3">
+                           
+                                <div class="col-12">
+                             <div class="form-floating">
+                                     {{ form_widget(form.type, {'attr': {'class': 'form-control form-control-transparent'}}) }}
+                                        <label for="name">Your Type</label>
+                                     </div>
+                                       {{ form_errors(form.type, {'attr': {'class': 'invalid-feedback'}}) }}
+                              </div>
+               <div class="col-12">
+    <div class="form-floating position-relative">
+        {{ form_widget(form.Description, {'attr': {'class': 'form-control form-control-transparent'}}) }}
+        <label for="name">Your Description</label>
+        <button type="button" id="microphoneBtn" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y me-2">
+            <i class="fas fa-microphone"></i>
+        </button>
+        <div id="recordingStatus" class="position-absolute start-50 translate-middle-x text-danger" style="top: 0; display: none;">
+            Enregistrement en cours...
+        </div>
+        {{ form_errors(form.Description, {'attr': {'class': 'invalid-feedback'}}) }}
+    </div>
+</div>
+                                       
+                                        <div class="col-12">
+                                      <div class="form-floating">
+                                     {{ form_widget(form.image, {'attr': {'class': 'form-control form-control-transparent'}}) }}
+                                       {{ form_errors(form.image, {'attr': {'class': 'invalid-feedback'}}) }}
+                                    
+                                        <label for="name">Your Image</label>
+                                     </div>
+                                </div>
+                                 
+
+                                
+                                </div>
+                                <br>
+                                  <div class="col-12">
+                                            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+                                        </div>
+
+                                        {{ form_end(form) }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Booking Start -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const microphoneBtn = document.getElementById('microphoneBtn');
+    const descriptionField = document.getElementById('{{ form.Description.vars.id }}');
+    const recordingStatus = document.getElementById('recordingStatus');
+    
+    // Vérifier si l'API Web Speech est disponible dans le navigateur
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        
+        recognition.lang = 'fr-FR'; // Français
+        recognition.continuous = true; // Reconnaissance continue
+        recognition.interimResults = true; // Résultats intermédiaires
+        
+        let finalTranscript = '';
+        let isRecording = false;
+        let recordingTimer = null;
+        
+        microphoneBtn.addEventListener('click', function() {
+            if (!isRecording) {
+                // Commencer l'enregistrement
+                finalTranscript = '';
+                isRecording = true;
+                
+                // Changer l'apparence du bouton et afficher le statut
+                microphoneBtn.innerHTML = '<i class="fas fa-stop"></i>';
+                microphoneBtn.classList.add('text-danger');
+                recordingStatus.style.display = 'block';
+                
+                // Démarrer la reconnaissance vocale
+                recognition.start();
+                
+                // Définir une durée maximale d'enregistrement (30 secondes par exemple)
+                recordingTimer = setTimeout(function() {
+                    if (isRecording) {
+                        recognition.stop();
+                    }
+                }, 30000); // 30 secondes
+            } else {
+                // Arrêter l'enregistrement manuellement
+                isRecording = false;
+                clearTimeout(recordingTimer);
+                recognition.stop();
+            }
+        });
+        
+        recognition.onresult = function(event) {
+            let interimTranscript = '';
+            
+            // Recueillir tous les résultats
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const transcript = event.results[i][0].transcript;
+                
+                if (event.results[i].isFinal) {
+                    finalTranscript += transcript + ' ';
+                } else {
+                    interimTranscript += transcript;
+                }
+            }
+            
+            // Ne pas mettre à jour le champ pendant l'enregistrement
+            // Les résultats seront ajoutés à la fin de l'enregistrement
+        };
+        
+        recognition.onend = function() {
+            // Appliquer le texte transcrit et corrigé au champ une fois l'enregistrement terminé
+            if (isRecording) {
+                // Si l'enregistrement s'est arrêté automatiquement (pas par l'utilisateur)
+                isRecording = false;
+                clearTimeout(recordingTimer);
+            }
+            
+            // Appliquer des corrections basiques (première lettre en majuscule, points à la fin des phrases)
+            let correctedText = finalTranscript.trim();
+            
+            // Mettre la première lettre en majuscule
+            if (correctedText.length > 0) {
+                correctedText = correctedText.charAt(0).toUpperCase() + correctedText.slice(1);
+            }
+            
+            // Ajouter un point à la fin si nécessaire
+            if (correctedText.length > 0 && !['.', '!', '?'].includes(correctedText.charAt(correctedText.length - 1))) {
+                correctedText += '.';
+            }
+            
+            // Ajouter le texte corrigé au champ
+            if (descriptionField.value) {
+                descriptionField.value += ' ' + correctedText;
+            } else {
+                descriptionField.value = correctedText;
+            }
+            
+            // Réinitialiser l'interface
+            microphoneBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            microphoneBtn.classList.remove('text-danger');
+            recordingStatus.style.display = 'none';
+        };
+        
+        recognition.onerror = function(event) {
+            console.error('Erreur de reconnaissance vocale:', event.error);
+            isRecording = false;
+            clearTimeout(recordingTimer);
+            
+            // Réinitialiser l'interface
+            microphoneBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            microphoneBtn.classList.remove('text-danger');
+            recordingStatus.style.display = 'none';
+        };
+    } else {
+        // Cacher le bouton si l'API n'est pas supportée
+        microphoneBtn.style.display = 'none';
+        console.warn("L'API Web Speech n'est pas supportée par ce navigateur.");
+    }
+});
+</script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+
+  body {
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%);
+}
+
+.container {
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 5px 5px 15px rgba(241, 237, 237, 0.85);
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: white;
+}
+
+.profile-button {
+    background: white;
+    box-shadow: none;
+    border: none;
+}
+
+.profile-button:hover,
+.profile-button:focus,
+.profile-button:active {
+    background: black;
+    box-shadow: none;
+}
+
+.back:hover {
+    color: black;
+    cursor: pointer;
+}
+
+.nav-item.nav-link[href*="logout"],
+.nav-item.nav-link[href*="nodatafront2"],
+.nav-item.nav-link[href*="resetfrontpas"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href*="logout"]:hover,
+.nav-item.nav-link[href*="nodatafront2"]:hover,
+.nav-item.nav-link[href*="resetfrontpas"]:hover {
+    color: black !important;  
+}
+
+.container.rounded.bg-white.mt-5 {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    margin: 50px auto;
+}
+
+.container.rounded.bg-white.mt-5 .border-right {
+    border-right: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.container.rounded.bg-white.mt-5 .font-weight-bold, 
+.container.rounded.bg-white.mt-5 .text-black-50, 
+.container.rounded.bg-white.mt-5 span {
+    color: #FFFFFF !important;
+}
+
+.container.rounded.bg-white.mt-5 .form-control {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    color: black !important;
+}
+
+.container.rounded.bg-white.mt-5 .form-control:focus {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-color: white !important;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3) !important;
+}
+
+.container.rounded.bg-white.mt-5 .profile-button {
+    background: linear-gradient(45deg, #FFFFFF, #F0F0F0) !important;
+    border: none !important;
+}
+
+.container.rounded.bg-white.mt-5 .profile-button:hover {
+    background: linear-gradient(45deg, #F0F0F0, #FFFFFF) !important;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.container.rounded.bg-white.mt-5 .rounded-circle {
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.container.rounded.bg-white.mt-5 .back h6,
+.container.rounded.bg-white.mt-5 .text-right h6 {
+    color: #FFFFFF !important;
+}
+
+.container.rounded.bg-white.mt-5 .back h6:hover,
+.container.rounded.bg-white.mt-5 .text-right h6:hover {
+    color: black !important;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.container.rounded.bg-white.mt-5 .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.container.rounded.bg-white.mt-5 .py-5 {
+    background: rgba(255, 255, 255, 0.4) !important;
+    border-radius: 15px;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.container.rounded.bg-white.mt-5 .fa {
+    color: #FFFFFF;
+}
+
+.container.rounded.bg-white.mt-5 .rounded-circle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+
+.rounded-circle1 {
+    width: 100px;
+    height: 6%;
+    border-radius: 50%; 
+    object-fit: cover;  
+}
+
+
+
+
+.nav-item.nav-link[href="{{ path('logout') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('logout') }}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"]:hover {
+    color: black !important;  
+}
+.nav-item.nav-link[href="/blogs"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href=""]:hover {
+    color: black !important;  
+}
+.nav-item.nav-link[href="/user/front/showallfilm"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/user/front/showallfilm"]:hover {
+    color: black !important;  
+}
+
+
+
+</style>
+
+
+{% endblock    %}
+{%   block reset     %}
+
+   
+   
+
+{% endblock %}
+

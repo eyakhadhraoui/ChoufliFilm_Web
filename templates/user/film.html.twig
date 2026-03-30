@@ -1,0 +1,104 @@
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+
+
+
+<div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Recent Films</h6>
+                        <a href="#">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                 <div class="container mt-4">
+    <h2 class="text-center text-white">Liste des Films et Séries</h2>
+
+    <div class="table-container">
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Rating</th>
+                    <th>Category</th>
+                    <th>Views</th>
+                    <th>Status</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>23</td>
+                    <td>I Dream in Another Language</td>
+                    <td>⭐ 7.9</td>
+                    <td>Movie</td>
+                    <td>1392</td>
+                    <td class="status-visible">Visible</td>
+                    <td>24 Oct 2021</td>
+                    <td>
+                        <span class="action-btn lock"><i class="bi bi-lock-fill"></i></span>
+                        <span class="action-btn eye"><i class="bi bi-eye-fill"></i></span>
+                        <span class="action-btn edit"><i class="bi bi-pencil-fill"></i></span>
+                        <span class="action-btn trash"><i class="bi bi-trash-fill"></i></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>Benched</td>
+                    <td>⭐ 7.1</td>
+                    <td>Movie</td>
+                    <td>1093</td>
+                    <td class="status-hidden">Hidden</td>
+                    <td>24 Oct 2021</td>
+                    <td>
+                        <span class="action-btn lock"><i class="bi bi-lock-fill"></i></span>
+                        <span class="action-btn eye"><i class="bi bi-eye-fill"></i></span>
+                        <span class="action-btn edit"><i class="bi bi-pencil-fill"></i></span>
+                        <span class="action-btn trash"><i class="bi bi-trash-fill"></i></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>Whitney</td>
+                    <td>⭐ 6.3</td>
+                    <td>TV Show</td>
+                    <td>723</td>
+                    <td class="status-visible">Visible</td>
+                    <td>24 Oct 2021</td>
+                    <td>
+                        <span class="action-btn lock"><i class="bi bi-lock-fill"></i></span>
+                        <span class="action-btn eye"><i class="bi bi-eye-fill"></i></span>
+                        <span class="action-btn edit"><i class="bi bi-pencil-fill"></i></span>
+                        <span class="action-btn trash"><i class="bi bi-trash-fill"></i></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>Blindspotting</td>
+                    <td>⭐ 8.4</td>
+                    <td>TV Show</td>
+                    <td>2457</td>
+                    <td class="status-visible">Visible</td>
+                    <td>24 Oct 2021</td>
+                    <td>
+                        <span class="action-btn lock"><i class="bi bi-lock-fill"></i></span>
+                        <span class="action-btn eye"><i class="bi bi-eye-fill"></i></span>
+                        <span class="action-btn edit"><i class="bi bi-pencil-fill"></i></span>
+                        <span class="action-btn trash"><i class="bi bi-trash-fill"></i></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+ 
+                    </div>
+                </div>
+            </div>
+            <!-- Recent Sales End -->
+            {% endblock %}

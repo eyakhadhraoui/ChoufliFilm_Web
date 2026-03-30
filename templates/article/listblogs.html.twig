@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+<style>
+    /* Fond général noir pour la page */
+    body {
+        background-color: #000000;
+        color: #ffffff;
+    }
+
+    /* Container principal avec fond noir */
+    .container-fluid {
+        background-color: #000000;
+    }
+
+    /* Mise en forme des tables */
+    .table-container {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .table {
+        background-color: #222222;
+        color: #ffffff;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 1px solid #dee2e6;
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* En-tête de la table */
+    .table th {
+        background-color: #000000;
+        color: #ffffff;
+        text-transform: uppercase;
+        font-size: 14px;
+        padding: 15px;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    /* Cellules de la table */
+    .table td {
+        background-color: #333333;
+        color: #ffffff;
+        padding: 15px;
+        vertical-align: middle;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    /* Effet au survol des lignes de la table */
+    .table tr:hover {
+        background-color: #444444;
+    }
+
+    /* Style des images dans la table */
+    .table img {
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Boutons et actions */
+    .btn-outline-info:hover {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .btn-warning:hover {
+        background-color: #ffecb5;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+
+    /* Icône de suppression en rouge */
+    .bi-trash-fill {
+        color: #ff0000;
+    }
+
+    .bi-trash-fill:hover {
+        color: #cc0000;
+    }
+
+    /* Liste des commentaires */
+    .list-group-item {
+        background-color: #444444;
+        color: #ffffff;
+    }
+
+    /* Style du bouton pour voir/masquer les commentaires */
+    .toggle-comments {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .toggle-comments:hover {
+        background-color: #0056b3;
+    }
+    
+</style>
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-dark text-center rounded p-5 shadow-sm">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0 text-white font-weight-bold">Liste des Blogs</h6>
+            <a href="{{ path('article_new') }}" class="btn btn-primary px-4 py-2">
+                <i class="bi bi-plus-lg"></i> Ajouter un article
+            </a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-nowrap">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Titre</th>
+                        <th>Contenu</th>
+                        <th>Image</th>
+                        <th>Date de création</th>
+                        <th>Catégorie</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td>{{ article.titre }}</td>
+                            <td>{{ article.contenu|slice(0, 100) ~ '...' }}</td>
+                            <td>
+                         
+    {% if article.image %}
+        <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="{{ article.titre }}" width="100" class="img-fluid rounded shadow-sm">
+    {% else %}
+        Pas d'image
+    {% endif %}
+</td>
+
+                            <td>{{ article.datePublication ? article.datePublication|date('d/m/Y H:i') : 'Date non définie' }}</td>
+                            <td>{{ article.categorie ?: 'Pas de catégorie' }}</td>
+                            <td>
+                                <!-- Bouton pour afficher/masquer les commentaires -->
+                                <button class="btn btn-outline-info btn-sm toggle-comments" data-article-id="{{ article.id }}">
+                                    <i class="bi bi-chat-left-text"></i> Voir
+                                </button>
+                                <a href="{{ path('app_article_edit', { 'id': article.id }) }}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil-fill"></i> Modifier
+                                </a>
+                                <a href="{{ path('app_article_delete', { 'id': article.id }) }}"
+                                    class="btn btn-danger btn-sm" >
+                                    <i class="bi bi-trash-fill"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+
+                        <!-- Commentaires -->
+                        <tr class="comments-container" id="comments-{{ article.id }}" style="display: none;">
+                            <td colspan="6">
+                                <h5 class="text-white font-weight-bold">Commentaires :</h5>
+                                <ul class="list-group">
+                                    {% for commentaire in article.commentaires %}
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+    <!-- Contenu du commentaire (à gauche) -->
+    <div class="d-flex flex-column">
+        <strong>{{ commentaire.user.prenom }} {{ commentaire.user.nom }}</strong>
+        <p class="mb-1">{{ commentaire.contenuCom }}</p>
+        <small class="text-muted">Posté le {{ commentaire.date|date('d/m/Y H:i') }}</small>
+    </div>
+  {% if is_granted('ROLE_ADMIN') %}
+                        <!-- Bouton de suppression du commentaire -->
+                        <div>
+                            <a href="{{ path('comment_delete', { 'id': commentaire.id }) }}" 
+                               class="btn btn-danger btn-sm ml-2"
+                               ">
+                                <i class="bi bi-trash-fill"></i> Supprimer
+                            </a>
+                        </div>
+                    {% endif %}
+
+</li>
+
+                                    {% else %}
+                                        <li class="list-group-item">Aucun commentaire pour cet article.</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".toggle-comments").forEach(button => {
+            button.addEventListener("click", function () {
+                let articleId = this.getAttribute("data-article-id");
+                let commentContainer = document.getElementById("comments-" + articleId);
+                commentContainer.style.display = commentContainer.style.display === "none" ? "table-row" : "none";
+                this.innerHTML = commentContainer.style.display === "none" ? 
+                    "<i class='bi bi-chat-left-text'></i> Voir" : 
+                    "<i class='bi bi-chat-left-text'></i> Masquer";
+            });
+        });
+    });
+</script>
+
+{% endblock %}

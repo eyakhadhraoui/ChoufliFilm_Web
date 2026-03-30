@@ -1,0 +1,467 @@
+{% extends 'base_front.html.twig' %}
+   {% block navbar %}
+        {% if app.session.get('roles') is null %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('app_login') }}";
+    </script>
+    
+{% endif %}
+
+ 
+        <body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+ <nav id="navbar" class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 navbar-visible">
+            <a href="/user/front" class="">
+<img src="{{ asset('assets/back/img/logo_event.png') }}" alt="" class="test"
+     style="width: 150px; height: 100px; margin-left: 40px; margin-top:10px; 
+            animation: rotation 3s linear infinite;">
+
+               
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                  <a href="/resetfrontpas" class="nav-item nav-link active">Reset Password</a>
+                 <a href="/user/front/{{app.session.get('id')}}/edit" class="nav-item nav-link ">Edit Profile</a>
+                
+<a href="{{ path('nodatafront2') }}" class="nav-item nav-link">Article</a>
+<a href="{{ path('nodatafront2') }}" class="nav-item nav-link">Panier</a>        
+
+<a href="{{ path('logout') }}" class="nav-item nav-link">Logout</a>
+
+
+ {% if 'ROLE_ADMIN' in app.session.get('roles') %}
+       <a href="{{ path('back') }}" class="nav-item nav-link ">
+                     
+    
+  <i class="bi bi-arrow-right-circle me-2 text-warning"></i> <span class="text-warning">Page back</span>
+
+</a>
+   
+{% endif %}
+
+
+                </div>
+{% if app.session.get('image') is  not null %}
+    
+                    <a href="/user/front/{{app.session.get('id')}}/edit" class="nav-item nav-link">
+                      <img class="rounded-circle me-lg-2" src="{{ asset('uploads/' ~ app.session.get('image')) }}" alt="Image">
+{% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}
+                 
+                    </a>
+              
+{% else %}
+              
+                    <a href="#" class="nav-item nav-link">
+                        <img class="rounded-circle me-lg-2" src="{{ asset('assets/back/img/inconnu.jpg') }}" alt="Image">
+{% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}
+                    </a>
+               
+{% endif %}
+               
+                
+         </nav>       
+            </div>
+  {% endblock %}
+{% block body %}
+<br><br><br><br>
+<div class="cosmic-container">
+    <div class="galaxy-background">
+        <div class="star-field"></div>
+        <div class="password-card">
+            <div class="holographic-effect">
+                <h2 class="cyber-title">Modifier votre mot de passe</h2>
+                {% for message in app.flashes('error') %}
+                    <div class="error-message">{{ message }}</div>
+                {% endfor %}
+                <form method="post" action="{{ path('app_resetuserpassword') }}" class="neo-form">
+                    <div class="form-group-3d">
+                        <div class="input-wrapper">
+                            <label for="oldpassword" class="cyber-label">Ancien mot de passe</label>
+                            <input type="password" name="oldpassword" id="oldpassword" class="cyber-input" required>
+                            <div class="input-line"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group-3d">
+                        <div class="input-wrapper">
+                            <label for="newpassword" class="cyber-label">Nouveau mot de passe</label>
+                            <input type="password" name="newpassword" id="newpassword" class="cyber-input" required>
+                            <div class="input-line"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group-3d">
+                        <div class="input-wrapper">
+                            <label for="confirmpassword" class="cyber-label">Confirmer nouveau mot de passe</label>
+                            <input type="password" name="confirmpassword" id="confirmpassword" class="cyber-input" required>
+                            <div class="input-line"></div>
+                        </div>
+                    </div>
+                      <div class="form-group-3d">
+                        <div class="input-wrapper">
+                            <label for="code" class="cyber-label">Code Verfificaiton via SMS</label>
+                            <input type="text" name="code" id="code" class="cyber-input" value={{code}} required>
+                            <div class="input-line"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="cyber-button">
+                        <span class="button-content">Modifier le mot de passe</span>
+                        <span class="button-glow"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+        .nav-item.nav-link[href="{{ path('logout') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('logout') }}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"]:hover {
+    color: black !important;  
+}
+.nav-item.nav-link[href="/user/front/{{app.session.get('id')}}/edit"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/user/front/{{app.session.get('id')}}/edit"]:hover {
+    color: black !important;  
+}
+.cosmic-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0A2647 0%, #144272 100%);
+    perspective: 1000px;
+    padding: 2rem;
+}
+
+.galaxy-background {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+}
+
+.star-field {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    animation: twinkle 8s infinite;
+}
+
+.password-card {
+    background: rgba(13, 28, 64, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.1),
+        inset 0 0 20px rgba(0, 123, 255, 0.1);
+    transform-style: preserve-3d;
+    animation: floatCard 6s ease-in-out infinite;
+    border: 1px solid rgba(255, 255, 255, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.password-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+}
+
+.holographic-effect {
+    position: relative;
+    z-index: 1;
+}
+
+.holographic-effect::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(30, 144, 255, 0.1),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: holographicShine 6s linear infinite;
+}
+
+.cyber-title {
+    color: #1E90FF;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 
+        0 0 10px rgba(30, 144, 255, 0.5),
+        0 0 20px rgba(30, 144, 255, 0.3),
+        0 0 30px rgba(30, 144, 255, 0.1);
+    transform: translateZ(30px);
+}
+
+.form-group-3d {
+    margin-bottom: 2rem;
+    transform-style: preserve-3d;
+}
+
+.input-wrapper {
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.cyber-label {
+    color: #1E90FF;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    transform: translateZ(20px);
+    text-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+}
+
+.cyber-input {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(10, 38, 71, 0.6);
+    border: 1px solid rgba(30, 144, 255, 0.3);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    transform: translateZ(10px);
+}
+
+.cyber-input:focus {
+    outline: none;
+    border-color: #1E90FF;
+    box-shadow: 
+        0 0 20px rgba(30, 144, 255, 0.3),
+        inset 0 0 10px rgba(30, 144, 255, 0.2);
+    transform: translateZ(20px);
+}
+
+.input-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #1E90FF, transparent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.cyber-input:focus + .input-line {
+    transform: scaleX(1);
+}
+
+.cyber-button {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(45deg, #0A2647, #1E90FF);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(20px);
+    transition: all 0.3s ease;
+}
+
+.cyber-button:hover {
+    background: linear-gradient(45deg, #1E90FF, #0A2647);
+    box-shadow: 
+        0 0 20px rgba(30, 144, 255, 0.3),
+        inset 0 0 10px rgba(30, 144, 255, 0.2);
+    transform: translateZ(30px);
+}
+
+.button-content {
+    position: relative;
+    z-index: 1;
+}
+
+.button-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(30, 144, 255, 0.3),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: buttonGlow 3s linear infinite;
+}
+
+.error-message {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    animation: errorShake 0.5s ease-in-out;
+    box-shadow: 0 0 15px rgba(255, 68, 68, 0.2);
+}
+
+@keyframes floatCard {
+    0%, 100% {
+        transform: translateZ(0) rotateX(0) rotateY(0);
+        box-shadow: 
+            0 0 30px rgba(255, 255, 255, 0.1),
+            inset 0 0 20px rgba(0, 123, 255, 0.1);
+    }
+    25% {
+        transform: translateZ(20px) rotateX(2deg) rotateY(-2deg);
+        box-shadow: 
+            0 0 40px rgba(255, 255, 255, 0.15),
+            inset 0 0 30px rgba(0, 123, 255, 0.1);
+    }
+    75% {
+        transform: translateZ(20px) rotateX(-2deg) rotateY(2deg);
+        box-shadow: 
+            0 0 40px rgba(255, 255, 255, 0.15),
+            inset 0 0 30px rgba(0, 123, 255, 0.1);
+    }
+}
+
+@keyframes holographicShine {
+    0% {
+        transform: translateX(-100%) rotate(45deg);
+        background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(30, 144, 255, 0.1),
+            transparent
+        );
+    }
+    100% {
+        transform: translateX(100%) rotate(45deg);
+        background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(10, 38, 71, 0.1),
+            transparent
+        );
+    }
+}
+
+@keyframes buttonGlow {
+    0% {
+        transform: translateX(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) rotate(45deg);
+    }
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .password-card {
+        padding: 2rem;
+    }
+    
+    .cyber-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Ajout d'un effet de particules dorées */
+.star-field::before,
+.star-field::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #1E90FF;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 10px #1E90FF,
+        0 0 20px #1E90FF,
+        0 0 30px #1E90FF;
+    animation: starTwinkle 4s infinite;
+}
+
+@keyframes starTwinkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5);
+    }
+}
+</style>
+{% endblock %}
+
+{%  block reset    %}
+
+
+{%  endblock  %}

@@ -1,0 +1,325 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    body {
+        background: linear-gradient(135deg, #0B1437 0%, #1B2C5F 100%);
+        color: #E6F7FF;
+        min-height: 100vh;
+    }
+
+    .container {
+        backdrop-filter: blur(20px);
+        background: rgba(30, 41, 59, 0.7);
+        border: 1px solid rgba(64, 169, 255, 0.2);
+        border-radius: 30px;
+        padding: 30px;
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.3),
+            0 0 40px rgba(64, 169, 255, 0.1) inset;
+        animation: containerReveal 1s ease-out;
+    }
+
+    @keyframes containerReveal {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Style amélioré de l'image de profil */
+    .rounded-circle1 {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 4px solid transparent;
+        position: relative;
+        background: 
+            linear-gradient(#1B2C5F, #1B2C5F) padding-box,
+            linear-gradient(45deg, #40A9FF, #FFD700) border-box;
+        border-radius: 50%;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: profilePulse 3s infinite;
+        box-shadow: 
+            0 0 30px rgba(64, 169, 255, 0.3),
+            0 0 50px rgba(255, 215, 0, 0.2);
+    }
+
+    .rounded-circle1:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 
+            0 0 40px rgba(64, 169, 255, 0.4),
+            0 0 60px rgba(255, 215, 0, 0.3);
+    }
+
+    @keyframes profilePulse {
+        0% { 
+            transform: scale(1);
+            box-shadow: 0 0 30px rgba(64, 169, 255, 0.3);
+        }
+        50% { 
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+        }
+        100% { 
+            transform: scale(1);
+            box-shadow: 0 0 30px rgba(64, 169, 255, 0.3);
+        }
+    }
+
+    /* Ajout d'un effet de brillance */
+    .rounded-circle1::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+            45deg,
+            transparent,
+            rgba(255, 255, 255, 0.1),
+            transparent
+        );
+        transform: rotate(45deg);
+        animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+        0% { transform: translateX(-100%) rotate(45deg); }
+        50% { transform: translateX(100%) rotate(45deg); }
+        100% { transform: translateX(-100%) rotate(45deg); }
+    }
+
+    /* Style du conteneur de l'image */
+    .image-container {
+        position: relative;
+        display: inline-block;
+        margin: 20px 0;
+    }
+
+    .image-container::before {
+        content: '';
+        position: absolute;
+        inset: -3px;
+        background: linear-gradient(45deg, #40A9FF, #FFD700, #40A9FF);
+        border-radius: 50%;
+        filter: blur(5px);
+        opacity: 0.5;
+        animation: borderRotate 4s linear infinite;
+    }
+
+    @keyframes borderRotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Style des champs de formulaire */
+    .form-control {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 2px solid rgba(64, 169, 255, 0.3) !important;
+        border-radius: 15px !important;
+        color: #fff !important;
+        padding: 15px 20px;
+        transition: all 0.4s ease;
+    }
+
+    .form-control:focus {
+        background: rgba(64, 169, 255, 0.1) !important;
+        border-color: #40A9FF !important;
+        box-shadow: 
+            0 0 30px rgba(64, 169, 255, 0.2),
+            0 0 15px rgba(64, 169, 255, 0.1) inset;
+        transform: translateY(-2px);
+    }
+
+    /* Style du bouton */
+    .profile-button {
+        background: linear-gradient(45deg, #40A9FF, #FFD700);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 20px;
+        color: #fff;
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .profile-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #FFD700, #40A9FF);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .profile-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 
+            0 10px 30px rgba(64, 169, 255, 0.3),
+            0 0 20px rgba(255, 215, 0, 0.2);
+    }
+
+    .profile-button:hover::before {
+        opacity: 1;
+    }
+
+    /* Style du lien retour */
+    .back a {
+        color: #40A9FF;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        border-radius: 15px;
+        transition: all 0.4s ease;
+        background: rgba(64, 169, 255, 0.1);
+    }
+
+    .back a:hover {
+        color: #FFD700;
+        transform: translateX(-5px);
+        background: rgba(255, 215, 0, 0.1);
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+    }
+
+    /* Animation des erreurs */
+    .invalid-feedback {
+        color: #FF4D4F;
+        animation: errorShake 0.5s ease-in-out;
+    }
+
+    @keyframes errorShake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+    }
+
+    /* Style pour le bouton supprimer photo */
+    .back h6 {
+        color: #FF4D4F;
+        transition: all 0.4s ease;
+    }
+
+    .back h6:hover {
+        color: #FF7875;
+        text-shadow: 0 0 10px rgba(255, 77, 79, 0.5);
+    }
+
+    .fa-xmark {
+        transition: all 0.4s ease;
+    }
+
+    .back h6:hover .fa-xmark {
+        transform: rotate(90deg) scale(1.2);
+    }
+
+    /* Effet de hover sur les sections */
+    .col-md-4 {
+        transition: all 0.4s ease;
+    }
+
+    .col-md-4:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Animation des informations utilisateur */
+    .mt-1, .text-muted, p {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 border-end text-center p-4">
+                <div class="image-container">
+                    <img class="rounded-circle1 mt-5" src="{{ asset('uploads/' ~ app.session.get('image')) }}" alt="Profile Image" width="150" height="150">
+                </div>
+                <h5 class="mt-1">{{ app.session.get('user_nom') }} {{ app.session.get('user_prenom') }}</h5>
+                <p class="text-muted">{{ app.session.get('email') }}</p>
+                <p>{{ app.session.get('localisation') }}</p>
+            </div>
+            <div class="col-md-8">
+                <div class="p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="back">
+                            <a href="/user/back">&larr; Retour à l'accueil</a>
+                        </div>
+                         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+            <div class="back">
+
+       <a href="/user/back/{{app.session.get('id')}}/suppphotoback"><h6 class="text-right">Spprimer Photo  <i class="fa fa-xmark mr-1 mb-1 fa-lg"></i>&nbsp;&nbsp;&nbsp;
+</h6></a>
+ </div>
+                      
+                    </div>
+                    {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-md-6">{{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
+                        
+                          {{ form_errors(form.nom, {'attr': {'class': 'invalid-feedback'}}) }}
+                        </div>
+                        <div class="col-md-6">{{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
+                          {{ form_errors(form.prenom, {'attr': {'class': 'invalid-feedback'}}) }}</div>
+                        
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">{{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+                          {{ form_errors(form.email, {'attr': {'class': 'invalid-feedback'}}) }}
+                        </div>
+                        <div class="col-md-6">{{ form_widget(form.date_naissance, {'attr': {'class': 'form-control', 'placeholder': 'Date de Naissance'}}) }}
+                          {{ form_errors(form.date_naissance, {'attr': {'class': 'invalid-feedback'}}) }}
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">{{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                          {{ form_errors(form.image, {'attr': {'class': 'invalid-feedback'}}) }}
+                        </div>
+                        <div class="col-md-6">{{ form_widget(form.localisation, {'attr': {'class': 'form-control', 'placeholder': 'Localisation'}}) }}
+                          {{ form_errors(form.localisation, {'attr': {'class': 'invalid-feedback'}}) }}
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        {{ form_widget(form.save, {'attr': {'class': 'btn profile-button'}}) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</body>
+{% endblock %}

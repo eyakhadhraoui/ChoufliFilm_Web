@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+  <div class="col-md-6">
+    <h2 class="text-center mb-4">Modifier Salle</h2>
+    
+    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+    
+    <div class="row mb-3">
+      <div class="col-md-6">
+        {{ form_label(form.nom_salle, 'Nom Salle', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="border p-3 rounded">
+          {{ form_widget(form.nom_salle, {'attr': {'class': 'form-control border-white'}}) }}
+        </div>
+        {{ form_errors(form.nom_salle, {'attr': {'class': 'invalid-feedback'}}) }}
+      </div>
+      
+      <div class="col-md-6">
+        {{ form_label(form.nbr_places, 'Nombre de Places', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="border p-3 rounded">
+          {{ form_widget(form.nbr_places, {'attr': {'class': 'form-control border-white'}}) }}
+        </div>
+        {{ form_errors(form.nbr_places, {'attr': {'class': 'invalid-feedback'}}) }}
+      </div>
+      
+      <div class="col-md-6">
+        {{ form_label(form.Type_salle, 'Type Salle', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="border p-3 rounded">
+          {{ form_widget(form.Type_salle,  {
+          'attr': {
+            'class': 'form-control bg-dark text-white'
+          }
+        }) }}
+        </div>
+        {{ form_errors(form.Type_salle, {'attr': {'class': 'invalid-feedback'}}) }}
+      </div>
+      
+      <div class="col-md-6">
+        {{ form_label(form.Etat_salle, 'Etat Salle', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="border p-3 rounded">
+          {{ form_widget(form.Etat_salle,  {
+          'attr': {
+            'class': 'form-control bg-dark text-white'
+          }
+        }) }}
+        </div>
+        {{ form_errors(form.Etat_salle, {'attr': {'class': 'invalid-feedback'}}) }}
+      </div>
+      
+      <div class="col-md-6">
+        {{ form_label(form.films, 'Films', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="border p-3 rounded">
+          {{ form_widget(form.films,  {
+          'attr': {
+            'class': 'form-control bg-dark text-white'
+          }
+        }) }}
+        </div>
+        {{ form_errors(form.films, {'attr': {'class': 'invalid-feedback'}}) }}
+      </div>
+      <div class="col-md-6">
+        {{ form_label(form.image_salle, 'Durée', {'label_attr': {'class': 'form-label'}}) }}
+        <div class="border p-3 rounded">
+          {{ form_widget(form.image_salle,  {
+          'attr': {
+            'class': 'form-control bg-dark text-white'
+          }
+        }) }}
+        </div>
+        {{ form_errors(form.image_salle , {'attr': {'class': 'invalid-feedback'}}) }}
+      </div>
+
+    </div>
+
+    <div class="mb-3">
+      {{ form_widget(form.save, {'label': 'Ajouter Salle', 'attr': {'class': 'btn btn-primary'}}) }}
+    </div>
+
+    {{ form_end(form) }}
+  </div>
+</div>
+
+<style>
+ .form-control {
+    border: 1px solid #444;
+    border-radius: 5px;
+    border-color: white;
+  }
+  .form-control:focus {
+    border-color: #007bff !important;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
+    background-color: #3e444a;
+    box-shadow: none;
+  }
+  .form-control::placeholder {
+    color: #aaa;
+  }
+  .form-control:hover {
+    border-color: #007bff !important;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
+  }
+  .mb-3 .border {
+    border: 1px solid #fff;
+  }
+</style>
+{% endblock %}

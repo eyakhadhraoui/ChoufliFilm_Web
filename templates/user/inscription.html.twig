@@ -1,0 +1,196 @@
+{% extends 'base_login.html.twig' %}
+  {% block body %}
+
+         <section>    <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        
+  <div class="signin"> 
+
+    <div class="content"> 
+
+{{form_start(form)}}
+     <div class="form"> 
+     <h2>   Inscription</h2>   
+          {{ form(form.captcha) }}
+
+
+ 
+  
+
+     
+    
+       <div class="input-group">
+    <div class="inputBox"> 
+      {{ form_widget(form.nom, {'attr': {'placeholder': 'Nom'}}) }}
+      <div class="invalid-feedback" style="color: #AFEEEE;">
+    {{ form_errors(form.nom) }}
+</div>
+
+    </div>
+    <div class="inputBox"> 
+      {{ form_widget(form.prenom, {'attr': {'placeholder': 'Prenom'}}) }}
+        
+       <div class="invalid-feedback" style="color: #AFEEEE;">
+    {{ form_errors(form.prenom) }}
+</div>
+
+
+    </div>
+           <div class="inputBox"> 
+          {{ form_widget(form.date_naissance) }}
+          <div class="invalid-feedback" style="color: #AFEEEE;">
+    {{ form_errors(form.date_naissance) }}
+</div>
+  </div>
+
+ 
+
+        </div>
+      <div class="input-group">
+        <div class="inputBox"> 
+          {{ form_widget(form.num_telephone, {'attr': {'placeholder': 'Téléphone'}}) }}
+               <div class="invalid-feedback" style="color: #AFEEEE;">
+    {{ form_errors(form.num_telephone) }}
+</div>
+        </div>
+             <div class="inputBox"> 
+          {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
+              <div class="invalid-feedback" style="color: #AFEEEE;">
+    {{ form_errors(form.email) }}
+</div>
+        </div>
+
+        </div>
+
+      <div class="input-group">
+    <div class="inputBox"> 
+      {{ form_widget(form.password, {'attr': {'placeholder': 'Mot de passe'}}) }}
+    <div class="invalid-feedback" style="color: #AFEEEE;">
+    {{ form_errors(form.password) }}
+</div>
+
+        
+
+
+    </div>
+    <div class="inputBox"> 
+      {{ form_widget(form.confirm_password, {'attr': {'placeholder': 'Confirm Pass'}}) }}
+          <div class="invalid-feedback" style="color: #AFEEEE;">
+    {{ form_errors(form.confirm_password) }}
+</div>
+    </div>
+  </div>
+
+        <div class="inputBox"> 
+          {{ form_widget(form.image, {'attr': {'placeholder': 'Image'}}) }}
+              <div class="invalid-feedback" style="color: #AFEEEE;">
+    {{ form_errors(form.image) }}
+</div>
+        </div>
+
+   
+
+      <div id="map" style="height:200px; width: 100%; margin-top: 10px;"></div>
+         <input type="hidden" id="latitude" name="latitude">
+         <input type="hidden" id="longitude" name="longitude">
+      
+     {{ form_widget(form.save, {'label': "S'inscrire", 'attr': {'class': 'submit-btn'}}) }}
+    
+     
+     
+{{form_end(form)}}
+            <div class="links"> <a href="">Forgot Password</a> <a href="{{ path('app_login') }}">Sign In</a> 
+
+      </div> 
+
+
+       
+
+     </div> 
+    </div> 
+
+   </div> 
+   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9zyz88xNHoNM2z81OY0ZmJ_WQa45WsOA&libraries=places"></script>
+             <script>
+                 function initMap() {
+                     const map = new google.maps.Map(document.getElementById("map"), {
+                         center: { lat: 36.8065, lng: 10.1815 }, // Default center (Tunisia)
+                         zoom: 8,
+                     });
+                     let marker = null;
+                     map.addListener("click", (event) => {
+                         const lat = event.latLng.lat();
+                         const lng = event.latLng.lng();
+
+                         // Mettre à jour les champs cachés
+                         document.getElementById("latitude").value = lat;
+                         document.getElementById("longitude").value = lng;
+
+                         // Supprimer l'ancien marqueur s'il existe
+                         if (marker) {
+                             marker.setMap(null);
+                         }
+
+                         // Créer un nouveau marqueur
+                         marker = new google.maps.Marker({
+                             position: event.latLng,
+                             map: map,
+                             animation: google.maps.Animation.DROP
+                         });
+                     });
+                     const input = document.getElementById("location");
+                     const searchBox = new google.maps.places.SearchBox(input);
+
+                     map.addListener("bounds_changed", () => {
+                         searchBox.setBounds(map.getBounds());
+                     });
+
+                     let markers = [];
+
+                     searchBox.addListener("places_changed", () => {
+                         const places = searchBox.getPlaces();
+
+                         if (places.length === 0) {
+                             return;
+                         }
+
+                         // Clear out the old markers.
+                         markers.forEach((marker) => {
+                             marker.setMap(null);
+                         });
+                         markers = [];
+
+                         // For each place, add a marker.
+                         const bounds = new google.maps.LatLngBounds();
+
+                         places.forEach((place) => {
+                             if (!place.geometry || !place.geometry.location) {
+                                 console.log("Returned place contains no geometry");
+                                 return;
+                             }
+
+                             const marker = new google.maps.Marker({
+                                 map,
+                                 title: place.name,
+                                 position: place.geometry.location,
+                             });
+
+                             markers.push(marker);
+
+                             if (place.geometry.viewport) {
+                                 bounds.union(place.geometry.viewport);
+                             } else {
+                                 bounds.extend(place.geometry.location);
+                             }
+                         });
+                         map.fitBounds(bounds);
+                     });
+                 }
+
+                 // Initialize the map
+                 initMap();
+             </script>
+
+
+
+
+    {% endblock %}

@@ -1,0 +1,441 @@
+{% extends 'base_front.html.twig' %}
+   {% block navbar %}
+        {% if app.session.get('roles') is null %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('app_login') }}";
+    </script>
+    
+{% endif %}
+
+ 
+        <body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+ <nav id="navbar" class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 navbar-visible">
+            <a href="/user/front" class="">
+<img src="{{ asset('assets/back/img/logo_event.png') }}" alt="" class="test"
+     style="width: 150px; height: 100px; margin-left: 40px; margin-top:10px; 
+            animation: rotation 3s linear infinite;">
+
+               
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                 <a href="/user/front/{{app.session.get('id')}}/edit" class="nav-item nav-link active">Edit Profile</a>
+                  <a href="/resetfrontpas" class="nav-item nav-link ">Reset Password</a>
+<a href="{{ path('nodatafront2') }}" class="nav-item nav-link">Article</a>
+<a href="{{ path('nodatafront2') }}" class="nav-item nav-link">Panier</a>        
+
+<a href="{{ path('logout') }}" class="nav-item nav-link">Logout</a>
+
+
+ {% if 'ROLE_ADMIN' in app.session.get('roles') %}
+       <a href="{{ path('back') }}" class="nav-item nav-link ">
+                     
+    
+  <i class="bi bi-arrow-right-circle me-2 text-warning"></i> <span class="text-warning">Page back</span>
+
+</a>
+   
+{% endif %}
+
+
+                </div>
+{% if app.session.get('image')|slice(0, 5) == 'https' %}
+{% set image = app.session.get('image') %}
+{% set num = app.session.get('num') %}
+{% set user_id = app.session.get('id') %}
+
+
+        {% if  num != "00000000"    %}
+            <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img"></div> 
+                        <img class="profile-img3" src="{{ image }}" alt="Image">
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+
+                             
+                    </a>
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+  {% endif %}
+{% if app.session.get('image') == 'inconnu.jpg' %}
+{% set image = app.session.get('image') %}
+{% set num = app.session.get('num') %}
+{% set user_id = app.session.get('id') %}
+
+
+       {% if num != "00000000"    %}
+            <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img"></div> 
+                        <img class="profile-img3" src="{{ asset('uploads/' ~ image) }}" alt="Image"> 
+                    </div>
+                </a>
+            </div>
+       
+
+                             
+                    </a>
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+        {% else %}
+          <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img3"></div> 
+                        <img class="profile-img3" src="{{ asset('uploads/' ~ image) }}" alt="Image"> 
+                    </div>
+                </a>
+            </div>
+       
+
+                             
+                    </a>
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+
+
+
+
+        {% endif %}
+
+
+{% endif %}
+{% if app.session.get('image') != 'inconnu.jpg'  and  app.session.get('image')|slice(0, 5) != 'https'%}
+     {% set image = app.session.get('image') %}
+{% set num = app.session.get('num') %}
+{% set user_id = app.session.get('id') %}
+
+
+       {% if num != "00000000"    %}
+            <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img"></div> 
+                        <img class="profile-img2" src="{{ asset('uploads/' ~ image) }}" alt="Image">
+                         <div class="verified">✔</div> 
+                    </div>
+                </a>
+            </div>
+       
+
+                             
+                    </a>
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+        {% else %}
+          <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img"></div> 
+                        <img class="profile-img3" src="{{ asset('uploads/' ~ image) }}" alt="Image"> 
+                    </div>
+                        
+                      {% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}  
+                </a>
+            </div>
+       
+
+                             
+               
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+
+
+
+
+        {% endif %}
+
+         
+{% endif %}
+               
+                
+         </nav>       
+            </div>
+  {% endblock %}
+{%   block body  %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #0A2647 0%, #144272 100%);
+        }
+
+        .container {
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: blue;
+        }
+
+        .profile-button {
+            background: blue;
+            box-shadow: none;
+            border: none;
+        }
+
+        .profile-button:hover,
+        .profile-button:focus,
+        .profile-button:active {
+            background: black;
+            box-shadow: none;
+        }
+
+        .back:hover {
+            color: black;
+            cursor: pointer;
+        }
+        .nav-item.nav-link[href="{{ path('logout') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('logout') }}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"]:hover {
+    color: black !important;  
+}
+.nav-item.nav-link[href="/resetfrontpas"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/resetfrontpas"]:hover {
+    color: black !important;  
+}
+
+/* Style uniquement pour le container principal et son contenu */
+.container.rounded.bg-white.mt-5 {
+    background: rgba(10, 38, 71, 0.95) !important;
+    border: 1px solid rgba(30, 144, 255, 0.3);
+    box-shadow: 
+        0 0 30px rgba(30, 144, 255, 0.2),
+        inset 0 0 20px rgba(10, 38, 71, 0.1);
+    margin: 50px auto;
+}
+
+/* Style pour la section de gauche avec l'image */
+.container.rounded.bg-white.mt-5 .border-right {
+    border-right: 2px solid rgba(30, 144, 255, 0.2) !important;
+}
+
+/* Style pour le texte dans le container */
+.container.rounded.bg-white.mt-5 .font-weight-bold, 
+.container.rounded.bg-white.mt-5 .text-black-50, 
+.container.rounded.bg-white.mt-5 span {
+    color: #1E90FF !important;
+}
+
+/* Style pour les inputs dans le container */
+.container.rounded.bg-white.mt-5 .form-control {
+    background: rgba(30, 144, 255, 0.1) !important;
+    border: 1px solid rgba(30, 144, 255, 0.3) !important;
+    color: white !important;
+}
+
+.container.rounded.bg-white.mt-5 .form-control:focus {
+    background: rgba(30, 144, 255, 0.2) !important;
+    border-color: #1E90FF !important;
+    box-shadow: 0 0 15px rgba(30, 144, 255, 0.3) !important;
+}
+
+/* Style pour le bouton dans le container */
+.container.rounded.bg-white.mt-5 .profile-button {
+    background: linear-gradient(45deg, #0A2647, #1E90FF) !important;
+    border: none !important;
+}
+
+.container.rounded.bg-white.mt-5 .profile-button:hover {
+    background: linear-gradient(45deg, #1E90FF, #0A2647) !important;
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.4);
+}
+
+/* Style pour l'image de profil dans le container */
+.container.rounded.bg-white.mt-5 .rounded-circle {
+    border: 3px solid #1E90FF;
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.3);
+}
+
+/* Style pour les liens dans le container */
+.container.rounded.bg-white.mt-5 .back h6,
+.container.rounded.bg-white.mt-5 .text-right h6 {
+    color: #1E90FF !important;
+}
+
+.container.rounded.bg-white.mt-5 .back h6:hover,
+.container.rounded.bg-white.mt-5 .text-right h6:hover {
+    color: white !important;
+    text-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
+}
+
+/* Style pour les placeholders dans le container */
+.container.rounded.bg-white.mt-5 .form-control::placeholder {
+    color: rgba(30, 144, 255, 0.6) !important;
+}
+
+/* Style pour la section py-5 dans le container */
+.container.rounded.bg-white.mt-5 .py-5 {
+    background: rgba(10, 38, 71, 0.4) !important;
+    border-radius: 15px;
+    box-shadow: inset 0 0 20px rgba(30, 144, 255, 0.1);
+}
+
+/* Style pour les icônes dans le container */
+.container.rounded.bg-white.mt-5 .fa {
+    color: #1E90FF;
+}
+
+/* Animation de hover pour l'image dans le container */
+.container.rounded.bg-white.mt-5 .rounded-circle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(30, 144, 255, 0.5);
+    transition: all 0.3s ease;
+}
+    </style>
+</head>
+<body>
+    <div class="container rounded bg-white mt-5">
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+{% if app.session.get('image')|slice(0, 5) == 'https' %}
+  <img class="rounded-circle mt-5" src="{{  app.session.get('image') }}" alt="Image">
+ {% else %}
+
+                    <img class="rounded-circle mt-5" src="{{ asset('uploads/' ~ app.session.get('image')) }}" alt="Image">
+ {% endif %}
+
+                    <span class="font-weight-bold"> {{app.session.get('user_nom')}}  {{app.session.get('user_prenom')}} </span>
+                    <span class="text-black-50">{{app.session.get('email')}}</span>
+                    <span>{{app.session.get('localisation')}}</span>
+                </div>
+            </div>
+        <div class="col-md-8">
+    <div class="p-3 py-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+      
+            <div class="d-flex flex-row align-items-center back">
+                <i class="fa fa-long-arrow-left mr-1 mb-1"></i>
+                  <a href="/user/front">
+                <h6>Back to home</h6>
+                </a>
+            </div>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+           
+
+       <a href="/user/back/{{app.session.get('id')}}/suppphoto"><h6 class="text-right">Supprimer Photo  <i class="fa fa-xmark mr-1 mb-1 fa-lg"></i>
+</h6></a>
+        </div>
+        {{ form_start(form) }}
+        <div class="row mt-2">
+            <div class="col-md-6">{{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'First Name'}}) }}
+             {{ form_errors(form.nom, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+            <div class="col-md-6">{{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Last Name'}}) }}
+             {{ form_errors(form.prenom, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">{{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+             {{ form_errors(form.email, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+            <div class="col-md-6">{{ form_widget(form.date_naissance, {'attr': {'class': 'form-control', 'placeholder': 'Phone Number'}}) }}
+             {{ form_errors(form.date_naissance, {'attr': {'class': 'invalid-feedback'}}) }}</div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-6">{{ form_widget(form.image, {'attr': {'class': 'form-control', 'placeholder': 'Address'}}) }}
+             {{ form_errors(form.image, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+            <div class="col-md-6">{{ form_widget(form.localisation, {'attr': {'class': 'form-control', 'placeholder': 'Country'}}) }}
+             {{ form_errors(form.localisation, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+        </div>
+        <div class="row mt-3">
+        <div class="col-md-6">{{ form_widget(form.num_telephone, {'attr': {'class': 'form-control', 'placeholder': 'Numéro Téléphone'}}) }}
+             {{ form_errors(form.num_telephone, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>   </div>
+      
+        <div class="mt-5 text-right">
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary profile-button'}}) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+        </div>
+    </div>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+{%  endblock  %}
+
+{%  block reset    %}
+
+
+{%  endblock  %}

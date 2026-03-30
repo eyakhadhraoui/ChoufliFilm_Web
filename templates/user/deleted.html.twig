@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+
+
+
+
+    <div class="table-container">
+    
+  <h2 class="text-center text-white">Liste des Utilisateurs Supprimés</h2>
+  <br>
+        <table class="table table-dark table-hover">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Numero Telephone</th>
+                    <th>Localisation</th>
+                    <th>Email</th>
+                    <th>Image</th>
+                 
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+             {% for us in users %}
+                <tr>
+        <td>{{ us.nom }}</td>
+<td>{{ us.prenom }}</td>
+<td>{{ us.getNumTelephone() }}</td>
+<td>{{ us.localisation }}</td>
+<td>{{ us.email }}</td>
+<td>
+      <img class="rounded-circle me-lg-2" src="{{ asset('uploads/' ~ us.getImage()) }}" alt="Image">
+
+<td>
+                       
+
+              <a class="" href="/user/back/{{us.id}}/restaurer"><i class="bi bi-arrow-repeat" style="font-size: 20px; color: blue;"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+<a class="" href="/user/back/{{ us.id }}/remove"><i class="bi bi-trash" style="font-size: 20px; color: red;"></i></a>
+    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      <div style="text-align: center; width: 100%;">
+  <a href="/user/back/remove-multiple" class="nav-item nav-link active" style="color: red; display: inline-block;">
+    <i class="bi bi-trash" style="font-size: 60px; color: red; cursor: pointer;"></i>
+    <br>
+    Remove All
+  </a>
+  <br>
+  
+</div>
+
+<div style="text-align: center;">
+  <a href="/user/back/restaure-all" class="nav-item nav-link active" style="color: blue; display: inline-block;">
+    <i class="bi bi-arrow-repeat" style="font-size: 60px; color: blue; cursor: pointer;"></i>
+    <br>
+    Restaure All
+  </a>
+</div>
+
+<br>
+
+
+       
+        <br><br>
+       
+    </div>
+
+
+<br>
+
+
+{% endblock %}

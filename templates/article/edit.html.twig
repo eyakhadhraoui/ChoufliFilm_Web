@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Edit Article {% endblock %}
+
+{% block body %}
+
+<h1 class="text-center my-4 text-light">Edit Article</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded" style="background-color: #222; color: #fff;">
+                <div class="card-body p-4">
+                    {{ form_start(form) }}
+
+                    <!-- Title Field -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ form_label(form.titre) }}</label>
+                        {{ form_widget(form.titre, { 'attr': { 'class': 'form-control bg-dark text-light border-secondary', 'placeholder': 'Enter article title' } }) }}
+                        <div class="text-danger">{{ form_errors(form.titre) }}</div>
+                    </div>
+
+                    <!-- Category Field -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ form_label(form.categorie) }}</label>
+                        {{ form_widget(form.categorie, { 'attr': { 'class': 'form-select bg-dark text-light border-secondary' } }) }}
+                        <div class="text-danger">{{ form_errors(form.categorie) }}</div>
+                    </div>
+
+                    <!-- Publication Date -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ form_label(form.datePublication) }}</label>
+                        {{ form_widget(form.datePublication, { 'attr': { 'class': 'form-control bg-dark text-light border-secondary' } }) }}
+                        <div class="text-danger">{{ form_errors(form.datePublication) }}</div>
+                    </div>
+
+                    <!-- Content Field -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ form_label(form.contenu) }}</label>
+                        {{ form_widget(form.contenu, { 'attr': { 'class': 'form-control bg-dark text-light border-secondary', 'rows': '5', 'placeholder': 'Enter article content' } }) }}
+                        <div class="text-danger">{{ form_errors(form.contenu) }}</div>
+                    </div>
+
+                   <!-- Image Upload -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">{{ form_label(form.image) }}</label>
+                        {{ form_widget(form.image, { 'attr': { 'class': 'form-control bg-dark text-light border-secondary' } }) }}
+                        <div class="text-danger">{{ form_errors(form.image) }}</div>
+
+                      <!-- Display Current Image -->
+{% if article.image %}
+    <p class="mt-3">Current Image:</p>
+    <img src="{{ asset('uploads/articles/' ~ article.image) }}" class="img-fluid rounded border" width="200">
+{% endif %}
+
+
+
+                   <button type="submit" class="btn btn-dark btn-lg" style="background-color: #1f41ff;">
+                        <i class="fas fa-save"></i> Submit
+                    </button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

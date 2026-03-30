@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+ 
+ 
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+   
+        <h2 class="text-center mb-4">Ajouter Ressource</h2>
+        
+        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+        
+      
+        <div class="row mb-3">
+            <div class="col-md-12">
+                {{ form_label(form.besoin_specifique, 'Besoin Spécifque ', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.besoin_specifique, {'attr': {'class': 'form-control border-white'}}) }}
+                </div>
+                {{ form_errors(form.besoin_specifique, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+            
+
+        </div>
+
+        <!-- Autres champs... -->
+
+        <div class="mb-3">
+           &nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;
+           &nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;
+          
+
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+<style>
+
+
+/* Personnalisation des champs avec bordure blanche */
+
+.form-control:focus {
+    border-color: #007bff !important;  /* Bordure bleue au focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;  /* Ombre bleue */
+}
+.form-control:hover{
+    border-color: #007bff !important;  /* Bordure bleue au focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;  /* Ombre bleue */
+}
+
+/* Applique un cadre blanc pour le conteneur du champ */
+.mb-3 .border {
+    border: 1px solid #fff; /* Bordure blanche autour du champ */
+}
+
+
+</style>
+{% endblock %}

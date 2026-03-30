@@ -1,0 +1,144 @@
+{% extends 'base_login2.html.twig' %}
+  {% block body %}
+        
+         <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+        
+  <div class="signin"> 
+
+    <div class="content"> 
+
+     <h2>   Login Page</h2>   
+     {% for message in app.flashes('error') %}
+     <div style="color: red;">{{ message }}</div>
+     {% endfor %}
+
+
+ 
+
+<form method="post" action="{{ path('app_login') }}">
+    <div class="form"> 
+     {% if app.session.get('user_nom')%}
+      il ya une session actuelle
+      <div class="inputBox"> 
+      <a href="{{ path('logout') }}">      <input type="eya" value="Logout"></a>
+        </div> 
+
+        <h2> Or </h2>
+        
+         {% if "ROLE_ADMIN" in app.session.get('roles')  %} 
+           <div class="inputBox"> 
+      <a href="{{ path('back') }}">      <input type="eya" value="Return To Page"></a>
+        </div> 
+        {% else  %}
+          
+           <div class="inputBox"> 
+      <a href="{{ path('front') }}">      <input type="eya" value="Return To Page"></a>
+        </div> 
+        {% endif  %}
+  {% else %}
+
+        <div class="inputBox"> 
+            <input type="email" name="email" id="email" class="form-control" autofocus placeholder="Email">
+        </div>
+
+        <div class="inputBox"> 
+            <input type="password" name="password" id="password" class="form-control" autocomplete="current-password"  placeholder="Password">
+        </div> 
+
+        <div class="links"> 
+            <a href="/user/resetpassword">Forgot Password</a> 
+            <a href="{{ path('inscription') }}">Signup</a> 
+        </div> 
+        
+        <div class="inputBox"> 
+            <input type="submit" value="Login">
+        </div> 
+
+<div class="google-container">
+    <a href="/connect/google" class="google-btn">
+        <div class="google-circle">G</div>
+        <div class="google-text">GOOGLE</div>
+    </a>
+</div>
+
+
+       
+</form>
+
+     
+  
+    
+    {% endif %}
+  
+    </div> 
+
+   </div> 
+   
+
+      
+     
+<style>
+.google-container {
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.google-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 45px;
+    background: #1a1a1a;
+    border-radius: 25px;
+    text-decoration: none;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.google-circle {
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+    background: #00ffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.google-text {
+    margin-left: 15px;
+    color: #00ffff;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.google-btn:hover {
+    background: #2a2a2a;
+    border-color: rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.google-btn:hover .google-circle {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.google-btn:active {
+    transform: scale(0.98);
+}
+    </style>
+
+
+
+    
+      {% endblock %}
+
+
+

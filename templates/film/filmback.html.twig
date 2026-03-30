@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add New Film (Backend){% endblock %}
+
+{% block body %}
+  <h1>Add New Film (Backend)</h1>
+  {{ form_start(form) }}
+      {{ form_widget(form) }}
+      <button type="submit">Save Film</button>
+  {{ form_end(form) }}
+  <p><a href="{{ path('listfilm') }}">Back to Film List</a></p>
+{% endblock %}

@@ -1,0 +1,1119 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+
+
+
+
+    <div class="table-container">
+      
+      <div class="d-flex align-items-center justify-content-between mb-4">
+      <a href="/user/back/ajoutback" class="add-user-btn">
+        <i class="bi bi-person-plus"></i>
+        <span>Ajouter Utilisateur</span>
+    </a>
+     
+ 
+                      
+                    </div>
+
+
+
+
+ <h2 class="text-center text-white">Liste des Utilisateurs</h2>
+  
+
+<div class="button-container">
+    <button class="export-btn-blue" onclick="exportToExcel()">  
+        📊 <span>Export to Excel</span>  
+    </button>
+    &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;  &nbsp;&nbsp;
+        <button class="export-btn-pdf" onclick="exportToPDF()">  
+        📄 Export to PDF  
+    </button>
+</div>
+<br>
+    <div class="position-relative w-75 mx-auto animated slideInDown">
+        <input type="search" id="myInput" class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5"
+          placeholder="Search User" />
+      </div>
+<br>
+
+  <br>
+        <table class="table table-dark table-hover" id="myTable">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Numero Telephone</th>
+                    <th>Localisation</th>
+                    <th>Email</th>
+                    <th>Image</th>
+                    
+                 
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+             {% for us in users %}
+                <tr>
+        <td>{{ us.nom }}</td>
+<td>{{ us.prenom }}</td>
+<td>{{ us.getNumTelephone() }}</td>
+<td>{{ us.localisation }}</td>
+<td>{{ us.email }}</td>
+<td>
+      <img class="rounded-circle me-lg-2" src="{{ asset('uploads/' ~ us.getImage()) }}" alt="Image">
+</td>
+<td>
+    <div class="action-buttons-group">
+        {% if ["ROLE_USER"] == us.getRoles()%}
+            {% if us.getBanned()==0 %}
+                <a href="/user/back/{{us.id}}/ban" class="action-btn ban" data-tooltip="Bannir">
+                    <i class="bi bi-lock-fill"></i>
+                </a>
+            {% else %}
+                <a href="/user/back/{{us.id}}/unban" class="action-btn unban" data-tooltip="Débannir">
+                    <i class="bi bi-unlock-fill"></i>
+                </a>
+            {% endif %}
+        {% endif %}
+
+        <a href="/user/back/{{us.id}}/one_user" class="action-btn view" data-tooltip="Voir détails">
+            <i class="bi bi-eye-fill"></i>
+        </a>
+
+        {% if ["ROLE_USER"] == us.getRoles()%}
+            <a href="/user/back/{{us.id}}/monter" class="action-btn promote" data-tooltip="Promouvoir">
+                <i class="bi bi-arrow-up-circle-fill"></i>
+            </a>
+        {% else %}
+            <a href="/user/back/{{us.id}}/demonter" class="action-btn demote" data-tooltip="Rétrograder">
+                <i class="bi bi-arrow-down-circle-fill"></i>
+            </a>
+        {% endif %}
+
+        <a href="/user/back/{{us.id}}/corbeille" class="action-btn delete" data-tooltip="Supprimer">
+            <i class="bi bi-trash-fill"></i>
+        </a>
+    </div>
+</td>
+                {% endfor %}
+            </tbody>
+        </table>
+      {% if app.request.pathinfo == '/user/back/showall' %}
+    <div class="pagination-container">
+        <form method="post" action="{{ path('back_user1') }}" class="pagination-form">
+            <div class="form-group">
+                <label for="num_pagination" class="form-label">Choose pagination</label>
+                <div class="input-group">
+                    <input type="number" name="nombre_pagination" id="num_pagination" class="form-control" required min="1">
+                    <button type="submit" class="btn-validate">
+                        <i class="bi bi-check-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+  
+
+       <br><br>
+   <div class="action-links-container">
+ 
+
+    <a href="/user/back/deleted" class="trash-btn">
+        <span class="btn-icon"><i class="bi bi-trash"></i></span>
+        <span class="btn-text">Corbeille</span>
+        <div class="btn-particles"></div>
+    </a>
+</div>
+
+
+      {%  else  %}
+    <div class="pagination-wrapper">
+        <div class="pagination">
+            <span class="page-info">Page {{ page }} sur {{ pages }}</span>
+            <div class="pagination-controls">
+                {% if page > 1 %}
+                    <a href="{{ path('back_user1', {'page': page - 1}) }}" class="page-btn prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                {% endif %}
+                {% if page < pages %}
+                    <a href="{{ path('back_user1', {'page': page + 1}) }}" class="page-btn next">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+ 
+    <div class="action-links-container">
+    <a href="{{ path('showall') }}" class="show-all-btn">
+        <span class="btn-icon"><i class="bi bi-grid-3x3-gap-fill"></i></span>
+        <span class="btn-text">Show All</span>
+        <span class="btn-shine"></span>
+    </a>
+
+    <a href="/user/back/deleted" class="trash-btn">
+        <span class="btn-icon"><i class="bi bi-trash"></i></span>
+        <span class="btn-text">Corbeille</span>
+        <div class="btn-particles"></div>
+    </a>
+</div>
+
+
+
+{% endif %}
+     <br><br>
+  
+
+    </div>
+      
+       
+                <script>
+        function generateQRForUser(id, nom, prenom, telephone, localisation, email) {
+            var userData = {
+                id: id,
+                nom: nom,
+                prenom: prenom,
+                telephone: telephone,
+                localisation: localisation,
+                email: email
+            }; 
+            
+            var qrText = JSON.stringify(userData);
+            var qrImageUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(qrText);
+            
+            var qrImageContainer = document.getElementById('qrImageContainer_' + id);
+            qrImageContainer.innerHTML = "<img src='" + qrImageUrl + "' alt='QR Code Utilisateur'>";
+            console.log("Contenu du QR Code :", qrText);
+        }
+    </script>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+<script>
+
+let timeoutId;
+function redirectToLoginPage() {
+   window.location.href = "{{ path('logout') }}";
+}
+function resetTimeout() {
+    clearTimeout(timeoutId); 
+    timeoutId = setTimeout(redirectToLoginPage, 30000); 
+}
+document.addEventListener('mousemove', resetTimeout);
+document.addEventListener('mousedown', resetTimeout); 
+document.addEventListener('keypress', resetTimeout); 
+resetTimeout();
+</script>
+<script>
+  function exportToExcel() {
+    var table = document.getElementById('myTable');
+    if (!table) {
+      console.error("Table not found.");
+      return;
+    }
+
+    // Trouver dynamiquement les indices des colonnes "Actions" et "Image"
+    var columnsToRemove = [];
+    var headerCells = table.rows[0].cells;
+
+    for (var i = 0; i < headerCells.length; i++) {
+      var colName = headerCells[i].innerText.trim().toLowerCase();
+      if (colName === "actions" || colName === "image") {
+        columnsToRemove.push(i);
+      }
+    }
+
+    if (columnsToRemove.length === 0) {
+      console.error("Colonnes à exclure non trouvées.");
+      return;
+    }
+
+    // Créer une copie du tableau sans les colonnes "Actions" et "Image"
+    var clonedTable = table.cloneNode(true);
+
+    for (var i = 0; i < clonedTable.rows.length; i++) {
+      // Supprimer les colonnes en partant de la plus grande indexée pour éviter les décalages
+      columnsToRemove.sort((a, b) => b - a).forEach(index => {
+        if (clonedTable.rows[i].cells.length > index) {
+          clonedTable.rows[i].deleteCell(index);
+        }
+      });
+    }
+
+    // Convertir la copie en fichier Excel
+    var workbook = XLSX.utils.table_to_book(clonedTable, { sheet: "Sheet1" });
+
+    // Sauvegarder le fichier Excel
+    XLSX.writeFile(workbook, 'table.xlsx');
+  }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+  function exportToPDF() {
+    var table = document.getElementById('myTable');
+    if (!table) {
+      console.error("Table not found.");
+      return;
+    }
+
+    // Trouver les indices des colonnes à exclure
+    var columnsToRemove = [];
+    var headerCells = table.rows[0].cells;
+
+    for (var i = 0; i < headerCells.length; i++) {
+      var colName = headerCells[i].innerText.trim().toLowerCase();
+      if (colName === "actions" || colName === "image") {
+        columnsToRemove.push(i);
+      }
+    }
+
+    if (columnsToRemove.length === 0) {
+      console.error("Colonnes à exclure non trouvées.");
+      return;
+    }
+
+    // Initialiser jsPDF
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Ajouter le titre "Liste des Utilisateurs"
+    doc.setFont("helvetica", "bold"); // Police en gras
+    doc.setFontSize(16);
+    doc.text("Liste des Utilisateurs", doc.internal.pageSize.width / 2, 15, { align: "center" });
+
+    // Extraire les données du tableau
+    var data = [];
+    var headers = [];
+
+    // Récupérer les en-têtes en excluant les colonnes spécifiées
+    for (var i = 0; i < headerCells.length; i++) {
+      if (!columnsToRemove.includes(i)) {
+        headers.push(headerCells[i].innerText.trim());
+      }
+    }
+
+    // Récupérer les données des lignes
+    for (var i = 1; i < table.rows.length; i++) {
+      var row = [];
+      for (var j = 0; j < table.rows[i].cells.length; j++) {
+        if (!columnsToRemove.includes(j)) {
+          row.push(table.rows[i].cells[j].innerText.trim());
+        }
+      }
+      data.push(row);
+    }
+
+    // Générer le tableau dans le PDF avec un espace sous le titre
+    doc.autoTable({
+      head: [headers],
+      body: data,
+      startY: 25, // Décalage sous le titre
+      styles: { fontSize: 10 },
+      headStyles: { fillColor: [0, 123, 255] } // Bleu pour l'en-tête
+    });
+
+    // Télécharger le PDF
+    doc.save('Liste_Utilisateurs.pdf');
+  }
+</script>
+
+
+
+<br>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function () {
+    let order = { nom: "asc", prenom: "asc" }; // Stocke l'état du tri pour chaque colonne
+
+    function sortTable(columnIndex, columnName) {
+        let rows = $("#myTable tbody tr").get(); // Récupère les lignes du tableau
+        
+        rows.sort(function (a, b) {
+            let A = $(a).find(`td:nth-child(${columnIndex})`).text().toUpperCase(); 
+            let B = $(b).find(`td:nth-child(${columnIndex})`).text().toUpperCase();
+
+            if (order[columnName] === "asc") {
+                return A.localeCompare(B); // Trie de A à Z
+            } else {
+                return B.localeCompare(A); // Trie de Z à A
+            }
+        });
+
+        // Change l'ordre pour le prochain clic
+        order[columnName] = order[columnName] === "asc" ? "desc" : "asc";
+
+        // Réinsère les lignes triées dans le tableau
+        $.each(rows, function (index, row) {
+            $("#myTable tbody").append(row);
+        });
+    }
+
+    // Événements de tri
+    $("#myTable th:nth-child(1)").on("click", function () {
+        sortTable(1, "nom");
+    });
+
+    $("#myTable th:nth-child(2)").on("click", function () {
+        sortTable(2, "prenom");
+    });
+});
+</script>
+
+
+
+<style>
+/* Styles généraux */
+.table-container {
+    background: linear-gradient(135deg, #1a1c20 0%, #2d3436 100%);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    animation: containerFloat 3s ease-in-out infinite;
+}
+
+/* Titre avec effet 3D */
+h2.text-center {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    transform: translateZ(30px);
+    animation: titleFloat 4s ease-in-out infinite;
+}
+
+/* Boutons d'export stylisés */
+.button-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    perspective: 1000px;
+}
+
+.export-btn-blue, .export-btn-pdf {
+    transform-style: preserve-3d;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.export-btn-blue {
+    background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+    border: none;
+    padding: 15px 30px;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(79,172,254,0.3);
+}
+
+.export-btn-pdf {
+    background: linear-gradient(45deg, #ff416c 0%, #ff4b2b 100%);
+    border: none;
+    padding: 15px 30px;
+    color: white;
+    font-weight: bold;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(255,65,108,0.3);
+}
+
+.export-btn-blue:hover, .export-btn-pdf:hover {
+    transform: translateY(-5px) rotateX(10deg);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+/* Table avec effet glassmorphism */
+.table {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation: tableFloat 5s ease-in-out infinite;
+}
+
+.table th {
+    background: rgba(255,255,255,0.1);
+    color: #4facfe;
+    font-size: 1.1rem;
+    padding: 1.2rem;
+    text-transform: uppercase;
+}
+
+.table td {
+    padding: 1rem;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s;
+}
+
+.table tr:hover td {
+    background: rgba(255,255,255,0.1);
+    transform: scale(1.01);
+}
+
+/* Barre de recherche stylisée */
+#myInput {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 30px;
+    padding: 1rem 2rem;
+    color: white;
+    font-size: 1.1rem;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s;
+}
+
+#myInput:focus {
+    background: rgba(255,255,255,0.15);
+    border-color: #4facfe;
+    box-shadow: 0 0 20px rgba(79,172,254,0.3);
+}
+
+/* Animations */
+@keyframes containerFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes titleFloat {
+    0%, 100% { transform: translateZ(30px) rotateX(0deg); }
+    50% { transform: translateZ(40px) rotateX(5deg); }
+}
+
+@keyframes tableFloat {
+    0%, 100% { transform: translateZ(0px); }
+    50% { transform: translateZ(20px); }
+}
+
+/* Style pour les boutons d'action */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    margin: 0 5px;
+    transition: all 0.3s;
+    background: rgba(255,255,255,0.1);
+}
+
+.action-btn:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.action-btn.trash { background: linear-gradient(45deg, #ff416c, #ff4b2b); }
+.action-btn.eye { background: linear-gradient(45deg, #4facfe, #00f2fe); }
+.action-btn.lock { background: linear-gradient(45deg, #f7b733, #fc4a1a); }
+
+/* Pagination stylisée */
+.pagination {
+    margin-top: 2rem;
+    background: rgba(255,255,255,0.05);
+    padding: 1rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.pagination a {
+    color: #4facfe;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+}
+
+.pagination a:hover {
+    transform: scale(1.1);
+    text-shadow: 0 0 10px rgba(79,172,254,0.5);
+}
+
+/* Container des boutons d'action */
+.action-buttons-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style de base des boutons */
+.action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+/* Styles spécifiques pour chaque type de bouton */
+.action-btn.ban, .action-btn.unban {
+    background: linear-gradient(145deg, #ff9f43, #ff7b00);
+    box-shadow: 0 4px 15px rgba(255, 159, 67, 0.3);
+}
+
+.action-btn.view {
+    background: linear-gradient(145deg, #00d2ff, #00a8ff);
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+}
+
+.action-btn.promote {
+    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
+
+.action-btn.demote {
+    background: linear-gradient(145deg, #ff6b6b, #ff4757);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.action-btn.delete {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+/* Style des icônes */
+.action-btn i {
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+/* Effets au survol */
+.action-btn:hover {
+    transform: translateY(-3px);
+}
+
+.action-btn:hover i {
+    transform: scale(1.2);
+}
+
+/* Effet de brillance */
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: shine 3s infinite;
+}
+
+/* Tooltip */
+.action-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: -40px;
+}
+
+/* Animation de brillance */
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    20% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* Animation au clic */
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+/* Container de pagination avec effet 3D */
+.pagination-container {
+    margin: 2rem 0;
+    padding: 2rem;
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transform-style: preserve-3d;
+    box-shadow: 
+        0 20px 40px rgba(0,0,0,0.3),
+        inset 0 0 30px rgba(79,172,254,0.1);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Style du formulaire de pagination */
+.pagination-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+.form-group {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-label {
+    color: #4facfe;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(79,172,254,0.5);
+    transform: translateZ(20px);
+}
+
+.input-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+#num_pagination {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    border: 2px solid rgba(79,172,254,0.3);
+    border-radius: 15px;
+    padding: 1rem;
+    color: white;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    transform: translateZ(10px);
+}
+
+#num_pagination:focus {
+    outline: none;
+    border-color: #4facfe;
+    box-shadow: 
+        0 0 20px rgba(79,172,254,0.3),
+        inset 0 0 10px rgba(79,172,254,0.2);
+    transform: translateZ(15px);
+}
+
+.btn-validate {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    transform: translateZ(10px);
+    box-shadow: 0 10px 20px rgba(79,172,254,0.3);
+}
+
+.btn-validate:hover {
+    transform: translateZ(15px) scale(1.05);
+    box-shadow: 
+        0 15px 30px rgba(79,172,254,0.4),
+        0 0 20px rgba(79,172,254,0.3);
+}
+
+.btn-validate i {
+    color: white;
+    font-size: 1.5rem;
+}
+
+/* Style de la pagination numérotée */
+.pagination-wrapper {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    transform-style: preserve-3d;
+    box-shadow: 
+        0 10px 30px rgba(0,0,0,0.2),
+        inset 0 0 20px rgba(79,172,254,0.1);
+}
+
+.page-info {
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    transform: translateZ(10px);
+}
+
+.pagination-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.page-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    border-radius: 12px;
+    color: white;
+    transition: all 0.3s;
+    transform: translateZ(10px);
+    box-shadow: 0 10px 20px rgba(79,172,254,0.3);
+}
+
+.page-btn:hover {
+    transform: translateZ(15px) scale(1.1);
+    box-shadow: 
+        0 15px 30px rgba(79,172,254,0.4),
+        0 0 20px rgba(79,172,254,0.3);
+}
+
+.page-btn i {
+    font-size: 1.2rem;
+}
+
+/* Animation de flottement */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.pagination {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Container pour les boutons d'action */
+.action-links-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    perspective: 1000px;
+}
+
+/* Style de base pour les boutons */
+.show-all-btn, .trash-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+/* Style spécifique pour Show All */
+.show-all-btn {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    box-shadow: 
+        0 10px 20px rgba(79,172,254,0.3),
+        inset 0 0 20px rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Style spécifique pour Corbeille */
+.trash-btn {
+    background: linear-gradient(135deg, #ff6b6b, #ee5253);
+    color: white;
+    box-shadow: 
+        0 10px 20px rgba(255,107,107,0.3),
+        inset 0 0 20px rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Style des icônes */
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    transition: all 0.3s;
+}
+
+.btn-icon i {
+    font-size: 1.3rem;
+    color: white;
+}
+
+/* Texte des boutons */
+.btn-text {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    transform: translateZ(10px);
+}
+
+/* Effet de brillance */
+.btn-shine {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255,255,255,0.3),
+        transparent
+    );
+    transform: rotate(45deg);
+    transition: 0.5s;
+}
+
+/* Effet de particules pour la corbeille */
+.btn-particles {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 10%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Effets au survol */
+.show-all-btn:hover, .trash-btn:hover {
+    transform: translateY(-5px) rotateX(10deg);
+}
+
+.show-all-btn:hover {
+    box-shadow: 
+        0 15px 30px rgba(79,172,254,0.4),
+        inset 0 0 30px rgba(255,255,255,0.3);
+}
+
+.trash-btn:hover {
+    box-shadow: 
+        0 15px 30px rgba(255,107,107,0.4),
+        inset 0 0 30px rgba(255,255,255,0.3);
+}
+
+.show-all-btn:hover .btn-icon,
+.trash-btn:hover .btn-icon {
+    transform: scale(1.1) translateZ(20px);
+    background: rgba(255,255,255,0.3);
+}
+
+.show-all-btn:hover .btn-shine,
+.trash-btn:hover .btn-shine {
+    animation: shine 1.5s infinite;
+}
+
+.trash-btn:hover .btn-particles {
+    opacity: 1;
+    animation: particles 2s linear infinite;
+}
+
+/* Animations */
+@keyframes shine {
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
+}
+
+@keyframes particles {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.2;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.4;
+    }
+}
+
+/* Animation au clic */
+.show-all-btn:active,
+.trash-btn:active {
+    transform: scale(0.95);
+}
+
+/* Effet de pulsation */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.show-all-btn, .trash-btn {
+    animation: pulse 3s infinite;
+}
+
+.add-user-btn {
+    position: relative;
+    padding: 18px 30px;
+    background: linear-gradient(135deg, #4169E1, #1E90FF, #00BFFF);
+    border-radius: 16px;
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2),
+                inset 0 1px 1px rgba(255,255,255,0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.add-user-btn:hover {
+    transform: translateY(-8px) rotateX(15deg) scale(1.05);
+    box-shadow: 0 20px 40px rgba(65,105,225,0.4),
+                inset 0 1px 1px rgba(255,255,255,0.4);
+}
+
+.add-user-btn i {
+    font-size: 32px;
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    transition: transform 0.4s ease;
+}
+
+.add-user-btn:hover i {
+    transform: rotate(15deg) scale(1.2);
+}
+
+.add-user-btn span {
+    color: white;
+    font-weight: 700;
+    font-size: 17px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.add-user-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255,255,255,0.1),
+        transparent
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+}
+
+.add-user-btn:hover::before {
+    animation: shine 1.5s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-200%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) rotate(45deg);
+    }
+}
+
+.add-user-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: radial-gradient(
+        circle at 50% 0%,
+        rgba(255,255,255,0.2),
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.add-user-btn:hover::after {
+    opacity: 1;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          var visibleRows = 0;
+
+          $("#myTable tbody tr").each(function () {
+            if ($(this).text().toLowerCase().indexOf(value) > -1) {
+              $(this).show();
+              visibleRows++;
+            } else {
+              $(this).hide();
+            }
+          });
+
+          // Afficher le message "Aucun résultat" si nécessaire
+          if (visibleRows === 0) {
+            $("#noResults").show();
+          } else {
+            $("#noResults").hide();
+          }
+        });
+      });
+    </script>
+{% endblock %}

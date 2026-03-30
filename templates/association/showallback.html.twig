@@ -1,0 +1,501 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="table-container">
+    <!-- En-tête avec les boutons et le titre -->
+    <div class="header-section mb-4">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="/association/create" class="create-btn"> 
+                <i class="bi bi-person-plus" style="font-size: 40px; color: blue;"></i> 
+            </a>
+            
+            <h2 class="text-center text-white m-0">Liste des Associations</h2>
+            
+            <div class="d-flex gap-3">
+                <button onclick="generatePDF()" class="export-pdf-btn">
+                    <i class="bi bi-file-pdf-fill"></i>
+                    <span>Exporter PDF</span>
+                </button>
+
+                <a href="{{ path('notifications') }}" class="notification-btn">
+                    <div class="notification-icon-wrapper">
+                        <i class="bi bi-bell-fill"></i>
+                        {% set unreadCount = notificationRepository.findUnread()|length %}
+                        {% if unreadCount > 0 %}
+                            <span class="notification-badge">{{ unreadCount }}</span>
+                        {% endif %}
+                    </div>
+                    <span class="notification-text">Notifications</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ajouter après le header-section et avant la table -->
+    <div class="search-container mb-4">
+        <div class="input-group">
+            <span class="input-group-text">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" id="searchInput" class="form-control" placeholder="Rechercher une association...">
+        </div>
+    </div>
+
+    <!-- Table des associations -->
+    <div class="table-responsive">
+        <table class="table table-dark table-hover" id="associationTable">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Adresse Mail</th>
+                    <th>Adresse</th>
+                    <th>Numero Telephone</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for association in pagination.getItems() %}
+                    <tr>
+                        <td>{{ association.getNom() }}</td>
+                        <td>{{ association.getMailAssociation() }}</td>
+                        <td>{{ association.getAdresse() }}</td>
+                        <td>{{ association.getnumero_telephone() }}</td>
+                        <td>{{ association.getDescription() }}</td>
+                        <td>
+                            <img class="rounded-circle1 me-lg-2" src="{{ asset('uploads/' ~ association.getImage()) }}" alt="Image Association" width="100">
+                        </td>
+                        <td class="action-buttons">   
+                            <a href="/association/back/{{ association.id }}/one_association" class="action-btn eye"><i class="bi bi-eye-fill"></i></a>
+                            <a href="/association/{{ association.id }}/removeback" class="action-btn trash"><i class="bi bi-trash-fill"></i></a>
+                            <a href="/association/{{ association.id }}/edit" class="action-btn edit"><i class="bi bi-pencil-fill"></i></a>
+                            <a href="/ressource/createback/{{ app.session.get('id') }}/{{ association.id }}" class="action-btn help" style="color: green;"><i class="bi bi-question-circle-fill"></i></a>
+                            <a href="/ressource/backressource/{{ association.id }}" class="action-btn edit"><i class="bi bi-eye-fill"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">No associations found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>
+
+<style>
+.table-container {
+    padding: 20px;
+    margin: 20px;
+    background: rgba(10, 38, 71, 0.05);
+    border-radius: 15px;
+}
+
+.header-section {
+    background: rgba(10, 38, 71, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.table-responsive {
+    margin-bottom: 30px;
+    overflow-x: auto;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.action-btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.rounded-circle1 {
+    width:50px;
+    height: 6%;
+    border-radius: 50%; 
+    object-fit: cover;  
+}
+
+/* Style pour le bouton de notifications */
+.notification-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #0A2647, #1E90FF);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.notification-btn:hover {
+    background: linear-gradient(135deg, #1E90FF, #0A2647);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    color: white;
+}
+
+.notification-btn i {
+    font-size: 1.5rem;
+}
+
+.notification-text {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+/* Animation de cloche */
+@keyframes bellRing {
+    0% { transform: rotate(0); }
+    20% { transform: rotate(15deg); }
+    40% { transform: rotate(-15deg); }
+    60% { transform: rotate(7deg); }
+    80% { transform: rotate(-7deg); }
+    100% { transform: rotate(0); }
+}
+
+.notification-btn:hover i {
+    animation: bellRing 0.8s ease;
+}
+
+.notification-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ff4444;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+    }
+}
+
+/* Style pour le bouton d'exportation PDF */
+.export-pdf-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #DC3545, #FF6B6B);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+    border: none;
+    cursor: pointer;
+}
+
+.export-pdf-btn:hover {
+    background: linear-gradient(135deg, #FF6B6B, #DC3545);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.3);
+    color: white;
+}
+
+.export-pdf-btn i {
+    font-size: 1.5rem;
+}
+
+/* Animation pour l'icône PDF */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.export-pdf-btn:hover i {
+    animation: bounce 0.8s ease infinite;
+}
+
+/* Style de pagination amazing */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.pagination > * {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 45px;
+    height: 45px;
+    padding: 0 15px;
+    margin: 0 2px;
+    background: linear-gradient(145deg, #0A2647, #1E90FF);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+}
+
+.pagination > *:hover {
+    transform: translateY(-3px) scale(1.05);
+    background: linear-gradient(145deg, #1E90FF, #0A2647);
+    box-shadow: 0 6px 12px rgba(30, 144, 255, 0.3);
+}
+
+.pagination .current {
+    background: #ffffff;
+    color: #0A2647;
+    border: 2px solid #1E90FF;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(30, 144, 255, 0.3);
+}
+
+.pagination > *:active {
+    transform: scale(0.95);
+}
+
+/* Animation spéciale pour les flèches de navigation */
+.pagination .first,
+.pagination .last,
+.pagination .next,
+.pagination .previous {
+    background: linear-gradient(145deg, #1E90FF, #0A2647);
+    font-weight: bold;
+}
+
+/* Animation au survol */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(30, 144, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(30, 144, 255, 0);
+    }
+}
+
+.pagination > *:hover {
+    animation: pulse 1.5s infinite;
+}
+
+/* Container de pagination avec fond subtil */
+.pagination-container {
+    background: rgba(10, 38, 71, 0.05);
+    border-radius: 20px;
+    padding: 10px;
+    margin: 20px 0;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les liens désactivés */
+.pagination .disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    background: linear-gradient(145deg, #808080, #A9A9A9);
+}
+
+/* Styles pour la barre de recherche */
+.search-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.input-group {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.input-group-text {
+    background: linear-gradient(145deg, #0A2647, #1E90FF);
+    border: none;
+    color: white;
+    padding: 12px 15px;
+}
+
+#searchInput {
+    border: none;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #0A2647;
+    font-size: 16px;
+}
+
+#searchInput:focus {
+    box-shadow: none;
+    background: white;
+}
+
+/* Animation pour les résultats de recherche */
+.highlight {
+    background: rgba(30, 144, 255, 0.3);
+    transition: background 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.table tr {
+    animation: fadeIn 0.3s ease;
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#searchInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        
+        $("#associationTable tbody tr").filter(function() {
+            var text = $(this).text().toLowerCase();
+            var matches = text.indexOf(value) > -1;
+            
+            // Animation et style pour les résultats
+            if (value.length > 0) {
+                if (matches) {
+                    $(this).addClass('highlight');
+                } else {
+                    $(this).removeClass('highlight');
+                }
+            } else {
+                $(this).removeClass('highlight');
+            }
+            
+            $(this).toggle(matches);
+        });
+    });
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function generatePDF() {
+    // Créer une copie de la table pour le PDF
+    const tableContainer = document.createElement('div');
+    const table = document.querySelector('.table').cloneNode(true);
+    
+    // Supprimer la dernière colonne (Actions)
+    const rows = table.querySelectorAll('tr');
+    rows.forEach(row => {
+        const cells = row.getElementsByTagName('td');
+        const headers = row.getElementsByTagName('th');
+        
+        // Supprimer la colonne Actions
+        if (headers.length > 0) headers[headers.length - 1].remove();
+        if (cells.length > 0) cells[cells.length - 1].remove();
+    });
+
+    // Ajouter un style spécifique pour le PDF
+    const style = document.createElement('style');
+    style.textContent = `
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #0A2647;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #0A2647;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .rounded-circle1 {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    `;
+
+    // Ajouter un titre
+    const title = document.createElement('h1');
+    title.textContent = 'Liste des Associations';
+    
+    // Assembler le contenu
+    tableContainer.appendChild(style);
+    tableContainer.appendChild(title);
+    tableContainer.appendChild(table);
+
+    // Configuration du PDF
+    const opt = {
+        margin: 1,
+        filename: 'liste_associations.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+            scale: 2,
+            useCORS: true,
+            logging: true
+        },
+        jsPDF: { 
+            unit: 'in', 
+            format: 'a4', 
+            orientation: 'landscape'
+        }
+    };
+
+    // Générer le PDF
+    html2pdf().set(opt).from(tableContainer).save();
+}
+</script>
+{% endblock %}

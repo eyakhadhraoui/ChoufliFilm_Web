@@ -2,16 +2,1149 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+          <title>{% block title %}Choufli Film{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
+
+
+       {% block stylesheets %}
+      <style>
+/* Mega Futuristic Sidebar - Version Ultra */
+.sidebar {
+    position: fixed;
+    width: 320px;
+    height: 100vh;
+    background: linear-gradient(
+        165deg, 
+        rgba(16, 20, 45, 0.98) 0%,
+        rgba(32, 35, 70, 0.98) 100%
+    );
+    border-right: 2px solid rgba(255, 215, 0, 0.3); /* Gold */
+    box-shadow: 
+        15px 0 40px rgba(0, 0, 0, 0.7),
+        inset -5px 0 30px rgba(0, 123, 255, 0.2); /* Blue */
+    z-index: 1000;
+    transform-style: preserve-3d;
+    perspective: 2500px;
+    backdrop-filter: blur(10px);
+}
+
+/* Navigation Items - Style Premium */
+.navbar-nav {
+    padding: 8px;
+    perspective: 2000px;
+}
+
+.nav-link {
+    position: relative;
+    padding: 12px 20px !important;
+    margin: 2px 0;
+    background: linear-gradient(
+        145deg,
+        rgba(0, 123, 255, 0.08) 0%, /* Blue */
+        rgba(255, 215, 0, 0.02) 100% /* Gold */
+    );
+    border-radius: 10px;
+    transform-style: preserve-3d;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 123, 255, 0.15);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        inset 0 0 15px rgba(0, 123, 255, 0.1);
+    overflow: hidden;
+}
+
+/* Enhanced Hover Effect */
+.nav-link:hover,
+.nav-link.active {
+    transform: translateZ(15px) translateX(5px);
+    background: linear-gradient(
+        135deg,
+        rgba(0, 123, 255, 0.18) 0%, /* Blue */
+        rgba(255, 215, 0, 0.08) 100% /* Gold */
+    );
+    border-color: rgba(255, 215, 0, 0.3); /* Gold */
+    box-shadow: 
+        0 6px 15px rgba(0, 0, 0, 0.3),
+        inset 0 0 20px rgba(0, 123, 255, 0.2);
+}
+
+/* Icon Style Premium */
+.nav-link i {
+    font-size: 1.2em;
+    margin-right: 10px;
+    color: #007BFF; /* Blue */
+    transform: translateZ(20px);
+    filter: drop-shadow(0 0 8px rgba(0, 123, 255, 0.4));
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover i {
+    color: #FFD700; /* Gold */
+    transform: translateZ(35px) scale(1.1);
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.6));
+}
+
+/* Text Style Enhanced */
+.nav-link span {
+    color: #E6F7FF;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    text-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+    transition: all 0.4s ease;
+}
+
+.nav-link:hover span {
+    color: #FFD700; /* Gold */
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
+}
+
+/* Neon Border Effect */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(
+        90deg,
+        #007BFF, /* Blue */
+        #FFD700, /* Gold */
+        #007BFF  /* Blue */
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1;
+    border-radius: 10px;
+}
+
+/* Active State Enhanced */
+.nav-link.active {
+    background: linear-gradient(
+        135deg,
+        rgba(0, 123, 255, 0.22) 0%, /* Blue */
+        rgba(255, 215, 0, 0.12) 100% /* Gold */
+    );
+    border-color: rgba(255, 215, 0, 0.4); /* Gold */
+}
+
+/* Separator Style */
+.nav-separator {
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(0, 123, 255, 0.2), /* Blue */
+        transparent
+    );
+    margin: 5px 0;
+}
+
+/* Advanced Glow Effect */
+.nav-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.08),
+        transparent
+    );
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.nav-link:hover::before {
+    opacity: 1;
+    animation: shine 1.5s infinite;
+}
+
+/* Animations */
+@keyframes shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes borderGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; }
+}
+
+/* Responsive Optimization */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 300px;
+        transform: translateX(-100%);
+        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+}
+
+/* Contenu principal */
+.content-styles {
+    margin-left: 250px;
+    padding: 15px;
+}
+
+.rounded-circle {
+    width: 60px;
+    height: 6%;
+    border-radius: 50%; 
+    object-fit: cover;  
+}
+.rounded-circle6 {
+    width: 30px;
+    height: 6%;
+    border-radius: 50%; 
+    object-fit: cover;  
+}
+
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #007BFF; /* Couleur de la flèche */
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.table-container {
+            background-color: #0d1117; /* Fond sombre uniquement pour le tableau */
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .table-dark {
+            background-color: #161b22; /* Fond du tableau */
+        }
+        .table-dark th, .table-dark td {
+            border-color: #21262d; /* Bordures */
+        }
+        .status-visible {
+            color: #00c853; /* Vert pour Visible */
+        }
+        .status-hidden {
+            color: #ff1744; /* Rouge pour Hidden */
+        }
+
+        .action-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            border-radius: 8px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+        }
+        .action-btn i {
+            font-size: 1.2rem;
+        }
+        .action-btn.lock { color: #00c853; }   /* Vert */
+        .action-btn.eye { color: #ffeb3b; }    /* Jaune */
+        .action-btn.edit { color: #2196f3; }   /* Bleu */
+        .action-btn.trash { color: #f44336; }  /* Rouge */
+
+/* Ajout minimal de styles pour le comportement de défilement */
+.navbar.navbar-expand {
+    transition: transform 0.3s ease;
+}
+
+.navbar.navbar-expand.hidden {
+    transform: translateY(-100%);
+}
+
+/* Ajout d'un conteneur pour grouper les liens */
+.nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.notification-icon-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #ff4444;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #343a40;
+}
+
+.dropdown-menu {
+    max-height: 400px;
+    overflow-y: auto;
+    width: 350px;
+}
+
+.unread-notification {
+    background: rgba(30, 144, 255, 0.1);
+    position: relative;
+}
+
+.unread-notification::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: #1E90FF;
+}
+
+.notification-text {
+    color: #e9ecef;
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+.notification-icon {
+    font-size: 1.5rem;
+    color: #1E90FF;
+}
+
+.dropdown-item {
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(30, 144, 255, 0.15);
+}
+
+.dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 0;
+}
+
+/* Animation pour le badge */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0);
+    }
+}
+
+.notification-badge {
+    animation: pulse 2s infinite;
+}
+</style>
+
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<link href="{{ asset('assets/back/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/back/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ asset('assets/back/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ asset('assets/back/css/style.css') }}" rel="stylesheet">
+    
+            {% endblock %}
+
+{% block javascripts %}
+            
+        <!-- JavaScript Libraries -->
+            <!-- Libraries Stylesheet -->
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('assets/back/lib/chart/chart.min.js') }}"></script>
+    <script src="{{ asset('assets/back/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('assets/back/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('assets/back/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('assets/back/lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/back/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ asset('assets/back/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ asset('assets/back/js/main.js') }}"></script>
+    
+
         {% endblock %}
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const notificationBadge = document.getElementById('notificationBadge');
+    
+    notificationDropdown.addEventListener('click', function() {
+        // Supprimer le badge
+        if (notificationBadge) {
+            notificationBadge.remove();
+        }
+
+        // Mettre à jour les notifications
+        fetch('{{ path("mark_notifications_read") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Retirer la classe unread-notification de toutes les notifications
+                document.querySelectorAll('.unread-notification').forEach(notification => {
+                    notification.classList.remove('unread-notification');
+                });
+                
+                // Log pour debug
+                console.log('Notifications mises à jour avec succès');
+            } else {
+                console.error('Erreur lors de la mise à jour des notifications');
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+        });
+    });
+});
+</script>
     </head>
     <body>
-        {% block body %}{% endblock %}
+ {% block navbar %}
+ {% if app.session.get('roles') is null %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('app_login') }}";
+    </script>
+{% endif %}
+ {% if app.session.get('user_nom') is null %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('logout') }}";
+    </script>
+{% endif %}
+
+{% if ["ROLE_USER"] == app.session.get('roles') %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('logout') }}";
+    </script>
+{% endif %}
+ <div class="container-fluid position-relative d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-secondary navbar-dark">
+                <a href={{ path('back') }} class="navbar-brand mx-4 mb-3">
+                  
+                  <img src="{{ asset('assets/back/img/logo_gold1.png') }}" alt="" style="width: 130px; height: 130px; margin-left: 20px;">
+
+                    
+                </a>
+
+
+
+                <div class="navbar-nav w-100">
+            <a href="{{ path('back') }}" class="nav-item nav-link {% if app.request.pathinfo == '/user/back' %}active{% endif %}">
+  <i class="bi bi-house-door me-2"></i>Dashboard
+</a>
+
+
+
+
+
+                                                         
+
+<a href="{{ path('showall') }}" class="nav-item nav-link {% if app.request.pathinfo in ['/user/back/showall','/user/back/gestion_user1' ] %}active{% endif %}">
+  <i class="bi bi-person me-2"></i>User
+</a>
+
+<a href="/listfilm" class="nav-item nav-link  {% if app.request.pathinfo in ['/listfilm',  '/film/new'  ] %}active{% endif %}">
+  <i class="bi bi-film me-2"></i>Films
+</a>
+
+<a href="/salle/showallback" class="nav-item nav-link {% if app.request.pathinfo in ['/salle/create',  '/salle/showallback'  ] %}active{% endif %}">
+  <i class="bi bi-film me-2"></i>Salles
+</a>
+
+
+
+
+<a href="{{ path('listarticle') }}" class="nav-item nav-link {% if app.request.pathinfo == path('listarticle') %}active{% endif %}">
+  <i class="bi bi-credit-card me-2"></i>Article
+</a>
+
+<a href="/association/showallback" class="nav-item nav-link  {% if app.request.pathinfo == '/association/showallback' %}active{% endif %}">
+  <i class="bi bi-table me-2"></i>Associations
+</a>
+
+<a href="/finance/back/showall" class="nav-item nav-link {% if app.request.pathinfo == '/finance/back/showall' %}active {% endif %}">
+  <i class="bi bi-bar-chart me-2"></i>Finance
+</a>
+
+<a href="{{ path('showallreclamationback') }}" 
+   class="nav-item nav-link {% if app.request.pathinfo in ['/reclamation/showallback', '/reclamation/showallback/typeautre','/reclamation/showallback/typeReservation','/reclamation/showallback/typetechnique','/reclamation/showallback/typePaiement'] %}active{% endif %}">
+  <i class="bi bi-file-earmark-text me-2"></i> Réclamations
+</a>
+<br>
+<br>
+
+
+<a href="{{ path('front') }}" class="nav-item nav-link {% if app.request.pathinfo == '/user/front' %}active{% endif %}">
+  <i class="bi bi-arrow-left-circle me-2"></i>Page front
+</a>
+
+                   
+                        
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-secondary navbar-dark sticky-top px-4 py-0">
+                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-user-edit"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4">
+                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-envelope me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Message</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="{{ asset('assets/back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="{{ asset('assets/back/img/user.jpg') }}"  alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                             {% if app.session.get('user_nom') %}
+       
+    
+                                <div class="d-flex align-items-center">
+                                    <img class="rounded-circle" src="{{ asset('assets/back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                                    <div class="ms-2">
+                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item text-center">See all message</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="notificationDropdown">
+                            <div class="notification-icon-wrapper">
+                                <i class="fa fa-bell me-lg-2"></i>
+                                {% set unreadCount = notificationRepository.findBy({'type': 'user', 'isRead': false})|length %}
+                                {% if unreadCount > 0 %}
+                                    <span class="notification-badge" id="notificationBadge">{{ unreadCount }}</span>
+                                {% endif %}
+                                <span class="d-none d-lg-inline-flex">Notifications</span>
+                            </div>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            {% set userNotifications = notificationRepository.findBy({'type': 'user'}, {'createdAt': 'DESC'},   20) %}
+                            {% if userNotifications is empty %}
+                                <div class="dropdown-item text-center">
+                                    <p class="text-muted mb-0">Aucune notification</p>
+                                </div>
+                            {% else %}
+                                {% for notification in userNotifications %}
+                                    <div class="dropdown-item {% if not notification.isRead %}unread-notification{% endif %}" 
+                                         id="notification-{{ notification.id }}">
+                                        <div class="d-flex align-items-center">
+                                           <img class="rounded-circle6 me-lg-2" src="{{ asset('uploads/' ~ notification.image) }}" alt="Image">
+                                            <div class="ms-2">
+                                                <div class="notification-text">{{ notification.message }}</div>
+                                                <small class="text-muted">{{ notification.createdAt|date('d/m/Y H:i') }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% if not loop.last %}
+                                        <hr class="dropdown-divider">
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                             {% if app.session.get('image') is  not null %}
+                       <img class="rounded-circle me-lg-2" src="{{ asset('uploads/' ~ app.session.get('image')) }}" alt="Image">
+                          {% else %}
+                                 <img class="rounded-circle me-lg-2" src="{{ asset('assets/back/img/inconnu.jpg') }}" alt="Image">
+                           {% endif %}
+                            <span class="d-none d-lg-inline-flex">Mr  {{app.session.get('user_nom')}}</span>
+                            
+                            
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                            <a href="/user/back/{{app.session.get('id')}}/edit" class="dropdown-item">My Profile</a>
+                            
+                            <a href="{{ path('logout') }}" class="dropdown-item">Log Out</a>
+                           
+                            
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
+{% endblock %}
+    
+
+
+        {% block body %}
+      <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{{ asset('img/cinema3.jpg') }}" alt="" style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title  text-start text-primary pe-3">About Us</h6>
+                    <h1 class="mb-4">Welcome to <span class="">Cinema</span></h1>
+                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
+                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>First Class Flights</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>Handpicked Hotels</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>5 Star Accommodations</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>Latest Model Vehicles</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>150 Premium City Tours</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>24/7 Service</p>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="#">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+   
+
+
+    <!-- Destination Start -->
+    <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title  text-center text-primary px-3">Destination</h6>
+                <h1 class="mb-5">Popular Cinema</h1>
+            </div>
+            <div class="row g-3">
+                <div class="col-lg-7 col-md-6">
+                    <div class="row g-3">
+                        <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                            <a class="position-relative d-block overflow-hidden" href="#">
+                                <img class="img-fluid" src="{{ asset('assets/img/salle.jpg') }}" alt="" width="800px;">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">30% OFF</div>
+                                <div class="bg-blue text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Manar2</div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                            <a class="position-relative d-block overflow-hidden" href="#">
+                                <img class="img-fluid" src="{{ asset('assets/img/salle3.jpg') }}" alt="">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">25% OFF</div>
+                                <div class="bg-blue text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">JCC</div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+                            <a class="position-relative d-block overflow-hidden" href="#">
+                                <img class="img-fluid" src="{{ asset('assets/img/salle2.jpg') }}" alt="">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">35% OFF</div>
+                                <div class="bg-blue text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Passage</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
+                    <a class="position-relative d-block h-100 overflow-hidden" href="#">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{{ asset('assets/img/salle1.jpg') }}" alt="" style="object-fit: cover;">
+                        <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">20% OFF</div>
+                        <div class="bg-blue text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Marsa</div>
+
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Destination Start -->
+
+
+    <!-- Package Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title text-center text-primary px-3">Films</h6>
+                <h1 class="mb-5">Awesome Films</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/back/img/film3.jpg') }}" alt="" width="400" height="300px">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>cinema manar 1</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt icon-blue me-2"></i>3 days</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>1 Person</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">17 dinars</h3>
+                            <div class="mb-3">
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                            </div>
+                            <p>12 dinars pour le film et 5 dinars pour l'association wasila </p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="#" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/back/img/film3.jpg') }}" alt="" height="400px;" width="600px;">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>Tunis City Pathé</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt icon-blue me-2"></i>Today</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>2 Person</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">39.999 dinars</h3>
+                            <div class="mb-3">
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                            </div>
+                            <p>30 dinars tickets et 9,99 dinars pour association aidease marsa</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="#" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/back/img/film3.jpg') }}" alt="">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>Marsa</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt icon-blue me-2"></i>7 days</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>4 Person</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">49.99 dinars</h3>
+                            <div class="mb-3">
+                                <small class="fa fa-star icon-blue me-2"></small>
+                               
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                              
+                            </div>
+                            <p>40 dinars tickets et 9.99 pour association tunislafayette</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="#" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="#" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Package End -->
+
+
+    <!-- Booking Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="booking p-5">
+                <div class="row g-5 align-items-center">
+                    <div class="col-md-6 text-white">
+                        <h6 class="text-white text-uppercase">Reclamation</h6>
+                        <h1 class="text-white mb-4">Online Reclamations</h1>
+                        <p class="mb-4">ken 3jebetekech haja tnajem treclami</p>
+                        <p class="mb-4">mouch reclamation 3al film juste reclamation 3a site</p>
+                        <a class="btn btn-outline-light py-3 px-5 mt-2" href="#">Read More</a>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="text-white mb-4">Reclame </h1>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control bg-transparent" id="name" placeholder="Your Name">
+                                        <label for="name">Your Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control bg-transparent" id="email" placeholder="Your Email">
+                                        <label for="email">Your Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="text" class="form-control bg-transparent datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
+                                        <label for="datetime">Date & Time</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select bg-transparent" id="select1">
+                                            <option value="1">Réclamation 1</option>
+                                            <option value="2">Réclamation 2</option>
+                                            <option value="3">Réclamation 3</option>
+                                        </select>
+                                        <label for="select1">Destination</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control bg-transparent" placeholder="Special Request" id="message" style="height: 100px"></textarea>
+                                        <label for="message">Special Request</label>
+                                    </div>
+                                </div>
+                                  <div class="col-12">
+                                            <button class="btn btn-primary w-100 py-3" type="submit">Envoyer la Réclamation</button>
+                                        </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Booking Start -->
+
+
+ 
+
+
+    <!-- Team Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title  text-center text-primary px-3">Travel Guide</h6>
+                <h1 class="mb-5">Meet Our Guide</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/img/team-1.jpg') }}" alt="">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Full Name</h5>
+                            <small>Designation</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/img/team-2.jpg') }}" alt="">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Full Name</h5>
+                            <small>Designation</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/img/team-3.jpg') }}" alt="">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Full Name</h5>
+                            <small>Designation</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="team-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/img/team-4.jpg') }}" alt="">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Full Name</h5>
+                            <small>Designation</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team End -->
+
+
+    <!-- Testimonial Start -->
+    
+    
+    <!-- Testimonial End -->
+
+
+         {% endblock %}
+ 
+    
+
+{%   block reset     %}
+
+         <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#">ChoufliFilm</a>, All Right Reserved. 
+                        </div>
+                        <div class="col-12 col-sm-6 text-center text-sm-end">
+                            <!--/*** This template is free as long as you keep the footer author's credit link/attribution link/backlink. If you'd like to use the template without the footer author's credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                            Designed By <a href="#">6core Group</a>
+                            <br>Distributed By: <a href="#" >ThemeWagon</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}
+
+
     </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Store the current notification count to detect changes
+        let currentNotificationCount = {{ notificationRepository.findBy({'type': 'user'})|length }};
+        let currentUnreadCount = {{ notificationRepository.findBy({'type': 'user', 'isRead': false})|length }};
+        
+        // Function to poll for notifications using the current page
+        function checkForNewNotifications() {
+            // Use the Fetch API to get the current page content
+            fetch(window.location.href)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    
+                    // Extract notification data from the fetched page
+                    const newUnreadCount = doc.getElementById('notificationBadge').textContent.trim();
+                    
+                    // If there are new notifications, update the UI
+                    if (parseInt(newUnreadCount) > currentUnreadCount) {
+                        // Update badge
+                        document.getElementById('notificationBadge').textContent = newUnreadCount;
+                        
+                        // Replace notification container content
+                        const newContainer = doc.getElementById('notificationContainer').innerHTML;
+                        document.getElementById('notificationContainer').innerHTML = newContainer;
+                        
+                        // Play notification sound (optional)
+                        playNotificationSound();
+                        
+                        // Update current counts
+                        currentUnreadCount = parseInt(newUnreadCount);
+                    }
+                })
+                .catch(error => console.error('Error checking for notifications:', error));
+        }
+        
+        // Function to play notification sound
+        function playNotificationSound() {
+            // You'll need to add an audio file to your project for this to work
+            // const sound = new Audio('/path/to/notification-sound.mp3');
+            // sound.play();
+            console.log('New notification received!');
+        }
+        
+        // Mark notifications as read when clicked
+        function setupNotificationClicks() {
+            document.querySelectorAll('.unread-notification').forEach(notification => {
+                notification.addEventListener('click', function() {
+                    const notificationId = this.dataset.notificationId;
+                    
+                    // This is a placeholder for an AJAX call
+                    // In a real implementation, you would send an AJAX request to mark as read
+                    this.classList.remove('unread-notification');
+                    
+                    // Update the unread count
+                    const badge = document.getElementById('notificationBadge');
+                    let count = parseInt(badge.textContent) - 1;
+                    if (count <= 0) {
+                        badge.style.display = 'none';
+                        badge.textContent = '0';
+                    } else {
+                        badge.textContent = count.toString();
+                    }
+                    
+                    currentUnreadCount = count;
+                    
+                    // In a real implementation you would make an AJAX call like:
+                    /*
+                    fetch('/mark-notification-read/' + notificationId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    */
+                });
+            });
+        }
+        
+        // Set up click events for existing notifications
+        setupNotificationClicks();
+        
+        // Check for new notifications periodically (every 30 seconds)
+        setInterval(checkForNewNotifications, 30000);
+        
+        // You can also check when the user becomes active again after being away
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                checkForNewNotifications();
+            }
+        });
+    });
+</script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+

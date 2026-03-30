@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+ 
+ 
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+   
+        <h2 class="text-center mb-4">Ajouter Association</h2>
+        
+        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+        
+      
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_label(form.nom, 'Nom ', {'Nom': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control border-white'}}) }}
+                </div>
+                 
+                  {{ form_errors(form.nom, {'attr': {'class': 'form-control border-white'}}) }}
+           
+               
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.mail_association, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.mail_association, {'attr': {'class': 'form-control border-white'}}) }}
+                </div>
+                {{ form_errors(form.mail_association, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+             <div class="col-md-6">
+                {{ form_label(form.adresse, 'Adresse', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.adresse, {'attr': {'class': 'form-control border-white'}}) }}
+                </div>
+                {{ form_errors(form.adresse, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.num_tel, 'numero de telephones', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.num_tel, {'attr': {'class': 'form-control border-white'}}) }}
+                </div>
+                {{ form_errors(form.num_tel, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+            <div class="col-md-12"  >
+                {{ form_label(form.Description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.Description, {'attr': {'class': 'form-control border-white'}}) }}
+                </div>
+                {{ form_errors(form.Description, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+            
+           
+            
+            <div class="col-md-12">
+                {{ form_label(form.image, 'Image', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control border-white'}}) }}
+                </div>
+                {{ form_errors(form.image, {'attr': {'class': 'invalid-feedback'}}) }}
+            </div>
+         
+         
+
+
+        </div>
+
+        <!-- Autres champs... -->
+
+        <div class="mb-3">
+           &nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;
+           &nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;
+          
+
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+<style>
+
+
+/* Personnalisation des champs avec bordure blanche */
+
+.form-control:focus {
+    border-color: #007bff !important;  /* Bordure bleue au focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;  /* Ombre bleue */
+}
+.form-control:hover{
+    border-color: #007bff !important;  /* Bordure bleue au focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;  /* Ombre bleue */
+}
+
+/* Applique un cadre blanc pour le conteneur du champ */
+.mb-3 .border {
+    border: 1px solid #fff; /* Bordure blanche autour du champ */
+}
+
+
+</style>
+{% endblock %}

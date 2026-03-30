@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+
+    <style>
+   .profile-container {
+    position: relative;
+    display: inline-block;
+  }
+
+
+ .profile-img2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px; /* Plus grand que l'image */
+    height: 60px;
+    border-radius: 50%;
+    border: 5px solid blue; /* Fil bleu épais */
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    pointer-events: none; /* Évite l'interaction */
+}
+  
+  .profile-img3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 5px solid transparent; /* Bordure transparente */
+    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    background: conic-gradient(blue 0deg 180deg, transparent 180deg 360deg);
+}
+
+
+  .profile-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: blue; /* Création d'un petit fil bleu */
+    transform: rotate(0deg);
+  }
+  
+  .profile-img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+    .verified {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    background-color: #0095f6;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid white;
+  }
+.dropdown-item:active {
+    background-color: #162A48 !important;  /* Couleur de fond bleu */
+    color: #007BFF !important;  /* Optionnel, pour que le texte soit blanc */
+}
+
+/* Change le fond en bleu quand l'utilisateur survole l'élément */
+.dropdown-item:hover {
+    background-color: #162A48 !important;  /* Couleur de fond bleu */
+    color: #007BFF !important;  /* Texte blanc au survol */
+} 
+ .btn.btn-primary {
+    background-color: var(--primary) !important; /* Couleur de fond bleu nuit */
+    color: #FFFFFF !important;  /* Texte en blanc */
+    border: 2px solid var(--primary) !important; /* Bordure bleu nuit */
+    border-radius: 50px !important; /* Coins arrondis (pill) */
+    padding: 10px 20px; /* Ajustez les valeurs de padding si nécessaire */
+}
+
+.btn.btn-primary:hover {
+    background-color: #162A48 !important; /* Optionnel : change la couleur de fond au survol */
+    border-color: #162A48 !important;  /* Change la bordure au survol */
+}
+.btn.btn-primary {
+    background-color: #007BFF !important;  /* Bleu clair */
+    color: #FFFFFF !important;  /* Texte en blanc */
+    border: 2px solid #007BFF !important;  /* Bordure bleue */
+    border-radius: 50px !important;  /* Coins arrondis (forme pilule) */
+}
+
+.btn.btn-primary:hover {
+    background-color: #0056b3 !important;  /* Bleu plus foncé au survol */
+    border-color
+    : #0056b3 !important;  /* Bordure plus foncée au survol */
+}
+h1.text-primary {
+    color: #007BFF !important;  /* Applique un bleu clair au texte du titre */
+}
+
+/* Applique également la couleur bleue aux icônes <i> à l'intérieur de <h1> avec .text-primary */
+h1.text-primary i {
+    color: #007BFF !important;  /* Applique un bleu clair à l'icône */
+}
+
+/* Si vous avez des images dans h1.text-primary, ne pas appliquer de filtre de couleur */
+h1.text-primary img {
+    filter: none !important;  /* Réinitialise tout filtre de couleur */
+}
+h6.text-primary {
+    color: #007BFF !important;  /* Applique un bleu clair au texte */
+}
+
+/* Applique également la couleur bleue aux icônes <i> dans <h6> avec .text-primary */
+h6.text-primary i {
+    color: #007BFF !important;  /* Applique un bleu clair à l'icône */
+}
+
+/* Applique également la couleur bleue aux éléments avec .section-title ayant .text-primary */
+h6.section-title.text-primary {
+    color: #007BFF !important;  /* Applique un bleu clair au titre de section */
+}
+.icon-blue {
+    color: #007BFF !important;  /* Bleu clair */
+}
+.rounded-circle {
+    width: 60px;
+    height: 6%;
+    border-radius: 50%; /* Cela rend l'image circulaire */
+    object-fit: cover;  /* Cela permet à l'image de garder une bonne proportion sans déformer l'image */
+}
+
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #007BFF; /* Couleur de la flèche */
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.cinema-header {
+    background: linear-gradient(rgba(20, 20, 31, .7), rgba(20, 20, 31, .7)), url(../assets/back/img/cinema5.jpg) !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+div.bg-blue {
+    background-color:white ;
+    color: #007BFF !important;
+}
+
+//@keyframes rotation {
+  //  from {
+    //    transform: rotate(0deg);
+    //}
+   // to {
+     //   transform: rotate(360deg);
+    //}
+//}
+
+img.test {
+    animation: rotation 3s linear infinite; /* Changez la durée selon vos besoins */
+}
+.booking {
+    background: linear-gradient(rgba(15, 23, 43, .7), rgba(15, 23, 43, .7)), url(../assets/back/img/cinema4.jpg) !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Ajoute cette classe pour cacher le navbar */
+/* On cache le navbar en le déplaçant hors de l'écran */
+/* Cacher le navbar */
+
+
+
+    .img-fluid2 {
+        width: 400px;
+        height: 300px;
+        object-fit: cover; /* Ajuste l'image à la taille sans déformation */
+    }
+     .form-control-transparent {
+    background-color: transparent !important;
+    border: 1px solid #ccc; /* Vous pouvez ajuster la couleur de la bordure si nécessaire */
+  }
+
+/* Ajout d'effets 3D et modernisation du design */
+
+/* Effet 3D pour les cartes */
+.package-item {
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    perspective: 1000px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.package-item:hover {
+    transform: translateY(-10px) rotateX(5deg);
+}
+
+/* Effet de profondeur pour les images */
+.img-fluid2 {
+    transition: transform 0.5s;
+    transform: scale(1);
+}
+
+.package-item:hover .img-fluid2 {
+    transform: scale(1.1) translateZ(20px);
+}
+
+/* Modernisation des boutons */
+.btn.btn-primary {
+    background: linear-gradient(45deg, #007BFF, #00C6FF) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.btn.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,123,255,0.4);
+    background: linear-gradient(45deg, #00C6FF, #007BFF) !important;
+}
+
+/* Header moderne avec effet parallaxe */
+.cinema-header {
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.cinema-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    transform: translateZ(-10px) scale(1.4);
+    filter: blur(5px);
+}
+
+/* Navigation moderne avec effet glassmorphism */
+.navbar {
+    background: rgba(255, 255, 255, 0.1) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+/* Cards avec effet glassmorphism */
+.team-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.team-item:hover {
+    transform: translateY(-10px) rotateY(5deg);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+
+/* Effet de survol moderne pour les images */
+.overflow-hidden {
+    position: relative;
+    overflow: hidden;
+}
+
+.overflow-hidden::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0,123,255,0.2), rgba(0,198,255,0.2));
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.overflow-hidden:hover::after {
+    opacity: 1;
+}
+
+/* Animation de rotation 3D pour le logo */
+.test {
+    animation: rotation3D 5s infinite linear;
+    transform-style: preserve-3d;
+}
+
+@keyframes rotation3D {
+    from {
+        transform: rotate3d(1, 1, 1, 0deg);
+    }
+    to {
+        transform: rotate3d(1, 1, 1, 360deg);
+    }
+}
+
+/* Effet de profondeur pour les sections */
+.container-xxl {
+    perspective: 1000px;
+}
+
+.wow {
+    transform-style: preserve-3d;
+}
+
+/* Ajout des styles pour le navbar dynamique */
+.navbar {
+    transition: transform 0.4s ease-in-out;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-hidden {
+    transform: translateY(-100%);
+}
+
+</style>
+
+  <link href="{{ asset('assets/img/favicon.ico') }}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{{ asset('assets/lib/animate/animate.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+
+        {% endblock %}
+
+        {% block javascripts %}
+ 
+
+
+          <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('assets/lib/wow/wow.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/waypoints/waypoints.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/tempusdominus/js/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/tempusdominus/js/moment-timezone.min.js') }}"></script>
+    <script src="{{ asset('assets/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+
+
+
+        {% endblock %}
+    </head>
+
+ 
+    <body>
+      {% block navbar %}
+        {% if app.session.get('roles') is null %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('app_login') }}";
+    </script>
+{% endif %}
+        <body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block">
+        <div class="row gx-0">
+            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>123  Esprit, Elghazela, Tunisie</small>
+                    <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>+216  24 705 213</small>
+                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>ChoufliFilm@gmail.com</small>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href="#"><i class="fab fa-youtube fw-normal"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+ <nav id="navbar" class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 navbar-visible">
+            <a href="/user/front" class="">
+<img src="{{ asset('assets/back/img/logo_event.png') }}" alt="" class="test"
+     style="width: 150px; height: 100px; margin-left: 40px; margin-top:10px; 
+            animation: rotation 3s linear infinite;">
+
+               
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                    <a href="/user/front" class="nav-item nav-link {% if app.request.pathinfo == '/user/front' %}active{% endif %}">Home</a>
+                    <a href="#test" class="nav-item nav-link">About</a>
+                     
+                    <a href="/user/front/showallfilm" class="nav-item nav-link">Films</a>
+                    <a href="/association/frontassociation" class="nav-item nav-link">Bénévolat</a>
+                  
+                       <a   href="/reclamation/showall/{{app.session.get('email')}}" class="nav-item nav-link">Reclamations</a>
+                     <a href="/blogs" class="nav-item nav-link">blogs</a>
+                   
+                    <div class="nav-item dropdown">
+                        <a href="{{ path('app_cart') }}" class="nav-item nav-link cart-wrapper">
+                            <i class="bi bi-cart text-primary"></i>
+                            <span class="text-primary ms-1">Panier</span>
+                            {% if recent_reservations is defined and recent_reservations|length > 0 %}
+                                <span class="badge badge-cart">{{ recent_reservations|length }}</span>
+                            {% endif %}
+                            <div class="cart-dropdown">
+                                {% if recent_reservations is defined and recent_reservations|length > 0 %}
+                                    {% for reservation in recent_reservations %}
+                                        <div class="cart-item">
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <h6 class="mb-1">{{ reservation.titre|default('Film non disponible') }}</h6>
+                                                    <small>{{ reservation.nombre_places|default(0) }} place(s) {{ reservation.type_place|default('') }}</small><br>
+                                                    <small>{{ reservation.dateReservation ? reservation.dateReservation|date('d/m/Y') : '' }}</small>
+                                                </div>
+                                                <div class="text-end">
+                                                    <div>{{ reservation.prix_total|default('0') }}DT</div>
+                                                    <small class="text-{{ reservation.status == 'paid' ? 'success' : 'warning' }}">
+                                                        {{ reservation.status|default('pending') }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="p-2 text-center">
+                                        <a href="{{ path('app_cart') }}" class="btn btn-primary btn-sm">Voir le panier</a>
+                                    </div>
+                               
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+
+
+                     <a href="{{ path('logout') }}" class="nav-item nav-link">Logout</a>
+                          {% if 'ROLE_ADMIN' in app.session.get('roles') %}
+       <a href="{{ path('back') }}" class="nav-item nav-link ">
+                     
+    
+  <i class="bi bi-arrow-right-circle me-2 text-warning"></i> <span class="text-warning">Page back</span>
+
+</a>
+   
+{% endif %}
+
+
+                </div>
+
+{% if app.session.get('image')|slice(0, 5) == 'https' %}
+{% set image = app.session.get('image') %}
+{% set num = app.session.get('num') %}
+{% set user_id = app.session.get('id') %}
+
+
+        {% if  num != "00000000"    %}
+            <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img"></div> 
+                        <img class="profile-img3" src="{{ image }}" alt="Image">
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+
+                             
+                    </a>
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+  {% endif %}
+{% if app.session.get('image') == 'inconnu.jpg' %}
+{% set image = app.session.get('image') %}
+{% set num = app.session.get('num') %}
+{% set user_id = app.session.get('id') %}
+
+
+       {% if num != "00000000"    %}
+            <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img"></div> 
+                        <img class="profile-img3" src="{{ asset('uploads/' ~ image) }}" alt="Image"> 
+                    </div>
+                </a>
+            </div>
+       
+
+                             
+                    </a>
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+        {% else %}
+          <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img3"></div> 
+                        <img class="profile-img3" src="{{ asset('uploads/' ~ image) }}" alt="Image"> 
+                    </div>
+                </a>
+            </div>
+       
+
+                             
+                    </a>
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+
+
+
+
+        {% endif %}
+
+
+{% endif %}
+{% if app.session.get('image') != 'inconnu.jpg'  and  app.session.get('image')|slice(0, 5) != 'https'%}
+     {% set image = app.session.get('image') %}
+{% set num = app.session.get('num') %}
+{% set user_id = app.session.get('id') %}
+
+
+       {% if num != "00000000"    %}
+            <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img"></div> 
+                        <img class="profile-img2" src="{{ asset('uploads/' ~ image) }}" alt="Image">
+                         <div class="verified">✔</div> 
+                    </div>
+                </a>
+            </div>
+       
+
+                             
+                    </a>
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+        {% else %}
+          <div class="nav-item dropdown">
+                <a href="/user/front/{{ user_id }}/edit" class="nav-item nav-link">
+                    <div class="profile-container">
+                    <div class="profile-img"></div> 
+                        <img class="profile-img3" src="{{ asset('uploads/' ~ image) }}" alt="Image"> 
+                    </div>
+                        
+                      {% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}  
+                </a>
+            </div>
+       
+
+                             
+               
+                 <div class="dropdown-menu m-0" style="background-color: black; color: white;">
+                        <a href="#" class="dropdown-item">Settings</a>
+                        <a href="{{ path('logout') }}" class="dropdown-item">Logout</a>
+                    </div>
+                </div>
+
+
+
+
+        {% endif %}
+
+         
+{% endif %}
+               
+                
+         </nav>       
+            </div>
+       
+
+        <div class="container-fluid bg-primary py-5 mb-5 cinema-header">
+            <div class="container py-5">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">Enjoy Your Watch With ChoufliFilm</h1>
+               
+                        <div class="position-relative w-75 mx-auto animated slideInDown">
+                            <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="Eg: Tunisia">
+                            <button type="button" class="btn btn-primary rounded-pill py-2 px-4 position-absolute top-0 end-0 me-2" style="margin-top: 7px;">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar & Hero End -->
+
+
+   
+        
+
+
+        {% endblock %}
+  {% block body %}
+ <!-- About Start -->
+   <div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <img class="img-fluid position-absolute w-100 h-100" src="{{ asset('assets/back/img/cinema3.jpg') }}" alt="Cinema" style="object-fit: cover;">
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                <h6 class="section-title text-start text-primary pe-3">About Us</h6>
+                <h1 class="mb-4">Welcome to <span class="">Cinema</span></h1>
+                <p class="mb-4">Cinema, an art form that takes us to another world. Films that tell stories and evoke emotions. Whether it's a drama, comedy, or action movie, cinema is a universal experience that brings people together around a shared passion.</p>
+                <p class="mb-4">Since its inception in the late 19th century, cinema has evolved to become one of the most popular forms of entertainment worldwide. Technological innovations such as 3D and IMAX have transformed the cinematic experience, offering viewers unforgettable immersive moments.</p>
+                <div class="row gy-2 gx-4 mb-4">
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>Films of all genres</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>3D and IMAX screenings</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>A selection of award-winning films</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>Films for all ages</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>Special offers on tickets</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-0"><i class="fa fa-arrow-right icon-blue me-2"></i>Exclusive movie premieres</p>
+                    </div>
+                </div>
+                <a class="btn btn-primary py-3 px-5 mt-2" href="#">Read More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- About End -->
+
+
+   
+
+
+    <!-- Destination Start -->
+    <div class="container-xxl py-5 destination">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title  text-center text-primary px-3">Destination</h6>
+                <h1 class="mb-5">Popular Cinema</h1>
+            </div>
+            <div class="row g-3">
+                <div class="col-lg-7 col-md-6">
+                    <div class="row g-3">
+                        <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                            <a class="position-relative d-block overflow-hidden" href="#">
+                                <img class="img-fluid" src="{{ asset('assets/img/salle.jpg') }}" alt="" width="800px;">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">30% OFF</div>
+                                <div class="bg-blue text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Manar2</div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                            <a class="position-relative d-block overflow-hidden" href="#">
+                                <img class="img-fluid" src="{{ asset('assets/img/salle3.jpg') }}" alt="">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">25% OFF</div>
+                                <div class="bg-blue text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">JCC</div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+                            <a class="position-relative d-block overflow-hidden" href="#">
+                                <img class="img-fluid" src="{{ asset('assets/img/salle2.jpg') }}" alt="">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">35% OFF</div>
+                                <div class="bg-blue text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Passage</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
+                    <a class="position-relative d-block h-100 overflow-hidden" href="#">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{{ asset('assets/img/salle1.jpg') }}" alt="" style="object-fit: cover;">
+                        <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">20% OFF</div>
+                        <div class="bg-blue text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">Marsa</div>
+
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Destination Start -->
+
+
+    <!-- Package Start -->
+    <div id="test1" class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title text-center text-primary px-3">Films</h6>
+                <h1 class="mb-5">Awesome Films</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid2" src="{{ asset('assets/back/img/oldman.jpg') }}" alt="" width="400" height="300px">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>cinema manar 1</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt icon-blue me-2"></i>3 days</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>1 Person</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">17 dinars</h3>
+                            <div class="mb-3">
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                            </div>
+                            <p>12 dinars for the movie and 5 dinars for the Wasila association</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="/user/front/showallfilm" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                          
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid2" src="{{ asset('assets/back/img/film3.jpg') }}" alt="" height="400px;" width="600px;">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>Tunis City Pathé</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt icon-blue me-2"></i>Today</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>2 Person</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">39.999 dinars</h3>
+                            <div class="mb-3">
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                            </div>
+                            <p>30 dinars for tickets and 9.99 dinars for the Aidease Marsa association</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="/user/front/showallfilm" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid2" src="{{ asset('assets/img/inception.jpg') }}" alt="">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>Marsa</small>
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-calendar-alt icon-blue me-2"></i>7 days</small>
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>4 Person</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">49.99 dinars</h3>
+                            <div class="mb-3">
+                                <small class="fa fa-star icon-blue me-2"></small>
+                               
+                                <small class="fa fa-star icon-blue me-2"></small>
+                                <small class="fa fa-star icon-blue me-2"></small>
+                              
+                            </div>
+                            <p>40 dinars for tickets and 9.99 dinars for the TunisLafayette association.</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="/user/front/showallfilm" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Package End -->
+  <!-- Package Start -->
+    <div id="test5" class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title text-center text-primary px-3">Associations</h6>
+                <h1 class="mb-5">List of Associations</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid2" src="{{ asset('assets/back/img/wassila.jpg') }}" alt="" width="400" height="300px">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>Centre ville Tunis</small>
+                         
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>10 Ressources</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">Quality Tunisian Association</h3>
+                         
+                            <p>We are the Tunisian Association and we need your help.</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="/association/frontassociation" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="/association/frontassociation" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Help  association</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid2" src="{{ asset('assets/back/img/tunisie.jpg') }}" alt="" height="400px;" width="600px;">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>El omrane Supérieur</small>
+                        
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>7 Ressources</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">Help 3ali9in bel 5arej Association </h3>
+                           
+                           <p>We are the Tunisian Help 3ali9inbel5arej Association and we need your help</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="/association/frontassociation" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="/association/frontassociation" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Help  association</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="package-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid2" src="{{ asset('assets/back/img/basma.jpg') }}" alt="">
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-map-marker-alt icon-blue me-2"></i>Lafayette</small>
+                  
+                            <small class="flex-fill text-center py-2"><i class="fa fa-user icon-blue me-2"></i>40 Ressources</small>
+                        </div>
+                        <div class="text-center p-4">
+                            <h3 class="mb-0">Basma Tunisian Association</h3>
+                        
+                            <p>We are the Tunisian Basma Association and we need your help</p>
+                            <div class="d-flex justify-content-center mb-2">
+                                <a href="/association/frontassociation" class="btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="/association/frontassociation" class="btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Help  association</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Package End -->
+
+   
+ 
+
+
+    <!-- Team Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title  text-center text-primary px-3">Travel Guide</h6>
+                <h1 class="mb-5">Meet Our Guide</h1>
+            </div>
+            <div class="row g-4">
+                
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/img/bouhmid.jpg') }}" alt=""  width="300" height="300">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Ahmed Amine Abdelli</h5>
+                            <small>Guide Bénévolat</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/img/azouz.jpg') }}" alt="">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Omar Aziz Fatmi</h5>
+                            <small>Guide Finance</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="team-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/img/chahibof.png') }}" alt="">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Chahine Zaghdoudi</h5>
+                            <small>Guide Films</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ asset('assets/img/team-4.jpg') }}" alt="">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -19px;">
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-square mx-1" href="#"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Saja ben Ghrib</h5>
+                            <small>Guide Blog</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team End -->
+
+
+   
+
+        {% endblock %}
+
+        
+{%   block reset     %}
+
+   
+    <!-- Footer Start -->
+    <div  id="test" class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Company</h4>
+                    <a class="btn btn-link" href="#">About Us</a>
+                    <a class="btn btn-link" href="#">Contact Us</a>
+                    <a class="btn btn-link" href="#">Privacy Policy</a>
+                    <a class="btn btn-link" href="#">Terms & Condition</a>
+                    <a class="btn btn-link" href="#">FAQs & Help</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Contact</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123  Esprit, Elghazela, Tunisie</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Gallery</h4>
+                    <div class="row g-2 pt-2">
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-2.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-3.jpg') }}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="{{ asset('assets/img/package-1.jpg') }}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Newsletter</h4>
+                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">ChoufliFilm</a>, All Right Reserved.
+
+                        <!--/*** This template is free as long as you keep the footer author's credit link/attribution link/backlink. If you'd like to use the template without the footer author's credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        Designed By <a class="border-bottom" href="#">HTML Codex</a>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-menu">
+                            <a href="#">Home</a>
+                            <a href="#">Cookies</a>
+                            <a href="#">Help</a>
+                            <a href="#">FQAs</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <!-- Bootstrap JS -->
+
+
+{% endblock %}
+       
+    </body>
+</html>
+
+<script>
+// Ajouter ce script juste avant la fermeture de la balise body
+document.addEventListener('DOMContentLoaded', function() {
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    const navbarHeight = navbar.offsetHeight;
+    
+    window.addEventListener('scroll', function() {
+        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Si on défile plus bas que la position précédente
+        if (currentScroll > lastScrollTop && currentScroll > navbarHeight) {
+            navbar.classList.add('navbar-hidden');
+        } 
+        // Si on défile vers le haut
+        else {
+            navbar.classList.remove('navbar-hidden');
+        }
+        
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    }, false);
+});
+</script>

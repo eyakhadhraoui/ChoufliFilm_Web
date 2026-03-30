@@ -1,0 +1,441 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          var visibleRows = 0;
+
+          $("#myTable tbody tr").each(function () {
+            if ($(this).text().toLowerCase().indexOf(value) > -1) {
+              $(this).show();
+              visibleRows++;
+            } else {
+              $(this).hide();
+            }
+          });
+
+          // Afficher le message "Aucun résultat" si nécessaire
+          if (visibleRows === 0) {
+            $("#noResults").show();
+          } else {
+            $("#noResults").hide();
+          }
+        });
+      });
+    </script>
+
+
+
+
+
+    <div class="table-container">
+    <!-- Assurez-vous d'inclure Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+<a href="{{ path('showallreclamationbacktechnique') }}" class="btn btn-warning mb-3">
+    <i class="bi bi-search"></i> Problème Technique
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{{ path('showallreclamationresercation') }}" class="btn btn-warning mb-3">
+    <i class="bi bi-search"></i> Problème Réservation
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{{ path('showallPaiement') }}" class="btn btn-warning mb-3">
+    <i class="bi bi-search"></i> Problème Paiement
+</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="{{ path('showallreclamationautre') }}" class="btn btn-warning mb-3">
+    <i class="bi bi-search"></i> Autre Probléme
+</a>
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     <br>
+     <br>
+    <div class="position-relative w-75 mx-auto animated slideInDown">
+        <input type="search" id="myInput" class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5"
+          placeholder="Search Réclamation" />
+      </div>
+<br>
+     <br>
+
+ <h2 class="text-center text-white">Liste des Réclamations</h2>
+ <br>
+<div id="noResults" style="display: none; color: white; text-align: center;">Aucun résultat</div>
+
+<table class="table table-dark table-hover" id="myTable">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Email</th>
+            <th>Numero Telephone</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Image</th>
+            <th>Date Réclamation</th>
+            <th>Réponse</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for us in reclamations %}
+            <tr>
+                <td>{{ us.getUserNom() }}</td>
+                <td>{{ us.getUserPrenom() }}</td>
+                <td>{{ us.getUserEmail() }}</td>
+                <td>{{ us.getUsertel() }}</td>
+                <td>{{ us.getType() }}</td>
+                <td>{{ us.getStatus() }}</td>
+                <td><img class="rounded-circle1 me-lg-2" src="{{ asset('uploads/' ~ us.getImage()) }}" alt="Image"></td>
+                <td>{{ us.getCreatedAt()|date('d/m/Y H:i') }}</td>
+                <td>{{ us.getReponseTexte() }}</td>
+                <td>
+                    <a href="/reclamation/back/{{ us.id }}/one_reclamation">
+                        <span class="action-btn eye"><i class="bi bi-eye-fill"></i></span>
+                    </a>
+                    &nbsp;&nbsp;
+                    <a href="/reclamation/{{ us.id }}/removeback">
+                        <span class="action-btn trash"><i class="bi bi-trash-fill"></i></span>
+                    </a>
+                    {% if us.getStatus() == "En cours" %}
+                        <span class="action-btn eye">
+                            <a href="/reponse/create2/{{ us.id }}" class="text-center text-decoration-none">
+                                <i class="bi bi-chat-dots-fill"></i> <!-- Icône pour répondre -->
+                            </a>
+                        </span>
+                    {% endif %}
+                    <span class="action-btn eye">
+                        <a href="/reponse/rejeter/{{ us.id }}" class="text-center text-decoration-none text-danger">
+                            <i class="bi bi-x-circle-fill"></i> <!-- Icône pour rejeter -->
+                        </a>
+                    </span>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+  
+
+
+
+ <div class="chatbot-icon" onclick="toggleChat()">
+                <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="Chatbot">
+            </div>
+        
+            <!-- Fenêtre de chat -->
+            <div class="chat-window" id="chatWindow">
+                <div class="chat-header">Choufli Film</div>
+                <div class="chat-body" id="chatBody"></div>
+                <div class="chat-footer">
+                    <input type="text" id="userInput" placeholder="Écrivez un message..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()">Envoyer</button>
+                </div>
+            </div>
+
+
+
+    </div>
+
+
+<br>
+
+<style>
+
+.rounded-circle1 {
+    width:50px;
+    height: 6%;
+    border-radius: 50%; 
+    object-fit: cover;  
+}
+    .chatbot-icon {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    width: 70px;
+                    height: 70px;
+                    background: linear-gradient(135deg, #00B2FF, #006AFF);
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    box-shadow: 
+                        0 10px 20px rgba(0, 123, 255, 0.3),
+                        0 0 0 5px rgba(255, 255, 255, 0.2),
+                        inset 0 -3px 10px rgba(0, 0, 0, 0.2);
+                    transform-style: preserve-3d;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                }
+        
+                .chatbot-icon:hover {
+                    transform: scale(1.1) translateY(-5px) rotate(5deg);
+                    box-shadow: 
+                        0 15px 30px rgba(0, 123, 255, 0.4),
+                        0 0 0 8px rgba(255, 255, 255, 0.2),
+                        inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+                }
+        
+                .chatbot-icon img {
+                    width: 35px;
+                    height: 35px;
+                }
+        
+                /* Fenêtre de chat */
+                .chat-window {
+                    position: fixed;
+                    bottom: 100px;
+                    right: 20px;
+                    width: 380px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-radius: 20px;
+                    box-shadow: 
+                        0 20px 40px rgba(0, 0, 0, 0.2),
+                        0 0 0 1px rgba(255, 255, 255, 0.1),
+                        inset 0 0 80px rgba(255, 255, 255, 0.5);
+                    display: none;
+                    flex-direction: column;
+                    overflow: hidden;
+                    backdrop-filter: blur(10px);
+                    transform-style: preserve-3d;
+                    transform: perspective(1000px);
+                    z-index: 1000;
+                }
+        
+                .chat-header {
+                    background: linear-gradient(135deg, #00B2FF, #006AFF);
+                    color: white;
+                    padding: 20px;
+                    text-align: center;
+                    font-weight: bold;
+                    font-size: 1.2em;
+                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                    position: relative;
+                    transform-style: preserve-3d;
+                }
+        
+                .chat-header::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+                    pointer-events: none;
+                }
+        
+                .chat-body {
+                    background: rgba(10, 38, 71, 0.9);
+                    padding: 20px;
+                    height: 400px;
+                    overflow-y: auto;
+                    display: flex;
+                    flex-direction: column;
+                }
+        
+                .chat-body * {
+                    color: white !important;
+                    text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+                }
+        
+                .chat-body div {
+                    margin-bottom: 15px;
+                    padding: 12px 15px;
+                    border-radius: 15px;
+                    max-width: 80%;
+                    word-wrap: break-word;
+                    display: block !important;
+                    opacity: 1 !important;
+                    visibility: visible !important;
+                }
+        
+                .chat-body div:nth-child(even) {
+                    background: linear-gradient(135deg, #0A2647, #1E90FF);
+                    margin-left: auto;
+                    border-bottom-right-radius: 5px;
+                    color: white !important;
+                    text-align: right;
+                }
+        
+                .chat-body div:nth-child(odd) {
+                    background: linear-gradient(135deg, #1E90FF, #0A2647);
+                    margin-right: auto;
+                    border-bottom-left-radius: 5px;
+                    color: white !important;
+                    text-align: left;
+                }
+        
+                .chat-body div strong {
+                    color: white !important;
+                    font-weight: bold;
+                    margin-right: 8px;
+                    display: inline-block;
+                }
+        
+                .chat-footer {
+                    display: flex;
+                    padding: 15px;
+                    background: rgba(255, 255, 255, 0.9);
+                    border-top: 1px solid rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+                }
+        
+                .chat-footer input {
+                    flex: 1;
+                    padding: 15px;
+                    border: 2px solid rgba(0, 123, 255, 0.2);
+                    border-radius: 25px;
+                    margin-right: 15px;
+                    font-size: 15px;
+                    background: rgba(255, 255, 255, 0.9);
+                    transition: all 0.3s ease;
+                    box-shadow: 
+                        inset 0 2px 5px rgba(0, 0, 0, 0.05),
+                        0 2px 5px rgba(0, 123, 255, 0.1);
+                }
+        
+                .chat-footer input:focus {
+                    border-color: #007bff;
+                    box-shadow: 
+                        0 0 0 4px rgba(0, 123, 255, 0.15),
+                        inset 0 2px 5px rgba(0, 0, 0, 0.05);
+                    transform: translateY(-2px);
+                }
+        
+                .chat-footer button {
+                    background: linear-gradient(135deg, #00B2FF, #006AFF);
+                    color: white;
+                    border: none;
+                    padding: 12px 25px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 15px;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    transition: all 0.3s ease;
+                    box-shadow: 
+                        0 5px 15px rgba(0, 123, 255, 0.3),
+                        inset 0 -3px 8px rgba(0, 0, 0, 0.2);
+                    transform-style: preserve-3d;
+                }
+        
+                .chat-footer button:hover {
+                    transform: translateY(-3px) scale(1.05);
+                    box-shadow: 
+                        0 8px 20px rgba(0, 123, 255, 0.4),
+                        inset 0 -4px 10px rgba(0, 0, 0, 0.2);
+                }
+        
+                .chat-footer button:active {
+                    transform: translateY(0) scale(0.98);
+                }
+        
+                /* Ajout d'une scrollbar personnalisée */
+                .chat-body::-webkit-scrollbar {
+                    width: 8px;
+                }
+        
+                .chat-body::-webkit-scrollbar-track {
+                    background: rgba(0, 0, 0, 0.05);
+                    border-radius: 10px;
+                }
+        
+                .chat-body::-webkit-scrollbar-thumb {
+                    background: linear-gradient(135deg, #00B2FF, #006AFF);
+                    border-radius: 10px;
+                }
+
+
+
+</style>
+  <script>
+                 const API_KEY = "AIzaSyCD203_ROXc1k6kEnAI0xXFVQBSUTwnmg0"; 
+                 const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+                 
+        
+        
+                function toggleChat() {
+                    const chatWindow = document.getElementById("chatWindow");
+                    chatWindow.style.display = chatWindow.style.display === "none" ? "flex" : "none";
+                }
+        
+                function handleKeyPress(event) {
+                    if (event.key === "Enter") {
+                        sendMessage();
+                    }
+                }
+        
+               
+        
+        
+       function sendMessage() {
+    const userInput = document.getElementById("userInput").value;
+    if (!userInput.trim()) return;
+    
+    const chatBody = document.getElementById("chatBody");
+    chatBody.innerHTML += `<div><strong>Vous :</strong> ${userInput}</div>`;
+    
+    document.getElementById("userInput").value = "";
+    
+    // Afficher un message "en train de réfléchir"
+    const thinkingId = "thinking-" + Date.now();
+    chatBody.innerHTML += `<div id="${thinkingId}"><strong>Bot :</strong> <em>En train de réfléchir...</em></div>`;
+    
+    // Liste de mots-clés liés aux réclamations cinématographiques
+    const keywordsReclamation = [
+        "film", "cinéma", "séance", "ticket", "billet", "réservation", "place", 
+        "remboursement", "annulation", "projection", "salle", "écran", "son", 
+        "qualité", "retard", "annulé", "problème", "réclamation", "plainte","reponse"
+    ];
+    
+    // Vérifier si la question est liée aux réclamations cinématographiques
+    const isRelevant = keywordsReclamation.some(keyword => 
+        userInput.toLowerCase().includes(keyword.toLowerCase())
+    );
+    
+    // Simuler un temps de réflexion
+    setTimeout(() => {
+        if (isRelevant) {
+            // Si la question est pertinente, envoyer à l'API
+            fetch(`${API_URL}?key=${API_KEY}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: userInput
+                        }]
+                    }]
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const botReply = data.candidates[0].content.parts[0].text;
+                document.getElementById(thinkingId).innerHTML = `<div><strong>Bot :</strong> ${botReply}</div>`;
+                chatBody.scrollTop = chatBody.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById(thinkingId).innerHTML = `<div><strong>Bot :</strong> Désolé, je ne peux pas répondre pour le moment.</div>`;
+            });
+        } else {
+            // Si la question n'est pas pertinente, refuser poliment
+            document.getElementById(thinkingId).innerHTML = `<div><strong>Bot :</strong> Désolé, pas lié au reclamation</div>`;
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+    }, 2000); // 2 secondes de "réflexion"
+}
+     
+            </script>
+
+{% endblock %}

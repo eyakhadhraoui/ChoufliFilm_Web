@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<br> 
+<br>
+<br>
+<br> 
+
+  
+   <div class="table-container">
+     <a href="{{ path('showallassociationnback') }}" class="btn btn-warning mb-3">
+        <i class="fas fa-arrow-left"></i> Retour à la liste
+    </a>
+  <h2 class="text-center" style="color: #FFD700 !important;">Detail Pour l'Association {{us.getNom()}}</h2>
+
+    <br>
+        <table class="table table-dark table-hover">
+            <thead>
+             <tr>
+                    <th>Nom</th>
+                    <th>Adresse Mail</th>
+                    <th>Adresse</th>
+                    <th>Numero Telephone</th>
+                     <th> Description </th>
+                    <th>Image</th>
+                
+                </tr>
+            </thead>
+            <tbody>
+           
+              <tr>
+
+<td>{{ us.getNom() }}</td>
+<td>{{ us.getMailAssociation()}}</td>
+
+<td>{{ us.getAdresse()}}</td>
+<td>{{ us.getnumero_telephone() }}</td>
+
+<td>{{ us.getDescription()}}</td>
+<td>
+<img class="rounded-circle1 me-lg-2" src="{{ asset('uploads/' ~ us.getImage()) }}" alt="Image" >
+
+</td>
+
+</tr>
+
+
+</tbody>
+</table>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img class="circle2 me-lg-2" src="{{ asset('uploads/' ~ us.getImage()) }}" alt="Image" >
+
+</div>
+
+
+
+<style>
+
+.rounded-circle1 {
+    width: 30px;
+    height: 6%;
+    border-radius: 50%; 
+    object-fit: cover;  
+}
+.circle2 {
+    width: 300px;
+    height: 6%;
+    
+    object-fit: cover;  
+}
+
+
+</style>
+
+{% endblock %}
+
+{%   block reset     %}
+
+         
+{% endblock %}

@@ -1,0 +1,345 @@
+{% extends 'base_front.html.twig' %}
+
+  {% block navbar %}
+        {% if app.session.get('roles') is null %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('app_login') }}";
+    </script>
+    
+{% endif %}
+        <body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block">
+        <div class="row gx-0">
+            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>123  Esprit, Elghazela, Tunisie</small>
+                    <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>+216  24 705 213</small>
+                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>ChoufliFilm@gmail.com</small>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href="#"><i class="fab fa-youtube fw-normal"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+ <nav id="navbar" class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 navbar-visible">
+            <a href="/user/front" class="">
+<img src="{{ asset('assets/back/img/logo_event.png') }}" alt="" class="test"
+     style="width: 150px; height: 100px; margin-left: 40px; margin-top:10px; 
+            animation: rotation 3s linear infinite;">
+
+               
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                <a href="/blogs" class="nav-item nav-link active ">Article</a>
+                <a href="/user/front/showallfilm" class="nav-item nav-link "> Films </a>
+                 <a href="/association/frontassociation" class="nav-item nav-link ">Bénévolat</a>
+                  <a href="/ressource/showall/{{app.session.get('email')}}" class="nav-item nav-link ">Mes Ressources</a>
+                 <a href="/reclamation/showall/{{app.session.get('email')}}" class="nav-item nav-link">Réclamations</a>
+
+<a href="{{ path('nodatafront2') }}" class="nav-item nav-link">Panier</a>        
+
+<a href="{{ path('logout') }}" class="nav-item nav-link">Logout</a>
+
+
+ {% if 'ROLE_ADMIN' in app.session.get('roles') %}
+       <a href="{{ path('back') }}" class="nav-item nav-link ">
+                     
+    
+  <i class="bi bi-arrow-right-circle me-2 text-warning"></i> <span class="text-warning">Page back</span>
+
+</a>
+   
+{% endif %}
+
+
+                </div>
+{% if app.session.get('image') is  not null %}
+    
+                    <a href="/user/front/{{app.session.get('id')}}/edit" class="nav-item nav-link">
+                      <img class="rounded-circle me-lg-2" src="{{ asset('uploads/' ~ app.session.get('image')) }}" alt="Image">
+{% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}
+                 
+                    </a>
+              
+{% else %}
+              
+                    <a href="/user/front/{{app.session.get('id')}}/edit" class="nav-item nav-link">
+                        <img class="rounded-circle me-lg-2" src="{{ asset('assets/back/img/inconnu.jpg') }}" alt="Image">
+{% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}
+                    </a>
+               
+{% endif %}
+               
+                
+         </nav>       
+            </div>
+  {% endblock %} 
+
+{% block body %}
+<br><br><br><br><br><br>
+    <style>
+        .article-section {
+            width: 60%;
+            float: left;
+            padding-right: 20px;
+        }
+
+        .comments-section {
+            width: 35%;
+            float: right;
+        }
+
+        .article-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .like-btn {
+            background: transparent;
+            border: none;
+            color: #007bff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .like-btn.liked {
+            color: #dc3545;
+        }
+
+        .rating-stars i {
+            color: #ffc107;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .rating-stars i:hover,
+        .rating-stars i.active {
+            color: #ff9f43;
+        }
+
+        .comment-item {
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .comment-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .comment-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .comment-actions .action-icon {
+            color: #888;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: color 0.3s;
+        }
+
+        .comment-actions .action-icon:hover {
+            color: #dc3545;
+        }
+
+        .form-control {
+            border-radius: 20px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-form {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .like-rating-label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .nav-item.nav-link[href="{{ path('logout') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('logout') }}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/reclamation/showall/{{app.session.get('email')}}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/reclamation/showall/{{app.session.get('email')}}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/ressource/showall/{{app.session.get('email')}}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/ressource/showall/{{app.session.get('email')}}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/association/frontassociation"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/association/frontassociation"]:hover {
+    color: black !important;  
+}
+.nav-item.nav-link[href="/user/front/showallfilm"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/user/front/showallfilm"]:hover {
+    color: black !important;  
+}
+
+
+    </style>
+
+    <div class="container mt-4">
+        <div class="article-section">
+            <!-- Display the Article Image -->
+            {% if article.image %}
+                <img src="{{ asset('uploads/articles/' ~ article.image) }}" alt="Image de l'article" class="article-image">
+            {% endif %}
+            <!-- Display the Article Title and Content -->
+            <h2 class="text-center text-dark mb-3">{{ article.titre }}</h2>
+            <p class="text-center text-muted">{{ article.contenu }}</p>
+
+            <!-- Like Button -->
+            <div class="text-center my-3">
+                <span class="like-rating-label">Like</span>
+                <button class="like-btn" id="like-btn" title="Aimer cet article">
+                    <i class="fas fa-heart"></i>
+                </button>
+            </div>
+
+            <!-- Rating System -->
+            <div class="text-center mb-4">
+                <span class="like-rating-label">Rating</span>
+                <div class="rating-stars" id="rating-stars">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="comments-section">
+            <!-- Comments Section -->
+            <h3 class="text-dark mb-4">Liste des Commentaires</h3>
+            <div id="comments-list">
+                {% for commentaire in commentaires %}
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <strong class="text-primary">{{ commentaire.user.nom }} {{ commentaire.user.prenom }}</strong>
+                            <small class="text-muted">{{ commentaire.date|date('d/m/Y H:i') }}</small>
+                        </div>
+                        <div class="comment-body">
+                            <p>{{ commentaire.contenuCom }}</p>
+                        </div>
+                        <div class="comment-actions">
+                            <!-- Edit Icon -->
+                               {% if 'ROLE_ADMIN' in app.session.get('roles') or app.session.get('id') == commentaire.getUser().getId() %}
+                            <a href="{{ path('comment_edit', {'id': commentaire.id}) }}" class="action-icon" title="Modifier le commentaire">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <!-- Delete Icon -->
+                     
+                            <a href="{{ path('comment_delete', {'id': commentaire.id}) }}" class="action-icon" title="Supprimer le commentaire">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                             {%    endif   %}
+                       
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-center text-muted">Aucun commentaire trouvé.</p>
+                {% endfor %}
+            </div>
+           
+
+            <!-- Formulaire pour ajouter un commentaire -->
+            <div class="comment-form mt-4">
+                <h3 class="text-dark">Ajouter un commentaire</h3>
+                {{ form_start(form, {'attr': {'id': 'commentaire-form'}}) }}
+                    <div class="form-group">
+                        {{ form_widget(form.contenuCom, { 'attr': { 'class': 'form-control', 'placeholder': 'Exprimez-vous ici...' } }) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    
+{% endblock %}

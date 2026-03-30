@@ -1,0 +1,53 @@
+{% extends 'base_login2.html.twig' %}
+    {% block body %}
+         <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span>
+
+
+                    <div class="signin">
+
+                                <div class="content">
+
+
+                                    <h2>Verification Code</h2>
+                                      {% for message in app.flashes('error') %}
+     <div style="color: red;">{{ message }}</div>
+     {% endfor %}
+                                    <div class="form">
+                                        
+                                        <div class="inputBox">
+                                         <form method="POST" action="{{ path('page_verification', {'id': id}) }}">
+
+                                            
+                                                 <input type="hidden" id="compteur" name="compteur" value="0">
+                                                <input type="text" id="code" name="code" placeholder="Verification Code"required>
+                                                
+                                                <br><br>
+                                                <div class="inputBox">
+                                                    <input type="submit" value="Verif"> 
+                                                </div>
+                                                 <div class="links"> 
+          
+              <a href="{{ path('app_login') }}"></a>
+            <a href="{{ path('app_login') }}">Sign In</a>  
+        </div> 
+                                            </form>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                    </div>
+                    <script>
+    let compteur = localStorage.getItem('compteur') || 0;
+    document.getElementById('compteur').value = compteur;
+
+    document.querySelector("form").addEventListener("submit", function () {
+        compteur++;
+        localStorage.setItem('compteur', compteur);
+    });
+</script>
+
+
+    {%  endblock  %}

@@ -1,0 +1,243 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+.table-container {
+    background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(25,25,112,0.8));
+    border-radius: 30px;
+    padding: 40px;
+    box-shadow: 0 0 30px rgba(255,215,0,0.1);
+    border: 2px solid rgba(255,215,0,0.2);
+    backdrop-filter: blur(5px);
+}
+
+.form-control {
+    background: rgba(0,10,50,0.7) !important;
+    border: 2px solid rgba(255,215,0,0.2) !important;
+    color: #FFD700 !important;
+    border-radius: 12px !important;
+    padding: 15px !important;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #1E90FF !important;
+    box-shadow: 0 0 15px rgba(30,144,255,0.2) !important;
+    background: rgba(0,20,60,0.8) !important;
+}
+
+.form-label {
+    color: #FFD700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #FFD700 !important;
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.border.p-3.rounded {
+    background: rgba(0,10,50,0.6);
+    border: 1px solid rgba(255,215,0,0.2) !important;
+    border-radius: 15px !important;
+    transition: all 0.3s ease;
+}
+
+.border.p-3.rounded:hover {
+    border-color: #1E90FF !important;
+    box-shadow: 0 5px 15px rgba(30,144,255,0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #FFD700, #1E90FF);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,215,0,0.2);
+}
+
+body {
+    background: linear-gradient(to bottom, #000033, #000066);
+    min-height: 100vh;
+}
+
+input[type="file"] {
+    background: rgba(0,10,50,0.7) !important;
+    border: 2px solid rgba(255,215,0,0.2) !important;
+    color: #FFD700 !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+}
+
+input[type="file"]::file-selector-button {
+    background: linear-gradient(45deg, #FFD700, #1E90FF);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-right: 15px;
+}
+
+input[type="file"]::file-selector-button:hover {
+    box-shadow: 0 3px 10px rgba(255,215,0,0.2);
+}
+</style>
+
+<div class="table-container">
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+    <div class="col-md-6">
+   
+       <h2 class="text-center mb-4" style="color: gold;">Ajouter User</h2>
+
+        
+        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+        
+      
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_label(form.nom, 'Nom ', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control border-white'}}) }}
+              
+                {{ form_errors(form.nom, {'attr': {'class': 'invalid-feedback'}}) }}
+                  </div>
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.prenom, 'Prenom', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control border-white'}}) }}
+                    {{ form_errors(form.prenom, {'attr': {'class': 'invalid-feedback'}}) }}
+                </div>
+                
+            </div>
+             <div class="col-md-6">
+                {{ form_label(form.localisation, 'localisation', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.localisation, {'attr': {'class': 'form-control border-white'}}) }}
+                        {{ form_errors(form.localisation, {'attr': {'class': 'invalid-feedback'}}) }}
+                </div>
+            
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.num_telephone, 'numero de telephones', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.num_telephone, {'attr': {'class': 'form-control border-white'}}) }}
+                     {{ form_errors(form.num_telephone, {'attr': {'class': 'invalid-feedback'}}) }}
+                </div>
+               
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.date_naissance, 'Date_naissance', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.date_naissance, {'attr': {'class': 'form-control border-white'}}) }}
+                    {{ form_errors(form.date_naissance, {'attr': {'class': 'invalid-feedback'}}) }}
+                </div>
+                
+            </div>
+            
+             <div class="col-md-6">
+                {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control border-white'}}) }}
+                     {{ form_errors(form.email, {'attr': {'class': 'invalid-feedback'}}) }}
+                </div>
+               
+            </div>
+            
+            <div class="col-md-12">
+                {{ form_label(form.image, 'Image', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.image, {'attr': {'class': 'form-control border-white'}}) }}
+                    {{ form_errors(form.image, {'attr': {'class': 'invalid-feedback'}}) }}
+                </div>
+                
+            </div>
+         
+             <div class="col-md-6">
+                {{ form_label(form.password, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.password, {'attr': {'class': 'form-control border-white'}}) }}
+                      {{ form_errors(form.password, {'attr': {'class': 'invalid-feedback'}}) }}
+                </div>
+              
+            </div>
+             <div class="col-md-6">
+                {{ form_label(form.confirm_password, 'confirm_password', {'label_attr': {'class': 'form-label'}}) }}
+                <div class="border p-3 rounded">
+                    {{ form_widget(form.confirm_password, {'attr': {'class': 'form-control border-white'}}) }}
+                      {{ form_errors(form.confirm_password, {'attr': {'class': 'invalid-feedback'}}) }}
+                </div>
+              
+            </div>
+<div class="col-md-12 rounded d-flex justify-content-center">
+    {{ form_label(form.roles, '  Roles', {'label_attr': {'class': 'form-label'}}) }}
+    <div class="border p-3 rounded d-flex justify-content-center"> <!-- d-flex avec justify-content-center -->
+        {{ form_widget(form.roles) }}
+        {{ form_errors(form.roles, {'attr': {'class': 'invalid-feedback'}}) }}
+    </div>
+    
+    
+</div>
+
+        </div>
+
+        <!-- Autres champs... -->
+
+        <div class="mb-3">
+           &nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;
+           &nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;&nbsp;&ensp;&emsp;
+          
+
+            {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+</div> 
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Création des particules
+    setInterval(createParticle, 200);
+    
+    // Création des rayons lumineux
+    setInterval(createLightBeam, 2000);
+});
+
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+    document.body.appendChild(particle);
+    setTimeout(() => particle.remove(), 10000);
+}
+
+function createLightBeam() {
+    const beam = document.createElement('div');
+    beam.className = 'light-beam';
+    beam.style.top = Math.random() * 100 + 'vh';
+    document.body.appendChild(beam);
+    setTimeout(() => beam.remove(), 8000);
+}
+</script>
+{% endblock %}

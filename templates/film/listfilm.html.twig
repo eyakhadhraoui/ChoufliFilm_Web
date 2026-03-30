@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="table-container">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <a href="/film/new">
+      <i class="bi bi-film" style="font-size: 40px; color: green;"></i>
+    </a>
+  </div>
+
+  <h2 class="text-center text-white">Liste des Films</h2>
+
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Director</th>
+        <th>Note</th>
+        <th>Genre</th>
+        <th>Image </th>
+        <th>Description</th>
+        <th>Duration</th>  
+        <th>Salles</th>   
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for film in films %}
+      <tr>
+        <td>{{ film.getTitre() }}</td>
+        <td>{{ film.getDirecteur() }}</td>
+        <td>{{ film.getNote() }}⭐</td>
+        <td>  {% if film.getGenre() is iterable %}
+                    {{ film.getGenre()|join(', ') }}
+                  {% else %}
+                    {{ film.getGenre() }}
+                  {% endif %}</td>
+         <td>
+<img class="rounded-circle admin-img" src="{{ asset('uploads/' ~ film.getImageFilm()) }}" alt="Image Film">
+</td>
+        <td>{{ film.getDescription() }}</td>
+        <td>{{ film.getDuree() }} 🕒</td>
+
+       <td>
+          {% if film.getSalles() is not empty %}
+            {% for salle in film.getSalles() %}
+              {{ salle.getNomSalle() }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          {% else %}
+            No Salle
+          {% endif %}
+        </td>
+        <td>
+          <a href="/film/edit/{{ film.id }}">
+            <span class="action-btn edit"><i class="bi bi-pencil-fill"></i></span>
+          </a>
+          &nbsp;&nbsp;
+          <a href="/film/delete/{{ film.id }}">
+            <span class="action-btn trash"><i class="bi bi-trash-fill"></i></span>
+          </a>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7" class="text-center">No films found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<br>
+
+<style>
+  .table th,
+  .table td {
+    vertical-align: middle !important;
+  }
+  .admin-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+</style>
+{% endblock %}
+
+

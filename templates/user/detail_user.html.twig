@@ -1,0 +1,465 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<br> 
+<br>
+<br>
+
+  
+   <div class="table-container">
+     <a href="{{ path('showall') }}" class="btn btn-custom mb-3">
+        <i class="fas fa-arrow-left"></i> Retour à la liste
+    </a>
+  <h2 class="text-center gradient-text">Detail de M. {{us.nom}} &nbsp;{{us.prenom}}</h2>
+
+    <br>
+        <table class="table table-custom table-hover">
+            <thead>
+                <tr >
+                  
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Email</th>
+                    <th>Numero Telephone</th>
+                    <th>Localisation</th>
+                    <th>Image</th>
+                    <th>Roles</th>
+                    <th>Banned</th>
+                      <th>Password</th>
+                    
+
+
+                </tr>
+            </thead>
+            <tbody>
+           
+                <tr>
+           
+<td>{{ us.nom }}</td>
+<td>{{ us.prenom }}</td>
+<td>{{ us.email }}</td>
+<td>{{ us.getNumTelephone() }}</td>
+<td>{{ us.localisation }}</td>
+<td>
+      <img class="rounded-circle1 me-lg-2" src="{{ asset('uploads/' ~ us.getImage()) }}" alt="Image" >
+
+</td>
+{% if ["ROLE_USER"] == us.roles() %}
+<td>User</td>
+{% else   %}
+<td>Admin ⭐</td>
+{%   endif   %}
+{% if us.banned() ==0 %}
+<td style="color: green;">No</td>
+
+{% else   %}
+<td style="color: red;">Yes</td>
+
+{%   endif   %}
+<td id="password-cell">*********</td>
+
+
+</tbody>
+</table>
+
+
+
+
+
+
+<div class="user-card">
+    <div class="card">
+        <div class="card-header">
+            User Badge
+        </div>
+        <div class="card-body">
+            <!-- Image du user -->
+            <img class="user-image" src="{{ asset('uploads/' ~ us.getImage()) }}" alt="Image de {{ us.nom }}">
+
+            <h4>{{ us.nom }} {{ us.prenom }}</h4>
+            <p><span class="highlight-yellow">Email :</span> {{ us.email }}</p>
+            <p><span class="highlight-yellow">Téléphone :</span> {{ us.getNumTelephone() }}</p>
+            <p><span class="highlight-yellow">Localisation :</span> {{ us.localisation }}</p>
+
+            <!-- Rôles -->
+            <p><span class="highlight-yellow">Rôle :</span> 
+                {% if ["ROLE_USER"] == us.roles() %}
+                    <span class="badge bg-primary">User</span>
+                {% else %}
+                    <span class="badge bg-warning">Admin ⭐</span>
+                {% endif %}
+            </p>
+
+          
+
+            <!-- QR Code Affiché Directement -->
+            {% set qrData = {
+                'id': us.id,
+                'nom': us.nom,
+                'prenom': us.prenom,
+                'telephone': us.getNumTelephone(),
+                'localisation': us.localisation,
+                'email': us.email
+            }|json_encode %}
+
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ qrData|url_encode }}" 
+                 alt="QR Code Utilisateur" class="qr-image">
+        </div>
+    </div>
+</div>
+{#
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img class="circle2 me-lg-2" src="{{ asset('uploads/' ~ us.getImage()) }}" alt="Image" >#}
+</div>
+
+
+       <script>
+        function generateQRForUser(id, nom, prenom, telephone, localisation, email) {
+            var userData = {
+                id: id,
+                nom: nom,
+                prenom: prenom,
+                telephone: telephone,
+                localisation: localisation,
+                email: email
+                
+            };
+            
+            var qrText = JSON.stringify(userData);
+            var qrImageUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(qrText);
+            
+            var qrImageContainer = document.getElementById('qrImageContainer_' + id);
+            qrImageContainer.innerHTML = "<img src='" + qrImageUrl + "' alt='QR Code Utilisateur'>";
+            console.log("Contenu du QR Code :", qrText);
+        }
+    </script>
+
+<style>
+.user-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    perspective: 1000px;
+}
+
+.card {
+    width: 380px;
+    background: linear-gradient(145deg, #0a1232, #1a1b3c);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.5), 
+        0 5px 10px rgba(255, 215, 0, 0.3);
+    transform: rotateX(5deg) rotateY(-5deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: rotateX(0deg) rotateY(0deg) scale(1.03);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.6), 
+        0 10px 20px rgba(255, 215, 0, 0.4);
+}
+
+.card-header {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #ffd700;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+}
+
+.card-body {
+    text-align: center;
+    color: #e0e0e0;
+}
+
+.user-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffd700;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    margin-bottom: 15px;
+}
+
+.qr-image {
+    width: 150px;
+    height: 150px;
+    margin-top: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+}
+
+.qr-image:hover {
+    transform: scale(1.1);
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.bg-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+}
+
+.bg-warning {
+    background: linear-gradient(45deg, #ffd700, #b8860b);
+    color: black;
+}
+
+.bg-success {
+    background: linear-gradient(45deg, #28a745, #1e7e34);
+    color: white;
+}
+
+.bg-danger {
+    background: linear-gradient(45deg, #dc3545, #b32434);
+    color: white;
+}
+
+@keyframes glowing-border {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
+}
+.highlight-yellow {
+    color: #ffd700;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+}
+
+
+.table-container {
+    padding: 20px;
+    background: linear-gradient(145deg, #0a1232, #1a1b3c);
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    transform: perspective(1000px) rotateX(2deg);
+    margin: 30px;
+}
+
+.table-custom {
+    background: rgba(10, 18, 50, 0.9) !important;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.table-custom th {
+    background: linear-gradient(45deg, #ffd700, #daa520);
+    color: #000;
+    text-transform: uppercase;
+    padding: 15px;
+    border: none;
+}
+
+.table-custom td {
+    color: #e0e0e0;
+    padding: 12px;
+    border-color: rgba(255,215,0,0.15);
+}
+
+.btn-custom {
+    background: linear-gradient(45deg, #ffd700, #daa520);
+    color: #000;
+    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 30px;
+    box-shadow: 0 6px 0 #b8860b,
+                0 8px 10px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+    position: relative;
+    top: 0;
+    transform: translateZ(0);
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-custom:hover {
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 0 8px 0 #b8860b,
+                0 12px 15px rgba(0,0,0,0.3);
+}
+
+.btn-custom:active {
+    top: 6px;
+    transform: translateY(0);
+    box-shadow: 0 1px 0 #b8860b;
+}
+
+.btn-qr-3d {
+    background: linear-gradient(45deg, #ffd700, #1a1b3c);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    transform: translateZ(0);
+    box-shadow: 0 6px 0 #0a1232,
+                0 8px 15px rgba(0,0,0,0.3);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-qr-3d:hover {
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 0 8px 0 #0a1232,
+                0 12px 20px rgba(0,0,0,0.3);
+}
+
+.btn-qr-3d:active {
+    top: 6px;
+    transform: translateY(0);
+    box-shadow: 0 1px 0 #0a1232;
+}
+
+.gradient-text {
+    font-size: 2.5em;
+    font-weight: 800;
+    position: relative;
+    background: linear-gradient(45deg, #ffd700, #daa520);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 40px 0;
+    padding: 0 20px;
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateX(10deg) translateZ(20px);
+    animation: floatingText 3s ease-in-out infinite;
+    text-shadow: 
+        0 1px 0 #cca300,
+        0 2px 0 #b38f00,
+        0 3px 0 #997a00,
+        0 4px 0 #806600,
+        0 5px 0 #665200,
+        0 6px 0 #4d3d00,
+        0 7px 10px rgba(0, 0, 0, 0.4),
+        0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gradient-text::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ffd700, #daa520);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    z-index: -1;
+    transform: translateZ(-10px);
+    filter: blur(5px);
+    opacity: 0.5;
+}
+
+.gradient-text::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 120%;
+    height: 140%;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 215, 0, 0.1) 0%,
+        rgba(255, 215, 0, 0) 100%
+    );
+    transform: rotateX(45deg);
+    pointer-events: none;
+}
+
+@keyframes floatingText {
+    0%, 100% {
+        transform: perspective(1000px) rotateX(10deg) translateZ(20px) translateY(0px);
+    }
+    50% {
+        transform: perspective(1000px) rotateX(10deg) translateZ(20px) translateY(-10px);
+    }
+}
+
+@keyframes glowing {
+    0%, 100% {
+        text-shadow: 
+            0 0 5px #ffd700,
+            0 0 10px #ffd700,
+            0 0 15px #daa520,
+            0 0 20px #daa520;
+    }
+    50% {
+        text-shadow: 
+            0 0 10px #ffd700,
+            0 0 20px #ffd700,
+            0 0 25px #daa520,
+            0 0 30px #daa520;
+    }
+}
+
+.rounded-circle1 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffd700;
+    box-shadow: 0 0 10px rgba(255,215,0,0.3);
+}
+
+.circle2 {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 5px solid #ffd700;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transform: perspective(1000px) rotateY(5deg);
+}
+
+tr:hover {
+    background: rgba(255,215,0,0.05) !important;
+    transform: scale(1.01);
+    transition: all 0.3s ease;
+}
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var passwordCell = document.getElementById("password-cell");
+        var password = passwordCell.textContent;
+        var stars = '*'.repeat(password.length);  // Crée une chaîne d'étoiles
+        passwordCell.textContent = stars;        // Remplace le texte par des étoiles
+    });
+</script>
+{% endblock %}
+
+{%   block reset     %}
+
+         
+{% endblock %}

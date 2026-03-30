@@ -1,0 +1,54 @@
+
+ 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            width: 600px;
+            height: 400px;
+            margin: auto;
+        }
+    </style>
+
+
+    <h2>Utilisateurs Bannis par Mois</h2>
+
+    <div class="chart-container">
+        <canvas id="bannedChart"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('bannedChart').getContext('2d');
+        var bannedChart = new Chart(ctx, {
+            type: 'line', 
+            data: {
+                labels: {{ months|raw }},  // Mois
+                datasets: [{
+                    label: 'Utilisateurs Bannis',
+                    data: {{ counts1|raw }},  // Nombre d'utilisateurs
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+

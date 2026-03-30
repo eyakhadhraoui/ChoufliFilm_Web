@@ -1,0 +1,936 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+  <!-- Sale & Revenue Start -->
+        <div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-sm-6 col-xl-3 dashboard-card">
+            <div class="dashboard-stats bg-secondary d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Today Sale</p>
+                    <h6 class="mb-0">1,234  Milion</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 dashboard-card">
+            <div class="dashboard-stats bg-secondary d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Month Sale</p>
+                    <h6 class="mb-0">10,230 milions</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 dashboard-card">
+            <div class="dashboard-stats bg-secondary d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-area fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Today films</p>
+                    <h6 class="mb-0">78</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3 dashboard-card">
+            <div class="dashboard-stats bg-secondary d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Revenue</p>
+                    <h6 class="mb-0">$1234</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sales Chart Start -->
+<div class="container-fluid pt-4 px-4">
+<h2 class="text-center text-white">Statistiques User</h2>
+    <div class="row g-4">
+        <!-- Banned Users Chart -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary text-center rounded p-4">
+                <div class="stats-container">
+                   <div class="chart-type-selector">
+    <input type="radio" id="lineChart" name="bannedChartType" value="line" checked onchange="updateBannedChart(this.value)">
+    <label for="lineChart">Ligne</label>
+    
+    <input type="radio" id="barChart" name="bannedChartType" value="bar" onchange="updateBannedChart(this.value)">
+    <label for="barChart">Barre</label>
+    
+    <input type="radio" id="pieChart" name="bannedChartType" value="pie" onchange="updateBannedChart(this.value)">
+    <label for="pieChart">Pie</label>
+    
+    <input type="radio" id="doughnutChart" name="bannedChartType" value="doughnut" onchange="updateBannedChart(this.value)">
+    <label for="doughnutChart">Doughnut</label>
+</div>
+
+                    <div class="chart-container">
+                        <canvas id="bannedChart"></canvas>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script>
+                    var bannedCtx = document.getElementById('bannedChart').getContext('2d');
+                    var bannedChart;
+                    function updateBannedChart(type) {
+                        if (bannedChart) bannedChart.destroy();
+                        bannedChart = new Chart(bannedCtx, {
+                            type: type,
+                            data: {
+                                labels: {{ months|raw }},
+                                datasets: [{
+                                    label: 'Utilisateurs Bannis',
+                                    data: {{ counts1|raw }},
+                                    backgroundColor: ['#40A9FF'],
+                                    borderColor: '#40A9FF',
+                                    borderWidth: 2,
+                                    fill: true
+                                }]
+                            }
+                        });
+                    }
+                    updateBannedChart('line');
+                </script>
+            </div>
+        </div>
+
+        <!-- User Roles Chart -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary text-center rounded p-4">
+                <div class="stats-container">
+                    <div class="chart-type-selector">
+    <input type="radio" id="lineRolesChart" name="rolesChartType" value="line" checked onchange="updateRolesChart(this.value)">
+    <label for="lineRolesChart">Ligne</label>
+    
+    <input type="radio" id="barRolesChart" name="rolesChartType" value="bar" onchange="updateRolesChart(this.value)">
+    <label for="barRolesChart">Barre</label>
+    
+    <input type="radio" id="pieRolesChart" name="rolesChartType" value="pie" onchange="updateRolesChart(this.value)">
+    <label for="pieRolesChart">Pie</label>
+    
+    <input type="radio" id="doughnutRolesChart" name="rolesChartType" value="doughnut" onchange="updateRolesChart(this.value)">
+    <label for="doughnutRolesChart">Doughnut</label>
+</div>
+
+                    <div class="chart-container">
+                        <canvas id="userRolesChart"></canvas>
+                    </div>
+                </div>
+                <script>
+                    var rolesCtx = document.getElementById('userRolesChart').getContext('2d');
+                    var userRolesChart;
+                    function updateRolesChart(type) {
+                        if (userRolesChart) userRolesChart.destroy();
+                        userRolesChart = new Chart(rolesCtx, {
+                            type: type,
+                            data: {
+                                labels: {{ roles|raw }},
+                                datasets: [{
+                                    label: 'Nombre d\'utilisateurs',
+                                    data: {{ counts|raw }},
+                                    backgroundColor: ['#3498DB', '#FFD700'],
+                                    borderWidth: 1
+                                }]
+                            }
+                        });
+                    }
+                    updateRolesChart('line');
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sales Chart End -->
+
+
+<div class="container-fluid pt-4 px-4">
+    <h2 class="text-center text-white">Statistiques Réclamation</h2>
+    <div class="row g-4">
+        <!-- Reclamations Chart by Status -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary text-center rounded p-4">
+                <div class="stats-container">
+                    <div class="chart-type-selector">
+                        <input type="radio" id="lineReclamationsChart" name="reclamationsChartType" value="line" checked onchange="updateReclamationsChart('status', this.value)">
+                        <label for="lineReclamationsChart">Ligne</label>
+                        
+                        <input type="radio" id="barReclamationsChart" name="reclamationsChartType" value="bar" onchange="updateReclamationsChart('status', this.value)">
+                        <label for="barReclamationsChart">Barre</label>
+                        
+                        <input type="radio" id="pieReclamationsChart" name="reclamationsChartType" value="pie" onchange="updateReclamationsChart('status', this.value)">
+                        <label for="pieReclamationsChart">Pie</label>
+                        
+                        <input type="radio" id="doughnutReclamationsChart" name="reclamationsChartType" value="doughnut" onchange="updateReclamationsChart('status', this.value)">
+                        <label for="doughnutReclamationsChart">Doughnut</label>
+                    </div>
+                    <!-- Réclamations par statut Chart -->
+                    <div class="chart-container">
+                        <canvas id="reclamationsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reclamations Chart by Type -->
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary text-center rounded p-4">
+                <div class="stats-container">
+                    <div class="chart-type-selector">
+                        <input type="radio" id="lineReclamationsByTypeChart" name="reclamationsByTypeChartType" value="line" checked onchange="updateReclamationsChart('type', this.value)">
+                        <label for="lineReclamationsByTypeChart">Ligne</label>
+                        
+                        <input type="radio" id="barReclamationsByTypeChart" name="reclamationsByTypeChartType" value="bar" onchange="updateReclamationsChart('type', this.value)">
+                        <label for="barReclamationsByTypeChart">Barre</label>
+                        
+                        <input type="radio" id="pieReclamationsByTypeChart" name="reclamationsByTypeChartType" value="pie" onchange="updateReclamationsChart('type', this.value)">
+                        <label for="pieReclamationsByTypeChart">Pie</label>
+                        
+                        <input type="radio" id="doughnutReclamationsByTypeChart" name="reclamationsByTypeChartType" value="doughnut" onchange="updateReclamationsChart('type', this.value)">
+                        <label for="doughnutReclamationsByTypeChart">Doughnut</label>
+                    </div>
+                    <!-- Réclamations par type Chart -->
+                    <div class="chart-container">
+                        <canvas id="reclamationsByTypeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fonction pour générer un tableau de couleurs dynamiques
+    function generateColors(num) {
+        var colors = [];
+        var colorPalette = ['#3498DB', '#FFD700', '#FF6347', '#8E44AD', '#2ECC71', '#E74C3C', '#F39C12', '#1ABC9C', '#9B59B6', '#16A085'];
+        for (var i = 0; i < num; i++) {
+            colors.push(colorPalette[i % colorPalette.length]);
+        }
+        return colors;
+    }
+
+    var reclamationsCtx = document.getElementById('reclamationsChart').getContext('2d');
+    var reclamationsByTypeCtx = document.getElementById('reclamationsByTypeChart').getContext('2d');
+    var reclamationsChart;
+    var reclamationsByTypeChart;
+
+    // Fonction pour mettre à jour les graphiques de réclamations (par statut ou par type)
+    function updateReclamationsChart(attribute, type) {
+        if (attribute === 'status') {
+            if (reclamationsChart) reclamationsChart.destroy();
+            // Graphique des réclamations par statut
+            reclamationsChart = new Chart(reclamationsCtx, {
+                type: type,
+                data: {
+                    labels: {{ statuses|raw }}, // Labels dynamiques pour les statuts
+                    datasets: [{
+                        label: 'Réclamations par Statut',
+                        data: {{ reclamationCounts|raw }}, // Données dynamiques pour les réclamations
+                        backgroundColor: generateColors({{ statuses|length }}),  // Génère des couleurs pour chaque statut
+                        borderColor: '#3498DB',  // Bleu pour les bordures
+                        borderWidth: 2,
+                        fill: type === 'line' || type === 'doughnut'  // Remplissage pour ligne et doughnut
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                    maintainAspectRatio: false
+                }
+            });
+        } else if (attribute === 'type') {
+            if (reclamationsByTypeChart) reclamationsByTypeChart.destroy();
+            // Graphique des réclamations par type
+            reclamationsByTypeChart = new Chart(reclamationsByTypeCtx, {
+                type: type,
+                data: {
+                    labels: {{ types|raw }}, // Labels dynamiques pour les types
+                    datasets: [{
+                        label: 'Réclamations par Type',
+                        data: {{ reclamationCountsByType|raw }}, // Données dynamiques pour les types de réclamations
+                        backgroundColor: generateColors({{ types|length }}),  // Génère des couleurs pour chaque type
+                        borderColor: '#3498DB',  // Bleu pour les bordures
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                    maintainAspectRatio: false
+                }
+            });
+        }
+    }
+
+    // Initialisation des graphiques avec le type 'line' par défaut
+    updateReclamationsChart('status', 'line');
+    updateReclamationsChart('type', 'line');
+</script>
+
+
+            <!-- Recent Sales Start -->
+          <div class="container-fluid pt-4 px-4">
+                <div class="bg-secondary text-center rounded p-4">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h6 class="mb-0">Recent Films</h6>
+                        <a href="/listfilm">Show All</a>
+                    </div>
+                    <div class="table-responsive">
+                 <div class="container mt-4">
+    <h2 class="text-center text-white">Liste des Films et Séries</h2>
+
+    <div class="table-container">
+        <table class="table table-dark table-hover">
+           <thead>
+    <tr>
+      <th>Title</th>
+      <th>Director</th>
+      <th>Note</th>
+      <th>Genre</th>
+      <th>Description</th>
+      <th>Duration</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    {% for film in films|slice(0, 5) %}
+    <tr>
+      <td>{{ film.getTitre() }}</td>
+      <td>{{ film.getDirecteur() }}</td>
+      <td>{{ film.getNote() }}⭐</td>
+      <td>{{ film.getGenre() }}</td>
+      <td>{{ film.getDescription() }}</td>
+      <td>{{ film.getDuree() }}🕒</td>
+      
+    </tr>
+    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+ 
+                    </div>
+                </div>
+            </div>  
+
+
+            <!-- Widgets Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class="h-100 bg-secondary rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <h6 class="mb-0">Messages</h6>
+                                <a href="#">Show All</a>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-3">
+                                <img class="rounded-circle flex-shrink-0" src="{{ asset('assets/back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-0">Jhon Doe</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                    <span>Short message goes here...</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-3">
+                                <img class="rounded-circle flex-shrink-0" src="{{ asset('assets/back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-0">Jhon Doe</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                    <span>Short message goes here...</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-3">
+                                <img class="rounded-circle flex-shrink-0" src="{{ asset('assets/back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-0">Jhon Doe</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                    <span>Short message goes here...</span>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-3">
+                                <img class="rounded-circle flex-shrink-0" src="{{ asset('assets/back/img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-0">Jhon Doe</h6>
+                                        <small>15 minutes ago</small>
+                                    </div>
+                                    <span>Short message goes here...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="col-sm-12 col-md-6 col-xl-4">
+    <div class="h-100 bg-secondary rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">Calendar</h6>
+           
+        </div>
+        <div id="calendar"></div>
+    </div>
+</div>
+
+                    <div class="col-sm-12 col-md-6 col-xl-4">
+                        <div class="h-100 bg-secondary rounded p-4">
+                            <div class="d-flex align-items-center justify-content-between mb-4">
+                                <h6 class="mb-0">To Do List</h6>
+                                <a href="#">Show All</a>
+                            </div>
+                            <div class="d-flex mb-2">
+                                <input class="form-control bg-dark border-0" type="text" placeholder="Enter task">
+                                <button type="button" class="btn btn-primary ms-2">Add</button>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" type="checkbox">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>Short task goes here...</span>
+                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" type="checkbox">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>Short task goes here...</span>
+                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" type="checkbox" checked>
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span><del>Short task goes here...</del></span>
+                                        <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center border-bottom py-2">
+                                <input class="form-check-input m-0" type="checkbox">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>Short task goes here...</span>
+                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center pt-2">
+                                <input class="form-check-input m-0" type="checkbox">
+                                <div class="w-100 ms-3">
+                                    <div class="d-flex w-100 align-items-center justify-content-between">
+                                        <span>Short task goes here...</span>
+                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Widgets End -->
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Données du graphique : Nombre de films sortis par mois
+    const dataFilms = {
+        labels: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Août", "Sep", "Oct", "Nov", "Déc"],
+        datasets: [{
+            label: "Nombre de films",
+            data: [12, 18, 15, 22, 30, 25, 35, 28, 20, 26, 24, 30], // Valeurs fictives
+            backgroundColor: ["#4169E1", "#1E3A8A"], // Bleu roi et bleu mer
+            borderColor: "#1E3A8A",
+            borderWidth: 2
+        }]
+    };
+
+    // Configuration du graphique
+    const configFilms = {
+        type: "bar",
+        data: dataFilms,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+
+    // Initialisation du graphique "Nombre de films"
+    const ctxFilms = document.getElementById("salse-revenue").getContext("2d");
+    new Chart(ctxFilms, configFilms);
+
+    // Données du graphique : Top views (exemple simple)
+    const dataTopViews = {
+        labels: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin"],
+        datasets: [{
+            label: "Top views",
+            data: [100, 150, 120, 180, 220, 170], // Valeurs fictives
+              backgroundColor: "#1E3A8A", // Bleu marine
+            borderColor: "#1E3A8A",     // Bleu marine (pour la bordure)
+            borderWidth: 2
+        }]
+    };
+
+    // Configuration du graphique "Top views"
+    const configTopViews = {
+        type: "line", // Exemple de graphique linéaire
+        data: dataTopViews,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+
+    // Initialisation du graphique "Top views"
+    const ctxTopViews = document.getElementById("worldwide-sales").getContext("2d");
+    new Chart(ctxTopViews, configTopViews);
+</script>
+
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.2/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth', // Vue par défaut : mois
+            events: [
+                { title: '3 films', start: '2025-02-14' },
+                { title: '5 films', start: '2025-02-16' },
+                { title: '3 films', start: '2025-02-18' }
+            ]
+        });
+
+        calendar.render(); // Affiche le calendrier
+    });
+</script>
+
+<style>
+
+.chart-type-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.chart-type-selector input[type="radio"] {
+    display: none; /* Masquer les boutons radio eux-mêmes */
+}
+
+.chart-type-selector label {
+    font-size: 1.1em;
+    color: #FFF;
+    background: linear-gradient(145deg, #0B1437 0%, #1B2C5F 100%);
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.chart-type-selector input[type="radio"]:checked + label {
+    background: linear-gradient(145deg, #FFD700 0%, #FF6347 100%); /* Couleur différente quand sélectionné */
+    color: #1B2C5F;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.chart-type-selector label:hover {
+    transform: scale(1.1); /* Effet de survol */
+}
+
+.chart-type-selector input[type="radio"]:checked + label:hover {
+    transform: scale(1.1);
+}
+
+.chart-type-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.chart-type-selector input[type="radio"] {
+    display: none; /* Masquer les boutons radio eux-mêmes */
+}
+
+.chart-type-selector label {
+    font-size: 1.1em;
+    color: #FFF;
+    background: linear-gradient(145deg, #0B1437 0%, #1B2C5F 100%);
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.chart-type-selector input[type="radio"]:checked + label {
+    background: linear-gradient(145deg, #FFD700 0%, #FF6347 100%); /* Couleur différente quand sélectionné */
+    color: #1B2C5F;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.chart-type-selector label:hover {
+    transform: scale(1.1); /* Effet de survol */
+}
+
+.chart-type-selector input[type="radio"]:checked + label:hover {
+    transform: scale(1.1);
+}
+
+.dashboard-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1; /* Permet à la carte de prendre plus de place si nécessaire */
+}
+
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Taille fixe du graphique */
+    margin-top: 20px;
+}
+
+.chart-container canvas {
+    width: 100% !important; /* Assure que le canvas prend toute la largeur */
+    height: 100% !important; /* Assure que le canvas prend toute la hauteur */
+}
+
+.stats-container {
+    padding: 20px;
+    background: linear-gradient(145deg, #0B1437 0%, #1B2C5F 100%);
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Styles supplémentaires pour les boutons radio */
+input[type="radio"] {
+    margin-right: 10px;
+    margin-bottom: 15px;
+}
+
+input[type="radio"]:checked {
+    background-color: #FFD700; /* Jaune lorsqu'il est sélectionné */
+}
+/* Environnement 3D */
+.dashboard-content {
+    perspective: 2000px;
+    transform-style: preserve-3d;
+    padding: 30px;
+    background: linear-gradient(135deg, #0B1437 0%, #1B2C5F 100%);
+}
+
+/* Cartes statistiques 3D */
+.dashboard-card {
+    perspective: 1500px;
+    animation: floatIn 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+
+.dashboard-stats {
+    background: linear-gradient(145deg, 
+        rgba(11, 20, 55, 0.95), 
+        rgba(27, 44, 95, 0.95)
+    ) !important;
+    border-radius: 20px !important;
+    padding: 25px !important;
+    transform-style: preserve-3d;
+    transform: translateZ(20px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(64, 169, 255, 0.2);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(64, 169, 255, 0.2) inset;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet holographique avancé */
+.dashboard-stats::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        125deg,
+        transparent 0%,
+        rgba(64, 169, 255, 0.1) 50%,
+        transparent 100%
+    );
+    transform: translateZ(50px);
+    transition: all 0.6s ease;
+    opacity: 0;
+}
+
+.dashboard-stats:hover::before {
+    opacity: 1;
+    animation: holographic 2s infinite linear;
+}
+
+/* Effet de survol 3D */
+.dashboard-stats:hover {
+    transform: translateY(-15px) rotateX(10deg) rotateY(5deg) translateZ(30px);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.5),
+        0 0 50px rgba(64, 169, 255, 0.3) inset;
+}
+
+/* Icônes 3D */
+.dashboard-stats i {
+    font-size: 2.5em;
+    color: #40A9FF;
+    filter: drop-shadow(0 0 15px rgba(64, 169, 255, 0.4));
+    transition: all 0.6s ease;
+    transform-style: preserve-3d;
+    transform: translateZ(30px);
+}
+
+.dashboard-stats:hover i {
+    transform: translateZ(50px) scale(1.2) rotate(10deg);
+    color: #FFD700;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+}
+
+/* Texte 3D */
+.dashboard-stats .ms-3 {
+    transform: translateZ(25px);
+}
+
+.dashboard-stats h6 {
+    font-size: 1.4em;
+    font-weight: bold;
+    background: linear-gradient(45deg, #40A9FF, #FFD700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    transform: translateZ(40px);
+}
+
+/* Graphiques 3D */
+.chart-container {
+    transform-style: preserve-3d;
+    transform: translateZ(0) rotateX(10deg);
+    transition: all 0.6s ease;
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(64, 169, 255, 0.2) inset;
+    border-radius: 30px;
+    padding: 30px;
+    background: linear-gradient(145deg, 
+        rgba(11, 20, 55, 0.98), 
+        rgba(27, 44, 95, 0.98)
+    );
+}
+
+.chart-container:hover {
+    transform: translateZ(30px) rotateX(5deg);
+}
+
+/* Animations */
+@keyframes floatIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) translateZ(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+@keyframes holographic {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%) translateZ(50px);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%) translateZ(50px);
+    }
+}
+
+/* Table 3D */
+.table-container {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    border-radius: 30px;
+    overflow: hidden;
+    background: linear-gradient(145deg, 
+        rgba(11, 20, 55, 0.98), 
+        rgba(27, 44, 95, 0.98)
+    );
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(64, 169, 255, 0.2) inset;
+}
+
+.table-dark {
+    transform: translateZ(20px);
+}
+
+.table-dark thead th {
+    background: rgba(64, 169, 255, 0.1);
+    color: #FFD700;
+    font-weight: bold;
+    transform: translateZ(30px);
+}
+
+.table-dark tbody tr {
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+}
+
+.table-dark tbody tr:hover {
+    transform: translateX(10px) translateZ(40px);
+    background: rgba(64, 169, 255, 0.1);
+    box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Widgets 3D */
+.widget-container {
+    transform-style: preserve-3d;
+    transform: translateZ(20px);
+    transition: all 0.6s ease;
+    border-radius: 25px;
+    background: linear-gradient(145deg, 
+        rgba(11, 20, 55, 0.98), 
+        rgba(27, 44, 95, 0.98)
+    );
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(64, 169, 255, 0.2) inset;
+}
+
+.widget-container:hover {
+    transform: translateZ(40px) scale(1.02);
+}
+h2.text-center {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    transform: translateZ(30px);
+    animation: titleFloat 4s ease-in-out infinite;
+}
+</style>
+
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fonction pour générer un tableau de couleurs dynamiques
+    function generateColors(num) {
+        var colors = [];
+        var colorPalette = ['#3498DB', '#FFD700', '#FF6347', '#8E44AD', '#2ECC71', '#E74C3C', '#F39C12', '#1ABC9C', '#9B59B6', '#16A085'];
+        for (var i = 0; i < num; i++) {
+            colors.push(colorPalette[i % colorPalette.length]);
+        }
+        return colors;
+    }
+
+    var bannedCtx = document.getElementById('bannedChart').getContext('2d');
+    var bannedChart;
+
+    function updateBannedChart(type) {
+        if (bannedChart) bannedChart.destroy();
+        bannedChart = new Chart(bannedCtx, {
+            type: type,
+            data: {
+                labels: {{ months|raw }},
+                datasets: [{
+                    label: 'Utilisateurs Bannis',
+                    data: {{ counts1|raw }},
+                    backgroundColor: generateColors({{ months|length }}),  // Génère des couleurs pour chaque mois
+                    borderColor: '#3498DB',  // Bleu pour les bordures
+                    borderWidth: 2,
+                    fill: type === 'line' || type === 'doughnut'  // Remplissage pour ligne et doughnut
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                maintainAspectRatio: false // Assure que l'aspect ratio est respecté pour les graphiques
+            }
+        });
+    }
+
+    updateBannedChart('line');
+
+    var rolesCtx = document.getElementById('userRolesChart').getContext('2d');
+    var userRolesChart;
+
+    function updateRolesChart(type) {
+        if (userRolesChart) userRolesChart.destroy();
+        userRolesChart = new Chart(rolesCtx, {
+            type: type,
+            data: {
+                labels: {{ roles|raw }},
+                datasets: [{
+                    label: 'Nombre d\'utilisateurs',
+                    data: {{ counts|raw }},
+                    backgroundColor: generateColors({{ roles|length }}),  // Génère des couleurs pour chaque rôle
+                    borderColor: '#3498DB',  // Bleu pour les bordures
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                maintainAspectRatio: false // Assure que l'aspect ratio est respecté pour les graphiques
+            }
+        });
+    }
+
+    updateRolesChart('line');
+</script>
+{% endblock %}
+

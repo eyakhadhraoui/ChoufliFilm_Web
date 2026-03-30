@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="table-container">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <a href="/salle/new">
+      <i class="bi bi-building" style="font-size: 40px; color: green;"></i>
+    </a>
+  </div>
+
+  <h2 class="text-center text-white">Liste des Salles</h2>
+
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <th>Nom Salle</th>
+        <th>Nombre de Places</th>
+        <th>Type Salle</th>
+        <th>Etat Salle</th>
+        <th>Films</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for salle in salles %}
+      <tr>
+        <td>{{ salle.getNomSalle() }}</td>
+        <td>{{ salle.getNbrPlaces() }}</td>
+        <td>{{ salle.getTypeSalle() }}</td>
+        <td>{{ salle.getEtatSalle() }}</td>
+        <td>
+          {% if salle.getFilms() is not empty %}
+            {% for film in salle.getFilms() %}
+              {{ film.getTitre() }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          {% else %}
+            No Films
+          {% endif %}
+        </td>
+        <td>
+          <a href="/salle/edit/{{ salle.id }}">
+            <span class="action-btn edit"><i class="bi bi-pencil-fill"></i></span>
+          </a>
+          &nbsp;&nbsp;
+          <a href="/delete/{{ salle.id }}">
+            <span class="action-btn trash"><i class="bi bi-trash-fill"></i></span>
+          </a>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6" class="text-center">No salles found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<br>
+
+<style>
+  /* Example style for an image if needed later */
+  .rounded-circle1 {
+    width: 50px;
+    height: 6%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+</style>
+{% endblock %}

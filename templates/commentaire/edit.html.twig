@@ -1,0 +1,188 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %} Edit Comment {% endblock %}
+ {% block navbar %}
+        {% if app.session.get('roles') is null %}
+    <script type="text/javascript">
+        window.location.href = "{{ path('app_login') }}";
+    </script>
+    
+{% endif %}
+        <body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-dark px-5 d-none d-lg-block">
+        <div class="row gx-0">
+            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>123  Esprit, Elghazela, Tunisie</small>
+                    <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>+216  24 705 213</small>
+                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>ChoufliFilm@gmail.com</small>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center text-lg-end">
+                <div class="d-inline-flex align-items-center" style="height: 45px;">
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-twitter fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href="#"><i class="fab fa-youtube fw-normal"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar & Hero Start -->
+    <div class="container-fluid position-relative p-0">
+ <nav id="navbar" class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 navbar-visible">
+            <a href="/user/front" class="">
+<img src="{{ asset('assets/back/img/logo_event.png') }}" alt="" class="test"
+     style="width: 150px; height: 100px; margin-left: 40px; margin-top:10px; 
+            animation: rotation 3s linear infinite;">
+
+               
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="fa fa-bars"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto py-0">
+                <a href="/blogs" class="nav-item nav-link active ">Article</a>
+                <a href="/user/front/showallfilm" class="nav-item nav-link "> Films </a>
+                 <a href="/association/frontassociation" class="nav-item nav-link ">Bénévolat</a>
+                  <a href="/ressource/showall/{{app.session.get('email')}}" class="nav-item nav-link ">Mes Ressources</a>
+                 <a href="/reclamation/showall/{{app.session.get('email')}}" class="nav-item nav-link">Réclamations</a>
+
+<a href="{{ path('nodatafront2') }}" class="nav-item nav-link">Panier</a>        
+
+<a href="{{ path('logout') }}" class="nav-item nav-link">Logout</a>
+
+
+ {% if 'ROLE_ADMIN' in app.session.get('roles') %}
+       <a href="{{ path('back') }}" class="nav-item nav-link ">
+                     
+    
+  <i class="bi bi-arrow-right-circle me-2 text-warning"></i> <span class="text-warning">Page back</span>
+
+</a>
+   
+{% endif %}
+
+
+                </div>
+{% if app.session.get('image') is  not null %}
+    
+                    <a href="/user/front/{{app.session.get('id')}}/edit" class="nav-item nav-link">
+                      <img class="rounded-circle me-lg-2" src="{{ asset('uploads/' ~ app.session.get('image')) }}" alt="Image">
+{% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}
+                 
+                    </a>
+              
+{% else %}
+              
+                    <a href="/user/front/{{app.session.get('id')}}/edit" class="nav-item nav-link">
+                        <img class="rounded-circle me-lg-2" src="{{ asset('assets/back/img/inconnu.jpg') }}" alt="Image">
+{% if 'ROLE_ADMIN' in app.session.get('roles') %}
+     ⭐
+{% endif %}
+                    </a>
+               
+{% endif %}
+               
+                
+         </nav>       
+            </div>
+  {% endblock %} 
+{% block body %}
+<br><br><br><br><br>
+<h1 class="text-center my-4 text-dark">Edit Comment</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded" style="background-color: #fff; color: #333;">
+                <div class="card-body p-4">
+                    {{ form_start(form) }}
+
+                    <!-- Content Field -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">{{ form_label(form.contenuCom) }}</label>
+                        {{ form_widget(form.contenuCom, { 'attr': { 'class': 'form-control bg-light text-dark border-primary', 'rows': '5', 'placeholder': 'Enter your comment' } }) }}
+                        <div class="text-danger">{{ form_errors(form.contenuCom) }}</div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-lg btn-primary w-100">
+                        <i class="fas fa-save"></i> Update Comment
+                    </button>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+
+  .nav-item.nav-link[href="{{ path('logout') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('logout') }}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/reclamation/showall/{{app.session.get('email')}}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/reclamation/showall/{{app.session.get('email')}}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="{{ path('nodatafront2') }}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/ressource/showall/{{app.session.get('email')}}"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/ressource/showall/{{app.session.get('email')}}"]:hover {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/association/frontassociation"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/association/frontassociation"]:hover {
+    color: black !important;  
+}
+.nav-item.nav-link[href="/user/front/showallfilm"] {
+    color: black !important;  
+}
+
+.nav-item.nav-link[href="/user/front/showallfilm"]:hover {
+    color: black !important;  
+}
+
+</style>
+{% endblock %}

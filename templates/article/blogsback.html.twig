@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Blog {% endblock %}
+
+{% block body %}
+
+   <h1 class="text-center my-4 text-dark">Create New Article</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded" style="background-color: #222; color: #fff;">
+                <div class="card-body p-4">
+                    {{ form_start(form) }}
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">{{ form_label(form.titre) }}</label>
+                        {{ form_widget(form.titre, { 'attr': { 'class': 'form-control  bg-dark border-secondary', 'placeholder': 'Enter article title', 'style': 'background-color: #e9ecef;' } }) }}
+                        <div class="text-danger">{{ form_errors(form.titre) }}</div>
+                    </div>
+
+                    <!-- Champ Catégorie -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">{{ form_label(form.categorie) }}</label>
+                        {{ form_widget(form.categorie, { 'attr': { 'class': 'form-select  bg-dark border-secondary', 'style': 'background-color: #e9ecef;' } }) }}
+                        <div class="text-danger">{{ form_errors(form.categorie) }}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">{{ form_label(form.datePublication) }}</label>
+                        {{ form_widget(form.datePublication, { 'attr': { 'class': 'form-control  bg-dark border-secondary', 'style': 'background-color: #e9ecef;' } }) }}
+                        <div class="text-danger">{{ form_errors(form.datePublication) }}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">{{ form_label(form.contenu) }}</label>
+                        {{ form_widget(form.contenu, { 'attr': { 'class': 'form-control bg-dark border-secondary', 'rows': '5', 'placeholder': 'Enter article content', 'style': 'background-color: #e9ecef;' } }) }}
+                        <div class="text-danger">{{ form_errors(form.contenu) }}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-dark">{{ form_label(form.image) }}</label>
+                        {{ form_widget(form.image, { 'attr': { 'class': 'form-control  bg-dark border-secondary', 'style': 'background-color: #e9ecef;' } }) }}
+                        <div class="text-danger">{{ form_errors(form.image) }}</div>
+                    </div>
+
+                   
+                  <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-dark btn-lg" style="background-color: #1f41ff;">
+                            <i class="fas fa-save"></i> Submit
+                        </button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
